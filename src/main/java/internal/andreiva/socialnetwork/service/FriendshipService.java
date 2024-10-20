@@ -10,8 +10,8 @@ import java.util.UUID;
 
 public class FriendshipService
 {
-    FileMemoRepo<Friendship> friendshipRepo;
-    FriendshipValidator friendshipValidator;
+    private FileMemoRepo<Friendship> friendshipRepo;
+    private FriendshipValidator friendshipValidator;
 
     public FriendshipService(FileMemoRepo<Friendship> friendshipRepo, FriendshipValidator friendshipValidator)
     {
@@ -99,4 +99,8 @@ public class FriendshipService
         return friends;
     }
 
+    public Iterable<Friendship> getFriendshipsIterable()
+    {
+        return friendshipRepo.findAll();
+    }
 }

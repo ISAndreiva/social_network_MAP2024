@@ -9,8 +9,8 @@ import java.util.UUID;
 
 public class UserService
 {
-    FileMemoRepo<User> userRepository;
-    UserValidator userValidator;
+    private FileMemoRepo<User> userRepository;
+    private UserValidator userValidator;
 
     public UserService(FileMemoRepo<User> userRepository, UserValidator userValidator)
     {
@@ -74,6 +74,11 @@ public class UserService
             i++;
         }
         return users;
+    }
+
+    public Iterable<User> getUsersIterable()
+    {
+        return userRepository.findAll();
     }
 
     public User getUser(UUID id)

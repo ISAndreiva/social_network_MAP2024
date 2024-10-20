@@ -47,6 +47,12 @@ public class CLI
                 case "show_friends":
                     show_friends();
                     break;
+                case "no_communities":
+                    no_communities();
+                    break;
+                case "biggest_community":
+                    biggest_community();
+                    break;
                 default:
                     System.out.println("Invalid command");
             }
@@ -63,6 +69,8 @@ public class CLI
         System.out.println("add_friendship - Add a friendship");
         System.out.println("delete_friendship - Delete a friendship");
         System.out.println("show_friends - Show all friends of a user");
+        System.out.println("no_communities - Show the number of communities");
+        System.out.println("biggest_community - Show the biggest community");
         System.out.println("exit - Exit the application");
     }
 
@@ -170,6 +178,18 @@ public class CLI
         }
     }
 
+    private void no_communities()
+    {
+        System.out.println(service.no_communities());
+    }
+
+    private void biggest_community()
+    {
+        for (String user : service.biggest_community())
+        {
+            System.out.println(user);
+        }
+    }
 
 
 }
