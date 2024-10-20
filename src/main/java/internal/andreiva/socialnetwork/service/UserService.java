@@ -3,16 +3,16 @@ package internal.andreiva.socialnetwork.service;
 
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.domain.validator.UserValidator;
-import internal.andreiva.socialnetwork.repository.UserRepository;
+import internal.andreiva.socialnetwork.repository.FileMemoRepo;
 
 import java.util.UUID;
 
 public class UserService
 {
-    UserRepository userRepository;
+    FileMemoRepo<User> userRepository;
     UserValidator userValidator;
 
-    public UserService(UserRepository userRepository, UserValidator userValidator)
+    public UserService(FileMemoRepo<User> userRepository, UserValidator userValidator)
     {
         this.userRepository = userRepository;
         this.userValidator = userValidator;
@@ -20,6 +20,10 @@ public class UserService
 
     public void addUser(String firstName, String lastName, String username, String email)
     {
+        if (checkUserExists(username) != null)
+        {
+            throw new ServiceException("User already exists");
+        }
         User u = new User(firstName, lastName, username, email);
         u.setId(UUID.randomUUID());
         userValidator.validate(u);
@@ -29,17 +33,19 @@ public class UserService
         }
     }
 
-    public void deleteUser(String username)
+    public User deleteUser(String username)
     {
         UUID id = checkUserExists(username);
         if (id == null)
         {
             throw new ServiceException("User does not exist");
         }
-        if (userRepository.delete(id) == null)
+        User user = userRepository.delete(id);
+        if (user == null)
         {
             throw new ServiceException("An error occurred deleting the user");
         }
+        return user;
     }
 
     public void updateUser(String firstName, String lastName, String username, String email)
@@ -70,11 +76,23 @@ public class UserService
         return users;
     }
 
+    public User getUser(UUID id)
+    {
+        for (User u : userRepository.findAll())
+        {
+            if (u.getId().equals(id))
+            {
+                return u;
+            }
+        }
+        return null;
+    }
+
     /**
      * @param username username to look for
      * @return UUID of user if it exists, null otherwise
      */
-    private UUID checkUserExists(String username)
+    public UUID checkUserExists(String username)
     {
         for (User u : userRepository.findAll())
         {

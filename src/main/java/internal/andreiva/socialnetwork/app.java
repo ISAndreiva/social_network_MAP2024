@@ -1,17 +1,14 @@
 package internal.andreiva.socialnetwork;
 
-import internal.andreiva.socialnetwork.domain.validator.UserValidator;
-import internal.andreiva.socialnetwork.repository.UserRepository;
-import internal.andreiva.socialnetwork.service.UserService;
+import internal.andreiva.socialnetwork.service.Service;
 import internal.andreiva.socialnetwork.ui.CLI;
 
 public class app
 {
     public void run()
     {
-        UserRepository userRepository = new UserRepository("./data/users.txt");
-        UserService userService = new UserService(userRepository, new UserValidator());
-        CLI cli = new CLI(userService);
+        Service service = new Service("./data/users.txt", "./data/friendships.txt");
+        CLI cli = new CLI(service);
         cli.run();
     }
 }
