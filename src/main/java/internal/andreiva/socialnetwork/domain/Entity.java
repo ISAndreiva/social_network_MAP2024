@@ -1,13 +1,15 @@
 package internal.andreiva.socialnetwork.domain;
 
+import java.util.UUID;
+
 public class Entity
 {
-    private long id;
-    public long getId()
+    private UUID id;
+    public UUID getId()
     {
         return id;
     }
-    public void setId(long id)
+    public void setId(UUID id)
     {
         this.id = id;
     }

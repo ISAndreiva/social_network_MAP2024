@@ -8,9 +8,9 @@ public class UserValidator implements Validator<User>
     @Override
     public void validate(User entity) throws ValidationException
     {
-        if (entity.getId() <= 0)
+        if (entity.getId() == null)
         {
-            throw new ValidationException("ID must be a positive number different from 0.");
+            throw new ValidationException("ID must not be null.");
         }
         if (entity.getFirstName().isEmpty() || entity.getFirstName().matches(".*[0-9].*"))
         {
