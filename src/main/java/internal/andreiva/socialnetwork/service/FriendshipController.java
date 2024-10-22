@@ -8,12 +8,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class FriendshipService
+public class FriendshipController
 {
     private FileMemoRepo<Friendship> friendshipRepo;
     private FriendshipValidator friendshipValidator;
 
-    public FriendshipService(FileMemoRepo<Friendship> friendshipRepo, FriendshipValidator friendshipValidator)
+    public FriendshipController(FileMemoRepo<Friendship> friendshipRepo, FriendshipValidator friendshipValidator)
     {
         this.friendshipRepo = friendshipRepo;
         this.friendshipValidator = friendshipValidator;

@@ -7,53 +7,53 @@ import java.util.*;
 
 public class Service
 {
-    private FriendshipService friendshipService;
-    private UserService userService;
+    private FriendshipController friendshipController;
+    private UserController userController;
 
     public Service(String userFilename, String friendshipFilename)
     {
-        friendshipService = ServiceFactory.getInstance().getFriendshipService(friendshipFilename);
-        userService = ServiceFactory.getInstance().getUserService(userFilename);
+        friendshipController = ControllerFactory.getInstance().getFriendshipService(friendshipFilename);
+        userController = ControllerFactory.getInstance().getUserService(userFilename);
     }
 
     public void addUser(String firstName, String lastName, String username, String password)
     {
-        userService.addUser(firstName, lastName, username, password);
+        userController.addUser(firstName, lastName, username, password);
     }
 
     public void deleteUser(String username)
     {
-        User user = userService.deleteUser(username);
-        friendshipService.deleteFriendships(user.getId());
+        User user = userController.deleteUser(username);
+        friendshipController.deleteFriendships(user.getId());
     }
 
     public void updateUser(String firstName, String lastName, String username, String password)
     {
-        userService.updateUser(firstName, lastName, username, password);
+        userController.updateUser(firstName, lastName, username, password);
     }
 
     public String[] getUsers()
     {
-        return userService.getUsers();
+        return userController.getUsers();
     }
 
     public void addFriendship(String username1, String username2)
     {
-        friendshipService.addFriendship(userService.checkUserExists(username1), userService.checkUserExists(username2));
+        friendshipController.addFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
     }
 
     public void deleteFriendship(String username1, String username2)
     {
-        friendshipService.deleteFriendship(userService.checkUserExists(username1), userService.checkUserExists(username2));
+        friendshipController.deleteFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
     }
 
     public String[] getFriends(String username)
     {
-        List<UUID> friendships = friendshipService.getFriends(userService.checkUserExists(username));
+        List<UUID> friendships = friendshipController.getFriends(userController.checkUserExists(username));
         String[] friends = new String[friendships.size()];
         for (int i = 0; i < friendships.size(); i++)
         {
-            friends[i] = userService.getUser(friendships.get(i)).toString();
+            friends[i] = userController.getUser(friendships.get(i)).toString();
         }
         return friends;
     }
@@ -75,23 +75,23 @@ public class Service
     public int no_communities()
     {
         Map<UUID, List<UUID>> adj = new HashMap<>();
-        for (User u: userService.getUsersIterable())
+        for (User u: userController.getUsersIterable())
         {
             adj.put(u.getId(), new ArrayList<>());
         }
-        for (Friendship f: friendshipService.getFriendshipsIterable())
+        for (Friendship f: friendshipController.getFriendshipsIterable())
         {
             adj.get(f.getFriend1()).add(f.getFriend2());
             adj.get(f.getFriend2()).add(f.getFriend1());
         }
         Map<UUID, Boolean> visited = new HashMap<>();
-        for (User u: userService.getUsersIterable())
+        for (User u: userController.getUsersIterable())
         {
             visited.put(u.getId(), false);
         }
         int no = 0;
 
-        for (User u: userService.getUsersIterable())
+        for (User u: userController.getUsersIterable())
         {
             if (!visited.get(u.getId()))
             {
@@ -106,22 +106,22 @@ public class Service
     public String[] biggest_community()
     {
         Map<UUID, List<UUID>> adj = new HashMap<>();
-        for (User u: userService.getUsersIterable())
+        for (User u: userController.getUsersIterable())
         {
             adj.put(u.getId(), new ArrayList<>());
         }
-        for (Friendship f: friendshipService.getFriendshipsIterable())
+        for (Friendship f: friendshipController.getFriendshipsIterable())
         {
             adj.get(f.getFriend1()).add(f.getFriend2());
             adj.get(f.getFriend2()).add(f.getFriend1());
         }
         Map<UUID, Boolean> visited = new HashMap<>();
-        for (User u: userService.getUsersIterable())
+        for (User u: userController.getUsersIterable())
         {
             visited.put(u.getId(), false);
         }
         int max = 0; UUID maxNode = null;
-        for (User u: userService.getUsersIterable())
+        for (User u: userController.getUsersIterable())
         {
             if (!visited.get(u.getId()))
             {
@@ -134,7 +134,7 @@ public class Service
             }
         }
         List<String> community = new ArrayList<>();
-        for (User u: userService.getUsersIterable())
+        for (User u: userController.getUsersIterable())
         {
             visited.put(u.getId(), false);
         }
@@ -144,7 +144,7 @@ public class Service
         while (!q.isEmpty())
         {
             UUID u = q.poll();
-            community.add(userService.getUser(u).toString());
+            community.add(userController.getUser(u).toString());
             for (UUID v: adj.get(u))
             {
                 if (!visited.get(v))

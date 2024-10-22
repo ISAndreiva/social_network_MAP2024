@@ -7,12 +7,12 @@ import internal.andreiva.socialnetwork.repository.FileMemoRepo;
 
 import java.util.UUID;
 
-public class UserService
+public class UserController
 {
     private FileMemoRepo<User> userRepository;
     private UserValidator userValidator;
 
-    public UserService(FileMemoRepo<User> userRepository, UserValidator userValidator)
+    public UserController(FileMemoRepo<User> userRepository, UserValidator userValidator)
     {
         this.userRepository = userRepository;
         this.userValidator = userValidator;
