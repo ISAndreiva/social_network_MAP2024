@@ -7,17 +7,32 @@ import internal.andreiva.socialnetwork.repository.FileMemoRepo;
 
 import java.util.UUID;
 
+/**
+ * Controller for user operations
+ */
 public class UserController
 {
     private FileMemoRepo<User> userRepository;
     private UserValidator userValidator;
 
+    /**
+     * Constructor
+     * @param userRepository repository for users
+     * @param userValidator validator for users
+     */
     public UserController(FileMemoRepo<User> userRepository, UserValidator userValidator)
     {
         this.userRepository = userRepository;
         this.userValidator = userValidator;
     }
 
+    /**
+     * Add a user
+     * @param firstName first name
+     * @param lastName last name
+     * @param username username
+     * @param email email
+     */
     public void addUser(String firstName, String lastName, String username, String email)
     {
         if (checkUserExists(username) != null)
@@ -33,6 +48,11 @@ public class UserController
         }
     }
 
+    /**
+     * Delete a user
+     * @param username username
+     * @return the deleted user
+     */
     public User deleteUser(String username)
     {
         UUID id = checkUserExists(username);
@@ -48,6 +68,13 @@ public class UserController
         return user;
     }
 
+    /**
+     * Update a user
+     * @param firstName the new first name
+     * @param lastName the new last name
+     * @param username the existing username
+     * @param email the new email
+     */
     public void updateUser(String firstName, String lastName, String username, String email)
     {
         UUID id = checkUserExists(username);
@@ -64,6 +91,10 @@ public class UserController
         }
     }
 
+    /**
+     * Get all users
+     * @return array of users
+     */
     public String[] getUsers()
     {
         String[] users = new String[(int)userRepository.findAll().spliterator().getExactSizeIfKnown()];
@@ -76,11 +107,19 @@ public class UserController
         return users;
     }
 
+    /**
+     * Returns an iterable of all users
+     */
     public Iterable<User> getUsersIterable()
     {
         return userRepository.findAll();
     }
 
+    /**
+     * Get a user by id
+     * @param id id of user
+     * @return user if the id is valid, null otherwise
+     */
     public User getUser(UUID id)
     {
         for (User u : userRepository.findAll())
@@ -94,6 +133,7 @@ public class UserController
     }
 
     /**
+     * Check if a user exists
      * @param username username to look for
      * @return UUID of user if it exists, null otherwise
      */

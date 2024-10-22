@@ -5,48 +5,94 @@ import internal.andreiva.socialnetwork.domain.User;
 
 import java.util.*;
 
+
+/**
+ * Service class that provides methods for managing users and friendships
+ */
 public class Service
 {
     private FriendshipController friendshipController;
     private UserController userController;
 
+    /**
+     * Constructor
+     * @param userFilename the filename for the user repository
+     * @param friendshipFilename the filename for the friendship repository
+     */
     public Service(String userFilename, String friendshipFilename)
     {
         friendshipController = ControllerFactory.getInstance().getFriendshipService(friendshipFilename);
         userController = ControllerFactory.getInstance().getUserService(userFilename);
     }
 
+    /**
+     * Add a user
+     * @param firstName the first name of the user
+     * @param lastName the last name of the user
+     * @param username the username of the user
+     * @param password  the password of the user
+     */
     public void addUser(String firstName, String lastName, String username, String password)
     {
         userController.addUser(firstName, lastName, username, password);
     }
 
+    /**
+     * Delete a user
+     * @param username the username of the user
+     */
     public void deleteUser(String username)
     {
         User user = userController.deleteUser(username);
         friendshipController.deleteFriendships(user.getId());
     }
 
+    /**
+     * Update a user
+     * @param firstName the new first name of the user
+     * @param lastName the new last name of the user
+     * @param username the username of the existing user
+     * @param password the new password of the user
+     */
     public void updateUser(String firstName, String lastName, String username, String password)
     {
         userController.updateUser(firstName, lastName, username, password);
     }
 
+    /**
+     * Returns a list of all users
+     * @return an array of all users
+     */
     public String[] getUsers()
     {
         return userController.getUsers();
     }
 
+    /**
+     * Add a friendship between two users
+     * @param username1 the username of the first user
+     * @param username2 the username of the second user
+     */
     public void addFriendship(String username1, String username2)
     {
         friendshipController.addFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
     }
 
+    /**
+     * Delete a friendship between two users
+     * @param username1 the username of the first user
+     * @param username2 the username of the second user
+     */
     public void deleteFriendship(String username1, String username2)
     {
         friendshipController.deleteFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
     }
 
+    /**
+     * Returns a list of friends of a user
+     * @param username the username of the user
+     * @return an array of friends of the user
+     */
     public String[] getFriends(String username)
     {
         List<UUID> friendships = friendshipController.getFriends(userController.checkUserExists(username));
@@ -58,6 +104,13 @@ public class Service
         return friends;
     }
 
+    /**
+     * Helper function for DFS
+     * @param adj the adjacency list
+     * @param u the current node
+     * @param visited the visited nodes
+     * @return the length of the connected component
+     */
     private int DFS_visit(Map<UUID, List<UUID>> adj, UUID u, Map<UUID, Boolean> visited)
     {
         visited.put(u, true);
@@ -72,6 +125,10 @@ public class Service
         return length;
     }
 
+    /**
+     * Returns the number of communities
+     * @return the number of communities
+     */
     public int no_communities()
     {
         Map<UUID, List<UUID>> adj = new HashMap<>();
@@ -103,6 +160,9 @@ public class Service
         return no;
     }
 
+    /** Returns the members of the biggest community
+     * @return array of the members of the biggest community
+     */
     public String[] biggest_community()
     {
         Map<UUID, List<UUID>> adj = new HashMap<>();

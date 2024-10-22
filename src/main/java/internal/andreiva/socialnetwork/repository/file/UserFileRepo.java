@@ -4,6 +4,9 @@ import internal.andreiva.socialnetwork.domain.User;
 
 import java.util.UUID;
 
+/**
+ * Repository that saves users in a file
+ */
 public class UserFileRepo extends AbstractFileRepository<User>
 {
     public UserFileRepo(String fileName)

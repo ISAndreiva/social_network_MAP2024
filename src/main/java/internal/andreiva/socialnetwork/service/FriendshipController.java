@@ -8,17 +8,30 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Controller for managing friendships
+ */
 public class FriendshipController
 {
     private FileMemoRepo<Friendship> friendshipRepo;
     private FriendshipValidator friendshipValidator;
 
+    /**
+     * Constructor
+     * @param friendshipRepo repository for friendships
+     * @param friendshipValidator validator for friendships
+     */
     public FriendshipController(FileMemoRepo<Friendship> friendshipRepo, FriendshipValidator friendshipValidator)
     {
         this.friendshipRepo = friendshipRepo;
         this.friendshipValidator = friendshipValidator;
     }
 
+    /**
+     * Add a friendship
+     * @param friend1 user 1
+     * @param friend2 user 2
+     */
     public void addFriendship(UUID friend1, UUID friend2)
     {
         if (friend1 == null || friend2 == null)
@@ -38,6 +51,11 @@ public class FriendshipController
         }
     }
 
+    /**
+     * Delete a friendship
+     * @param friend1 user 1
+     * @param friend2 user 2
+     */
     public void deleteFriendship(UUID friend1, UUID friend2)
     {
         if (friend1 == null || friend2 == null)
@@ -55,6 +73,10 @@ public class FriendshipController
         }
     }
 
+    /**
+     * Delete all friendships of a user
+     * @param userId the user
+     */
     public void deleteFriendships(UUID userId)
     {
         for (Friendship f : friendshipRepo.findAll())
@@ -66,6 +88,12 @@ public class FriendshipController
         }
     }
 
+    /**
+     * Check if a friendship exists
+     * @param friend1 user 1
+     * @param friend2 user 2
+     * @return the id of the friendship if it exists, null otherwise
+     */
     private UUID checkFriendshipExists(UUID friend1, UUID friend2)
     {
         for (Friendship f : friendshipRepo.findAll())
@@ -78,6 +106,11 @@ public class FriendshipController
         return null;
     }
 
+    /**
+     * Get the friends of a user
+     * @param userId the user
+     * @return a list of the user's friends
+     */
     public List<UUID> getFriends(UUID userId)
     {
         if (userId == null)
@@ -99,6 +132,10 @@ public class FriendshipController
         return friends;
     }
 
+    /**
+     * Get all friendships
+     * @return an iterable of all friendships
+     */
     public Iterable<Friendship> getFriendshipsIterable()
     {
         return friendshipRepo.findAll();

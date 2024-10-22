@@ -4,6 +4,9 @@ import internal.andreiva.socialnetwork.domain.Friendship;
 
 import java.util.UUID;
 
+/**
+ * Repository that saves friendships in a file
+ */
 public class FriendshipFileRepo extends AbstractFileRepository<Friendship>
 {
     public FriendshipFileRepo(String fileName)

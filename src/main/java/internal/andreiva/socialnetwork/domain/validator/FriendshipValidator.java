@@ -2,6 +2,9 @@ package internal.andreiva.socialnetwork.domain.validator;
 
 import internal.andreiva.socialnetwork.domain.Friendship;
 
+/**
+ * Friendship validator
+ */
 public class FriendshipValidator implements Validator<Friendship>
 {
 

@@ -7,6 +7,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * Repository that saves data in memory
+ * @param <E> - type of entities saved in repository
+ */
 public class MemoryRepository<E extends Entity> implements Repository<E>
 {
     private Map<UUID, E> entities;

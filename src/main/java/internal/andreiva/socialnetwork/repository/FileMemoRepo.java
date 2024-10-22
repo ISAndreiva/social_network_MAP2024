@@ -6,6 +6,10 @@ import internal.andreiva.socialnetwork.repository.memory.MemoryRepository;
 
 import java.util.UUID;
 
+/**
+ * Repository that saves data in a file and in memory
+ * @param <E> the type of the entity
+ */
 public class FileMemoRepo<E extends Entity> implements Repository<E>
 {
     private AbstractFileRepository<E> fileRepo;

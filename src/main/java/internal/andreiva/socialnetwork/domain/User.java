@@ -2,6 +2,9 @@ package internal.andreiva.socialnetwork.domain;
 
 import java.util.Objects;
 
+/**
+ * Object that defines a user
+ */
 public class User extends Entity
 {
     private String firstName;
@@ -9,6 +12,13 @@ public class User extends Entity
     private String username;
     private String email;
 
+    /**
+     * Constructor
+     * @param firstName - the first name
+     * @param lastName - the last name
+     * @param username - the username
+     * @param email - the email address
+     */
     public User(String firstName, String lastName, String username, String email)
     {
         this.firstName = firstName;
@@ -17,41 +27,73 @@ public class User extends Entity
         this.email = email;
     }
 
+    /**
+     * Get the first name
+     * @return the first name
+     */
     public String getFirstName()
     {
         return firstName;
     }
 
+    /**
+     * Set the first name
+     * @param firstName - the first name
+     */
     public void setFirstName(String firstName)
     {
         this.firstName = firstName;
     }
 
+    /**
+     * Get the last name
+     * @return the last name
+     */
     public String getLastName()
     {
         return lastName;
     }
 
+    /**
+     * Set the last name
+     * @param lastName - the last name
+     */
     public void setLastName(String lastName)
     {
         this.lastName = lastName;
     }
 
+    /**
+     * Get the username
+     * @return the username
+     */
     public String getUsername()
     {
         return username;
     }
 
+    /**
+     * Set the username
+     * @param username - the username
+     */
     public void setUsername(String username)
     {
         this.username = username;
     }
 
+    /**
+     * Get the email address
+     * @return the email address
+     */
     public String getEmail()
     {
         return email;
     }
 
+    /**
+     * Set the email address
+     * @param email - the email address
+     */
     public void setEmail(String email)
     {
         this.email = email;

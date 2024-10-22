@@ -3,6 +3,9 @@ package internal.andreiva.socialnetwork.domain.validator;
 import internal.andreiva.socialnetwork.domain.User;
 import org.apache.commons.validator.routines.EmailValidator;
 
+/**
+ * User validator
+ */
 public class UserValidator implements Validator<User>
 {
     @Override
