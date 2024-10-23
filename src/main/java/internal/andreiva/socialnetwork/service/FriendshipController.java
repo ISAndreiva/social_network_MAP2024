@@ -84,6 +84,7 @@ public class FriendshipController
             if (f.getFriend1().equals(userId) || f.getFriend2().equals(userId))
             {
                 friendshipRepo.delete(f.getId());
+                return;
             }
         }
     }
