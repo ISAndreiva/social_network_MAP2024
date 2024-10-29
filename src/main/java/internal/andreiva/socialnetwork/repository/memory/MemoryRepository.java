@@ -3,7 +3,6 @@ package internal.andreiva.socialnetwork.repository.memory;
 import internal.andreiva.socialnetwork.domain.Entity;
 import internal.andreiva.socialnetwork.repository.Repository;
 
-import java.awt.desktop.OpenFilesEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
