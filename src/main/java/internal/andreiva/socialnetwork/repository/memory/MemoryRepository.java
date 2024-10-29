@@ -3,8 +3,10 @@ package internal.andreiva.socialnetwork.repository.memory;
 import internal.andreiva.socialnetwork.domain.Entity;
 import internal.andreiva.socialnetwork.repository.Repository;
 
+import java.awt.desktop.OpenFilesEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -26,9 +28,9 @@ public class MemoryRepository<E extends Entity> implements Repository<E>
     }
 
     @Override
-    public E findOne(UUID id)
+    public Optional<E> findOne(UUID id)
     {
-        return entities.get(id);
+        return Optional.ofNullable(entities.get(id));
     }
 
     @Override
@@ -38,7 +40,7 @@ public class MemoryRepository<E extends Entity> implements Repository<E>
     }
 
     @Override
-    public E save(E entity)
+    public Optional<E> save(E entity)
     {
         if (entity == null)
         {
@@ -47,24 +49,24 @@ public class MemoryRepository<E extends Entity> implements Repository<E>
         if (!entities.containsKey(entity.getId()))
         {
             entities.put(entity.getId(), entity);
-            return null;
+            return Optional.empty();
         }
         else
         {
-            return entity;
+            return Optional.of(entity);
         }
     }
 
     @Override
-    public E delete(UUID id)
+    public Optional<E> delete(UUID id)
     {
         if (id == null)
             throw new IllegalArgumentException("ID cannot be null");
-        return entities.remove(id);
+        return Optional.ofNullable(entities.remove(id));
     }
 
     @Override
-    public E update(E entity)
+    public Optional<E> update(E entity)
     {
         if (entity == null)
         {
@@ -73,11 +75,11 @@ public class MemoryRepository<E extends Entity> implements Repository<E>
         if (entities.containsKey(entity.getId()))
         {
             entities.put(entity.getId(), entity);
-            return null;
+            return Optional.empty();
         }
         else
         {
-            return entity;
+            return Optional.of(entity);
         }
     }
 

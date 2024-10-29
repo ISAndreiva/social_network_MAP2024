@@ -5,6 +5,7 @@ import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.domain.validator.UserValidator;
 import internal.andreiva.socialnetwork.repository.FileMemoRepo;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -42,7 +43,7 @@ public class UserController
         User u = new User(firstName, lastName, username, email);
         u.setId(UUID.randomUUID());
         userValidator.validate(u);
-        if (userRepository.save(u) != null)
+        if (userRepository.save(u).isPresent())
         {
             throw new ServiceException("An error occurred adding the user");
         }
@@ -60,12 +61,12 @@ public class UserController
         {
             throw new ServiceException("User does not exist");
         }
-        User user = userRepository.delete(id);
-        if (user == null)
+        Optional<User> user = userRepository.delete(id);
+        if (user.isEmpty())
         {
             throw new ServiceException("An error occurred deleting the user");
         }
-        return user;
+        return user.get();
     }
 
     /**
@@ -85,7 +86,7 @@ public class UserController
         User u = new User(firstName, lastName, username, email);
         u.setId(id);
         userValidator.validate(u);
-        if (userRepository.update(u) != null)
+        if (userRepository.update(u).isPresent())
         {
             throw new ServiceException("An error occurred updating the user");
         }

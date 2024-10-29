@@ -45,7 +45,7 @@ public class FriendshipController
         Friendship f = new Friendship(friend1, friend2);
         f.setId(UUID.randomUUID());
         friendshipValidator.validate(f);
-        if (friendshipRepo.save(f) != null)
+        if (friendshipRepo.save(f).isPresent())
         {
             throw new ServiceException("An error occurred adding the friendship");
         }
@@ -67,7 +67,7 @@ public class FriendshipController
         {
             throw new ServiceException("Friendship does not exist");
         }
-        if (friendshipRepo.delete(id) == null)
+        if (friendshipRepo.delete(id).isEmpty())
         {
             throw new ServiceException("An error occurred deleting the friendship");
         }

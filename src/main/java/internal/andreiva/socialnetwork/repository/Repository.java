@@ -4,6 +4,7 @@ package internal.andreiva.socialnetwork.repository;
 import internal.andreiva.socialnetwork.domain.Entity;
 import internal.andreiva.socialnetwork.domain.validator.ValidationException;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -22,7 +23,7 @@ public interface Repository<E extends Entity> {
      * @throws IllegalArgumentException
      *                  if id is null.
      */
-    E findOne(UUID id);
+    Optional<E> findOne(UUID id);
 
     /**
      *
@@ -41,7 +42,7 @@ public interface Repository<E extends Entity> {
      * @throws IllegalArgumentException
      *             if the given entity is null.     *
      */
-    E save(E entity);
+    Optional<E> save(E entity);
 
 
     /**
@@ -52,7 +53,7 @@ public interface Repository<E extends Entity> {
      * @throws IllegalArgumentException
      *                   if the given id is null.
      */
-    E delete(UUID id);
+    Optional<E> delete(UUID id);
 
     /**
      *
@@ -65,7 +66,7 @@ public interface Repository<E extends Entity> {
      * @throws ValidationException
      *             if the entity is not valid.
      */
-    E update(E entity);
+    Optional<E> update(E entity);
 
 }
 

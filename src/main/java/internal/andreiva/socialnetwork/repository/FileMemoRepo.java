@@ -4,6 +4,7 @@ import internal.andreiva.socialnetwork.domain.Entity;
 import internal.andreiva.socialnetwork.repository.file.AbstractFileRepository;
 import internal.andreiva.socialnetwork.repository.memory.MemoryRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -22,7 +23,7 @@ public class FileMemoRepo<E extends Entity> implements Repository<E>
 
 
     @Override
-    public E findOne(UUID id)
+    public Optional<E> findOne(UUID id)
     {
         return memoryRepo.findOne(id);
     }
@@ -34,10 +35,10 @@ public class FileMemoRepo<E extends Entity> implements Repository<E>
     }
 
     @Override
-    public E save(E entity)
+    public Optional<E> save(E entity)
     {
-        E result = memoryRepo.save(entity);
-        if (result == null)
+        Optional<E> result = memoryRepo.save(entity);
+        if (result.isEmpty())
         {
             fileRepo.saveData(memoryRepo.getEntities());
         }
@@ -45,10 +46,10 @@ public class FileMemoRepo<E extends Entity> implements Repository<E>
     }
 
     @Override
-    public E delete(UUID id)
+    public Optional<E> delete(UUID id)
     {
-        E result = memoryRepo.delete(id);
-        if (result != null)
+        Optional<E> result = memoryRepo.delete(id);
+        if (result.isPresent())
         {
             fileRepo.saveData(memoryRepo.getEntities());
         }
@@ -56,10 +57,10 @@ public class FileMemoRepo<E extends Entity> implements Repository<E>
     }
 
     @Override
-    public E update(E entity)
+    public  Optional<E> update(E entity)
     {
-        E result = memoryRepo.update(entity);
-        if (result == null)
+        Optional<E> result = memoryRepo.update(entity);
+        if (result.isEmpty())
         {
             fileRepo.saveData(memoryRepo.getEntities());
         }
