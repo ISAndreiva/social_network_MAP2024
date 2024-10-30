@@ -5,8 +5,11 @@ import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.domain.validator.UserValidator;
 import internal.andreiva.socialnetwork.repository.FileMemoRepo;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.StreamSupport;
 
 /**
  * Controller for user operations
@@ -96,15 +99,10 @@ public class UserController
      * Get all users
      * @return array of users
      */
-    public String[] getUsers()
+    public List<String> getUsers()
     {
-        String[] users = new String[(int)userRepository.findAll().spliterator().getExactSizeIfKnown()];
-        int i = 0;
-        for (User u : userRepository.findAll())
-        {
-            users[i] = u.toString();
-            i++;
-        }
+        List<String> users = new ArrayList<>();
+        userRepository.findAll().forEach(u -> users.add(u.toString()));
         return users;
     }
 
@@ -123,14 +121,7 @@ public class UserController
      */
     public User getUser(UUID id)
     {
-        for (User u : userRepository.findAll())
-        {
-            if (u.getId().equals(id))
-            {
-                return u;
-            }
-        }
-        return null;
+        return StreamSupport.stream(userRepository.findAll().spliterator(), false).filter(p -> p.getId().equals(id)).findFirst().orElse(null);
     }
 
     /**
@@ -140,14 +131,12 @@ public class UserController
      */
     public UUID checkUserExists(String username)
     {
-        for (User u : userRepository.findAll())
-        {
-            if (u.getUsername().equals(username))
-            {
-                return u.getId();
-            }
-        }
-        return null;
+        //userRepository.findAll(). .filter(p -> {p})
+        var user = StreamSupport.stream(userRepository.findAll().spliterator(), false).filter(p -> p.getUsername().equals(username)).findFirst().orElse(null);
+        if (user != null)
+            return user.getId();
+        else
+            return null;
     }
 
 }

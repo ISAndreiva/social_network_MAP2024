@@ -130,10 +130,8 @@ public class CLI
 
     private void showUsers()
     {
-        for (String user : service.getUsers())
-        {
-            System.out.println(user);
-        }
+        service.getUsers().forEach(System.out::println);
+
     }
 
     private void add_friendship()
@@ -172,10 +170,7 @@ public class CLI
     {
         System.out.print("Username:");
         String username = scanner.nextLine();
-        for (String friend : service.getFriends(username))
-        {
-            System.out.println(friend);
-        }
+        service.getFriends(username).forEach(System.out::println);
     }
 
     private void no_communities()
@@ -185,10 +180,7 @@ public class CLI
 
     private void biggest_community()
     {
-        for (String user : service.biggest_community())
-        {
-            System.out.println(user);
-        }
+        service.biggest_community().forEach(System.out::println);
     }
 
 

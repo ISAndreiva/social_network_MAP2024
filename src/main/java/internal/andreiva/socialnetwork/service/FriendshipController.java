@@ -7,6 +7,8 @@ import internal.andreiva.socialnetwork.repository.FileMemoRepo;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Predicate;
+import java.util.stream.StreamSupport;
 
 /**
  * Controller for managing friendships
@@ -79,14 +81,8 @@ public class FriendshipController
      */
     public void deleteFriendships(UUID userId)
     {
-        for (Friendship f : friendshipRepo.findAll())
-        {
-            if (f.getFriend1().equals(userId) || f.getFriend2().equals(userId))
-            {
-                friendshipRepo.delete(f.getId());
-                return;
-            }
-        }
+        var friends = getFriends(userId);
+        friends.forEach(f -> deleteFriendship(userId, f));
     }
 
     /**
@@ -97,13 +93,11 @@ public class FriendshipController
      */
     private UUID checkFriendshipExists(UUID friend1, UUID friend2)
     {
-        for (Friendship f : friendshipRepo.findAll())
-        {
-            if ((f.getFriend1().equals(friend1) && f.getFriend2().equals(friend2)) || (f.getFriend1().equals(friend2) && f.getFriend2().equals(friend1)))
-            {
-                return f.getId();
-            }
-        }
+        Predicate<Friendship> found = f -> (f.getFriend1().equals(friend1) && f.getFriend2().equals(friend2)) ||
+                                           (f.getFriend1().equals(friend2) && f.getFriend2().equals(friend1));
+        var friendship =  StreamSupport.stream(friendshipRepo.findAll().spliterator(), false).filter(found).findFirst().orElse(null);
+        if (friendship != null)
+            return friendship.getId();
         return null;
     }
 
@@ -119,17 +113,9 @@ public class FriendshipController
             throw new ServiceException("Invalid user");
         }
         List<UUID> friends = new ArrayList<>();
-        for (Friendship f : friendshipRepo.findAll())
-        {
-            if (f.getFriend1().equals(userId))
-            {
-                friends.add(f.getFriend2());
-            }
-            if (f.getFriend2().equals(userId))
-            {
-                friends.add(f.getFriend1());
-            }
-        }
+        friendshipRepo.findAll().forEach(f -> {
+            if (f.getFriend1().equals(userId)) friends.add(f.getFriend2());
+            if (f.getFriend2().equals(userId)) friends.add(f.getFriend1());});
         return friends;
     }
 

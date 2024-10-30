@@ -63,7 +63,7 @@ public class Service
      * Returns a list of all users
      * @return an array of all users
      */
-    public String[] getUsers()
+    public List<String> getUsers()
     {
         return userController.getUsers();
     }
@@ -93,14 +93,10 @@ public class Service
      * @param username the username of the user
      * @return an array of friends of the user
      */
-    public String[] getFriends(String username)
+    public List<String> getFriends(String username)
     {
-        List<UUID> friendships = friendshipController.getFriends(userController.checkUserExists(username));
-        String[] friends = new String[friendships.size()];
-        for (int i = 0; i < friendships.size(); i++)
-        {
-            friends[i] = userController.getUser(friendships.get(i)).toString();
-        }
+        List<String> friends = new ArrayList<>();
+        friendshipController.getFriends(userController.checkUserExists(username)).forEach(f -> friends.add(userController.getUser(f).toString()));
         return friends;
     }
 
@@ -132,22 +128,15 @@ public class Service
     public int no_communities()
     {
         Map<UUID, List<UUID>> adj = new HashMap<>();
-        for (User u: userController.getUsersIterable())
-        {
-            adj.put(u.getId(), new ArrayList<>());
-        }
-        for (Friendship f: friendshipController.getFriendshipsIterable())
-        {
+        userController.getUsersIterable().forEach(u -> adj.put(u.getId(), new ArrayList<>()));
+        friendshipController.getFriendshipsIterable().forEach(f -> {
             adj.get(f.getFriend1()).add(f.getFriend2());
             adj.get(f.getFriend2()).add(f.getFriend1());
-        }
-        Map<UUID, Boolean> visited = new HashMap<>();
-        for (User u: userController.getUsersIterable())
-        {
-            visited.put(u.getId(), false);
-        }
-        int no = 0;
+        });
 
+        Map<UUID, Boolean> visited = new HashMap<>();
+        userController.getUsersIterable().forEach(u -> visited.put(u.getId(), false));
+        int no = 0;
         for (User u: userController.getUsersIterable())
         {
             if (!visited.get(u.getId()))
@@ -163,23 +152,17 @@ public class Service
     /** Returns the members of the biggest community
      * @return array of the members of the biggest community
      */
-    public String[] biggest_community()
+    public List<String> biggest_community()
     {
         Map<UUID, List<UUID>> adj = new HashMap<>();
-        for (User u: userController.getUsersIterable())
-        {
-            adj.put(u.getId(), new ArrayList<>());
-        }
-        for (Friendship f: friendshipController.getFriendshipsIterable())
-        {
+        userController.getUsersIterable().forEach(u -> adj.put(u.getId(), new ArrayList<>()));
+        friendshipController.getFriendshipsIterable().forEach(f -> {
             adj.get(f.getFriend1()).add(f.getFriend2());
             adj.get(f.getFriend2()).add(f.getFriend1());
-        }
+        });
+
         Map<UUID, Boolean> visited = new HashMap<>();
-        for (User u: userController.getUsersIterable())
-        {
-            visited.put(u.getId(), false);
-        }
+        userController.getUsersIterable().forEach(u -> visited.put(u.getId(), false));
         int max = 0; UUID maxNode = null;
         for (User u: userController.getUsersIterable())
         {
@@ -194,10 +177,7 @@ public class Service
             }
         }
         List<String> community = new ArrayList<>();
-        for (User u: userController.getUsersIterable())
-        {
-            visited.put(u.getId(), false);
-        }
+        userController.getUsersIterable().forEach(u -> visited.put(u.getId(), false));
         Queue<UUID> q = new LinkedList<>();
         q.add(maxNode);
         visited.put(maxNode, true);
@@ -214,7 +194,7 @@ public class Service
                 }
             }
         }
-        return community.toArray(new String[0]);
+        return community;
     }
 
 }

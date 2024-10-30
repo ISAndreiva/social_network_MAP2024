@@ -63,11 +63,17 @@ public abstract class AbstractFileRepository<E extends Entity>
     public void saveData(Map<UUID, E> entities)
     {
         try  ( BufferedWriter writer = new BufferedWriter(new FileWriter(filename))){
-            for (E entity: entities.values()) {
+            entities.values().forEach(entity -> {
                 String ent = saveEntity(entity);
-                writer.write(ent);
-                writer.newLine();
-            }
+                try
+                {
+                    writer.write(ent);
+                    writer.newLine();
+                } catch (IOException e)
+                {
+                    throw new RuntimeException(e);
+                }
+                });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
