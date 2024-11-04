@@ -1,8 +1,13 @@
 package internal.andreiva.socialnetwork.repository;
 
 import internal.andreiva.socialnetwork.domain.Entity;
+import internal.andreiva.socialnetwork.repository.database.AbstractDatabaseRepository;
+import internal.andreiva.socialnetwork.repository.database.FriendshipDatabaseRepository;
+import internal.andreiva.socialnetwork.repository.database.UserDatabaseRepository;
 import internal.andreiva.socialnetwork.repository.file.FriendshipFileRepo;
 import internal.andreiva.socialnetwork.repository.file.UserFileRepo;
+
+import java.sql.Connection;
 
 /**
  * Factory for creating repositories
@@ -15,12 +20,21 @@ public class RepositoryFactory
      * @param fileName - the name of the file where the data is stored
      * @return the repository object or null if type is wrong
      */
-    public FileMemoRepo<? extends Entity> getRepository(RepositoryType type, String fileName)
+    public FileMemoRepo<? extends Entity> getFileRepository(RepositoryType type, String fileName)
     {
         return switch (type)
         {
             case USER -> new FileMemoRepo<>(new UserFileRepo(fileName));
             case FRIENDSHIP -> new FileMemoRepo<>(new FriendshipFileRepo(fileName));
+        };
+    }
+
+    public AbstractDatabaseRepository<? extends Entity> getDatabaseRepository(RepositoryType type, Connection db_connection)
+    {
+        return switch (type)
+        {
+            case USER -> new UserDatabaseRepository(db_connection);
+            case FRIENDSHIP -> new FriendshipDatabaseRepository(db_connection);
         };
     }
 

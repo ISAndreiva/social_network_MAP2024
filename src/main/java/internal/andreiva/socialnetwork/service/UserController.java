@@ -3,7 +3,7 @@ package internal.andreiva.socialnetwork.service;
 
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.domain.validator.UserValidator;
-import internal.andreiva.socialnetwork.repository.FileMemoRepo;
+import internal.andreiva.socialnetwork.repository.database.UserDatabaseRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.stream.StreamSupport;
  */
 public class UserController
 {
-    private FileMemoRepo<User> userRepository;
+    private UserDatabaseRepository userRepository;
     private UserValidator userValidator;
 
     /**
@@ -24,7 +24,7 @@ public class UserController
      * @param userRepository repository for users
      * @param userValidator validator for users
      */
-    public UserController(FileMemoRepo<User> userRepository, UserValidator userValidator)
+    public UserController(UserDatabaseRepository userRepository, UserValidator userValidator)
     {
         this.userRepository = userRepository;
         this.userValidator = userValidator;

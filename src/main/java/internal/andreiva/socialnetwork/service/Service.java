@@ -1,8 +1,8 @@
 package internal.andreiva.socialnetwork.service;
 
-import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.domain.User;
 
+import java.sql.Connection;
 import java.util.*;
 
 
@@ -16,13 +16,12 @@ public class Service
 
     /**
      * Constructor
-     * @param userFilename the filename for the user repository
-     * @param friendshipFilename the filename for the friendship repository
+     * @param db_connection the connection to the database
      */
-    public Service(String userFilename, String friendshipFilename)
+    public Service(Connection db_connection)
     {
-        friendshipController = ControllerFactory.getInstance().getFriendshipService(friendshipFilename);
-        userController = ControllerFactory.getInstance().getUserService(userFilename);
+        friendshipController = ControllerFactory.getInstance().getFriendshipService(db_connection);
+        userController = ControllerFactory.getInstance().getUserService(db_connection);
     }
 
     /**

@@ -2,7 +2,7 @@ package internal.andreiva.socialnetwork.service;
 
 import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.domain.validator.FriendshipValidator;
-import internal.andreiva.socialnetwork.repository.FileMemoRepo;
+import internal.andreiva.socialnetwork.repository.database.FriendshipDatabaseRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,7 @@ import java.util.stream.StreamSupport;
  */
 public class FriendshipController
 {
-    private FileMemoRepo<Friendship> friendshipRepo;
+    private FriendshipDatabaseRepository friendshipRepo;
     private FriendshipValidator friendshipValidator;
 
     /**
@@ -23,7 +23,7 @@ public class FriendshipController
      * @param friendshipRepo repository for friendships
      * @param friendshipValidator validator for friendships
      */
-    public FriendshipController(FileMemoRepo<Friendship> friendshipRepo, FriendshipValidator friendshipValidator)
+    public FriendshipController(FriendshipDatabaseRepository friendshipRepo, FriendshipValidator friendshipValidator)
     {
         this.friendshipRepo = friendshipRepo;
         this.friendshipValidator = friendshipValidator;
