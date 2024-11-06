@@ -1,6 +1,7 @@
 package internal.andreiva.socialnetwork.service;
 
 
+import internal.andreiva.socialnetwork.domain.Entity;
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.domain.validator.UserValidator;
 import internal.andreiva.socialnetwork.repository.database.UserDatabaseRepository;
@@ -121,7 +122,7 @@ public class UserController
      */
     public User getUser(UUID id)
     {
-        return StreamSupport.stream(userRepository.findAll().spliterator(), false).filter(p -> p.getId().equals(id)).findFirst().orElse(null);
+        return userRepository.findOne(id).orElse(null);
     }
 
     /**
@@ -131,12 +132,8 @@ public class UserController
      */
     public UUID checkUserExists(String username)
     {
-        //userRepository.findAll(). .filter(p -> {p})
-        var user = StreamSupport.stream(userRepository.findAll().spliterator(), false).filter(p -> p.getUsername().equals(username)).findFirst().orElse(null);
-        if (user != null)
-            return user.getId();
-        else
-            return null;
+        var user = userRepository.findOne(username);
+        return user.map(Entity::getId).orElse(null);
     }
 
 }

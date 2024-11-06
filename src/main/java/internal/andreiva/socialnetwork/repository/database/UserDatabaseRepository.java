@@ -110,4 +110,22 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
             cache_valid = false;
         }
     }
+
+    public Optional<User> findOne(String username)
+    {
+        String sql = "SELECT * from " + database + " where username = ?";
+        try
+        {
+            PreparedStatement stm = db_connection.prepareStatement(sql);
+            stm.setString(1, username);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next())
+                return Optional.of(result_to_entity(rs));
+            return Optional.empty();
+        }
+        catch (SQLException e)
+        {
+            return Optional.empty();
+        }
+    }
 }
