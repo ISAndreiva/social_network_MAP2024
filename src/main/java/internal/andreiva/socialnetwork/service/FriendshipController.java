@@ -15,8 +15,8 @@ import java.util.stream.StreamSupport;
  */
 public class FriendshipController
 {
-    private FriendshipDatabaseRepository friendshipRepo;
-    private FriendshipValidator friendshipValidator;
+    private final FriendshipDatabaseRepository friendshipRepo;
+    private final FriendshipValidator friendshipValidator;
 
     /**
      * Constructor

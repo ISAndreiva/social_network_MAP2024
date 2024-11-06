@@ -8,8 +8,8 @@ import java.util.UUID;
  */
 public class Friendship extends Entity
 {
-    private UUID friend1;
-    private UUID friend2;
+    private final UUID friend1;
+    private final UUID friend2;
 
     /**
      * Constructor

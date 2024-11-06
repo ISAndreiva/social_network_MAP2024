@@ -17,9 +17,9 @@ public class FriendshipFileRepo extends AbstractFileRepository<Friendship>
     @Override
     public Friendship createEntity(String line)
     {
-        String[] splited = line.split(",");
-        Friendship f = new Friendship(UUID.fromString(splited[1]), UUID.fromString(splited[2]));
-        f.setId(UUID.fromString(splited[0]));
+        String[] split = line.split(",");
+        Friendship f = new Friendship(UUID.fromString(split[1]), UUID.fromString(split[2]));
+        f.setId(UUID.fromString(split[0]));
         return f;
     }
 

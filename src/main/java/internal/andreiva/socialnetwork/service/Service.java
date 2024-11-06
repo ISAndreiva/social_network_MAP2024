@@ -11,8 +11,8 @@ import java.util.*;
  */
 public class Service
 {
-    private FriendshipController friendshipController;
-    private UserController userController;
+    private final FriendshipController friendshipController;
+    private final UserController userController;
 
     /**
      * Constructor
@@ -60,7 +60,7 @@ public class Service
 
     /**
      * Returns a list of all users
-     * @return an array of all users
+     * @return a list of all users
      */
     public List<String> getUsers()
     {
@@ -90,7 +90,7 @@ public class Service
     /**
      * Returns a list of friends of a user
      * @param username the username of the user
-     * @return an array of friends of the user
+     * @return a list of friends of the user
      */
     public List<String> getFriends(String username)
     {
@@ -149,7 +149,7 @@ public class Service
     }
 
     /** Returns the members of the biggest community
-     * @return array of the members of the biggest community
+     * @return list of the members of the biggest community
      */
     public List<String> biggest_community()
     {

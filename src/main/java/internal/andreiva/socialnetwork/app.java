@@ -12,16 +12,14 @@ public class app
 {
     public void run()
     {
-        Connection db_connection;
-        try
+        try (Connection db_connection = DriverManager.getConnection(DatabaseConfig.getDbUrl(), DatabaseConfig.getDbUsername(), DatabaseConfig.getDbPassword()))
         {
-            db_connection = DriverManager.getConnection(DatabaseConfig.getDbUrl(), DatabaseConfig.getDbUsername(), DatabaseConfig.getDbPassword());
+            Service service = new Service(db_connection);
+            CLI cli = new CLI(service);
+            cli.run();
         } catch (SQLException e)
         {
             throw new RepositoryException(e);
         }
-        Service service = new Service(db_connection);
-        CLI cli = new CLI(service);
-        cli.run();
     }
 }

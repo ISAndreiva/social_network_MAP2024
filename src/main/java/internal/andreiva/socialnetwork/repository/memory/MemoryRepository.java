@@ -14,7 +14,7 @@ import java.util.UUID;
  */
 public class MemoryRepository<E extends Entity> implements Repository<E>
 {
-    private Map<UUID, E> entities;
+    private final Map<UUID, E> entities;
 
     public MemoryRepository(Map<UUID, E> entities)
     {

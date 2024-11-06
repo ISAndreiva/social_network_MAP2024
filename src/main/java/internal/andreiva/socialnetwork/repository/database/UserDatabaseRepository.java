@@ -11,12 +11,11 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
 {
     public UserDatabaseRepository(Connection db_connection)
     {
-        super(db_connection);
-        database = "users";
+        super(db_connection, "users");
     }
 
     @Override
-    protected User result_to_entity(ResultSet rs)
+    protected User resultToEntity(ResultSet rs)
     {
         try
         {
@@ -120,7 +119,7 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
             stm.setString(1, username);
             ResultSet rs = stm.executeQuery();
             if (rs.next())
-                return Optional.of(result_to_entity(rs));
+                return Optional.of(resultToEntity(rs));
             return Optional.empty();
         }
         catch (SQLException e)

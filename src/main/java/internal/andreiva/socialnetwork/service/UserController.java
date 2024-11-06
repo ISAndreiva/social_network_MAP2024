@@ -10,15 +10,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.StreamSupport;
 
 /**
  * Controller for user operations
  */
 public class UserController
 {
-    private UserDatabaseRepository userRepository;
-    private UserValidator userValidator;
+    private final UserDatabaseRepository userRepository;
+    private final UserValidator userValidator;
 
     /**
      * Constructor
@@ -98,7 +97,7 @@ public class UserController
 
     /**
      * Get all users
-     * @return array of users
+     * @return list of users
      */
     public List<String> getUsers()
     {

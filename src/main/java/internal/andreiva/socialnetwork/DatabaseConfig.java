@@ -9,9 +9,9 @@ public class DatabaseConfig
     private static final Properties properties = new Properties();
     static {
         try {
-            properties.load(new FileInputStream("db.properties"));
+            properties.load(new FileInputStream("src/main/resources/db.properties"));
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException("Error loading database properties", e);
         }
     }
 

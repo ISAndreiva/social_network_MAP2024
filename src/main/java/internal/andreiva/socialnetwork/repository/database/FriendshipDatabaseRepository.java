@@ -14,12 +14,11 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
 {
     public FriendshipDatabaseRepository(Connection db_connection)
     {
-        super(db_connection);
-        database = "friendships";
+        super(db_connection, "friendships");
     }
 
     @Override
-    protected Friendship result_to_entity(ResultSet rs)
+    protected Friendship resultToEntity(ResultSet rs)
     {
         try
         {

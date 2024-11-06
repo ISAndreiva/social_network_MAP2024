@@ -13,16 +13,17 @@ import java.util.UUID;
 public abstract class AbstractDatabaseRepository<E extends Entity> implements Repository<E>
 {
     protected Connection db_connection;
-    protected String database;
+    protected final String database;
     protected List<E> find_cache = new ArrayList<>();
     protected boolean cache_valid = false;
 
-    public AbstractDatabaseRepository(Connection db_connection)
+    public AbstractDatabaseRepository(Connection db_connection, String database)
     {
         this.db_connection = db_connection;
+        this.database = database;
     }
 
-    protected abstract E result_to_entity(ResultSet rs);
+    protected abstract E resultToEntity(ResultSet rs);
 
     @Override
     public Optional<E> findOne(UUID id)
@@ -34,7 +35,7 @@ public abstract class AbstractDatabaseRepository<E extends Entity> implements Re
             stm.setObject(1, id.toString());
             ResultSet rs = stm.executeQuery();
             rs.next();
-            return Optional.ofNullable(result_to_entity(rs));
+            return Optional.ofNullable(resultToEntity(rs));
         }
         catch (SQLException e)
         {
@@ -58,7 +59,7 @@ public abstract class AbstractDatabaseRepository<E extends Entity> implements Re
                 ResultSet rs = stm.executeQuery("SELECT * from " + database);
                 while (rs.next())
                 {
-                    E entity = result_to_entity(rs);
+                    E entity = resultToEntity(rs);
                     find_cache.add(entity);
                 }
                 cache_valid = true;

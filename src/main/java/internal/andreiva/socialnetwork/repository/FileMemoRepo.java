@@ -13,8 +13,8 @@ import java.util.UUID;
  */
 public class FileMemoRepo<E extends Entity> implements Repository<E>
 {
-    private AbstractFileRepository<E> fileRepo;
-    private MemoryRepository<E> memoryRepo;
+    private final AbstractFileRepository<E> fileRepo;
+    private final MemoryRepository<E> memoryRepo;
     public FileMemoRepo(AbstractFileRepository<E> fileRepo)
     {
         this.fileRepo = fileRepo;

@@ -15,7 +15,7 @@ import java.sql.Connection;
 public class RepositoryFactory
 {
     /**
-     * Creates and returns an repository based on the given type
+     * Creates and returns a repository based on the given type
      * @param type - the type of the repository
      * @param fileName - the name of the file where the data is stored
      * @return the repository object or null if type is wrong
