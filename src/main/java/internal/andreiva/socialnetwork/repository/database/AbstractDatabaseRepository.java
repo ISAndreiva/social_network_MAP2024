@@ -14,6 +14,8 @@ public abstract class AbstractDatabaseRepository<E extends Entity> implements Re
 {
     protected Connection db_connection;
     protected String database;
+    protected List<E> find_cache = new ArrayList<>();
+    protected boolean cache_valid = false;
 
     public AbstractDatabaseRepository(Connection db_connection)
     {
@@ -43,20 +45,28 @@ public abstract class AbstractDatabaseRepository<E extends Entity> implements Re
     @Override
     public Iterable<E> findAll()
     {
-        try
+        if (cache_valid)
         {
-            Statement stm = db_connection.createStatement();
-            ResultSet rs = stm.executeQuery("SELECT * from " + database);
-            List<E> entity_list = new ArrayList<>();
-            while (rs.next())
+            return find_cache;
+        }
+        else
+        {
+            find_cache.clear();
+            try
             {
-                E entity = result_to_entity(rs);
-                entity_list.add(entity);
+                Statement stm = db_connection.createStatement();
+                ResultSet rs = stm.executeQuery("SELECT * from " + database);
+                while (rs.next())
+                {
+                    E entity = result_to_entity(rs);
+                    find_cache.add(entity);
+                }
+                cache_valid = true;
+                return find_cache;
+            } catch (SQLException e)
+            {
+                throw new RepositoryException(e);
             }
-            return entity_list;
-        } catch (SQLException e)
-        {
-            throw new RepositoryException(e);
         }
     }
 

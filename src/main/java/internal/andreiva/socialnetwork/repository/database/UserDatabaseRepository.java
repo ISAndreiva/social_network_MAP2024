@@ -51,6 +51,10 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
         {
             throw new RepositoryException(e);
         }
+        finally
+        {
+            cache_valid = false;
+        }
 
     }
 
@@ -72,6 +76,10 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
         } catch (SQLException e)
         {
             throw new RepositoryException(e);
+        }
+        finally
+        {
+            cache_valid = false;
         }
     }
 
@@ -96,6 +104,10 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
         } catch (SQLException e)
         {
             throw new RepositoryException(e);
+        }
+        finally
+        {
+            cache_valid = false;
         }
     }
 }

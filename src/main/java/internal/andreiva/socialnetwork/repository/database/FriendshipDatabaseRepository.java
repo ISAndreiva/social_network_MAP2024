@@ -52,6 +52,10 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
         {
             throw new RepositoryException(e);
         }
+        finally
+        {
+            cache_valid = false;
+        }
     }
 
     @Override
@@ -72,6 +76,10 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
         } catch (SQLException e)
         {
             throw new RepositoryException(e);
+        }
+        finally
+        {
+            cache_valid = false;
         }
     }
 
@@ -94,6 +102,10 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
         } catch (SQLException e)
         {
             throw new RepositoryException(e);
+        }
+        finally
+        {
+            cache_valid = false;
         }
     }
 }
