@@ -6,8 +6,8 @@ import java.util.Scanner;
 
 public class CLI
 {
-    Service service;
-    Scanner scanner = new Scanner(System.in);
+    private final Service service;
+    private final Scanner scanner = new Scanner(System.in);
     public CLI(Service service)
     {
         this.service = service;

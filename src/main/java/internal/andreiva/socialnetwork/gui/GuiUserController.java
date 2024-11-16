@@ -23,12 +23,12 @@ public class GuiUserController extends GuiController
     @FXML
     TableView<User> friendsTable;
 
-    ObservableList<User> friendsTableData = FXCollections.observableArrayList();
+    private static final ObservableList<User> friendsTableData = FXCollections.observableArrayList();
 
     @FXML
     TableView<User> requestsTable;
 
-    ObservableList<User> requestsTableData = FXCollections.observableArrayList();
+    private static final ObservableList<User> requestsTableData = FXCollections.observableArrayList();
 
     @FXML
     TableColumn<User, String> friendsUsernameColumn;
@@ -60,13 +60,13 @@ public class GuiUserController extends GuiController
     @FXML
     public void initialize()
     {
-        friendsUsernameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
-        friendsNameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("fullName"));
+        friendsUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        friendsNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         friendsSinceColumn.setCellValueFactory(new FriendshipSinceFactory());
 
 
-        requestsUsernameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("username"));
-        requestsNameColumn.setCellValueFactory(new PropertyValueFactory<User, String>("fullName"));
+        requestsUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        requestsNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         requestsSinceColumn.setCellValueFactory(new FriendshipSinceFactory());
         friendsTable.setItems(friendsTableData);
         requestsTable.setItems(requestsTableData);

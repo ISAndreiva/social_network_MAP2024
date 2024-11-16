@@ -33,7 +33,7 @@ public class FriendshipValidator implements Validator<Friendship>
         }
     }
     private FriendshipValidator() {}
-    static FriendshipValidator instance = new FriendshipValidator();
+    private static final FriendshipValidator instance = new FriendshipValidator();
     public static FriendshipValidator getInstance()
     {
         return instance;

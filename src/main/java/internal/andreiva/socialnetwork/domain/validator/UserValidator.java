@@ -35,7 +35,7 @@ public class UserValidator implements Validator<User>
 
     }
     private UserValidator() {}
-    static UserValidator instance = new UserValidator();
+    private static final UserValidator instance = new UserValidator();
     public static UserValidator getInstance()
     {
         return instance;

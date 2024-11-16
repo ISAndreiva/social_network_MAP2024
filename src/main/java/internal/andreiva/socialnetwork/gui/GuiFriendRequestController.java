@@ -1,6 +1,5 @@
 package internal.andreiva.socialnetwork.gui;
 
-import internal.andreiva.socialnetwork.domain.User;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;

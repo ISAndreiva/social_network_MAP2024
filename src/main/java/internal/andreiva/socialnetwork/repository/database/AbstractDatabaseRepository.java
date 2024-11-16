@@ -12,9 +12,9 @@ import java.util.UUID;
 
 public abstract class AbstractDatabaseRepository<E extends Entity> implements Repository<E>
 {
-    protected Connection db_connection;
+    protected final Connection db_connection;
     protected final String database;
-    protected List<E> find_cache = new ArrayList<>();
+    protected final List<E> find_cache = new ArrayList<>();
     protected boolean cache_valid = false;
 
     public AbstractDatabaseRepository(Connection db_connection, String database)

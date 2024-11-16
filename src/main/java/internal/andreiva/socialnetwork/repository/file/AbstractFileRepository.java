@@ -12,7 +12,7 @@ import java.util.UUID;
  */
 public abstract class AbstractFileRepository<E extends Entity>
 {
-    protected String filename;
+    protected final String filename;
 
     /**
      * Constructor
