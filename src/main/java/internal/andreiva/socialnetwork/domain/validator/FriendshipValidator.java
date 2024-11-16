@@ -23,6 +23,14 @@ public class FriendshipValidator implements Validator<Friendship>
         {
             throw new ValidationException("A friendship must have two users");
         }
+        if (entity.getStatus() == null)
+        {
+            throw new ValidationException("A friendship must have a status");
+        }
+        if (!entity.getStatus().equals("pending") && !entity.getStatus().equals("accepted"))
+        {
+            throw new ValidationException("Invalid status");
+        }
     }
     private FriendshipValidator() {}
     static FriendshipValidator instance = new FriendshipValidator();

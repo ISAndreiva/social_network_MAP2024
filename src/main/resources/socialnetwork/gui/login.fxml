@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="internal.andreiva.socialnetwork.gui.GuiLoginController">
+   <children>
+      <Pane prefHeight="400.0" prefWidth="600.0">
+         <children>
+            <Label layoutX="102.0" layoutY="81.0" text="Welcome to NameTODO Social Network">
+               <font>
+                  <Font name="Fira Code Light" size="19.0" />
+               </font>
+            </Label>
+            <AnchorPane layoutX="114.0" layoutY="127.0" prefHeight="243.0" prefWidth="373.0">
+               <children>
+                  <Button layoutX="160.0" layoutY="131.0" mnemonicParsing="false" onAction="#handleLogin" text="Login" />
+                  <HBox alignment="CENTER" layoutY="36.0" prefHeight="35.0" prefWidth="373.0" spacing="20.0">
+                     <children>
+                        <Label text="Username:">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="usernameTextField" />
+                     </children>
+                  </HBox>
+                  <Label fx:id="errorLabel" alignment="CENTER" layoutY="187.0" prefHeight="22.0" prefWidth="373.0">
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

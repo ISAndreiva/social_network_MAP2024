@@ -1,4 +1,4 @@
-package internal.andreiva.socialnetwork.ui;
+package internal.andreiva.socialnetwork.cli;
 
 import internal.andreiva.socialnetwork.service.Service;
 
@@ -170,7 +170,7 @@ public class CLI
     {
         System.out.print("Username:");
         String username = scanner.nextLine();
-        service.getFriends(username).forEach(System.out::println);
+        service.getFriendships(username, "accepted").forEach(System.out::println);
     }
 
     private void no_communities()

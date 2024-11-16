@@ -5,6 +5,8 @@ public class Main
     public static void main(String[] args)
     {
         app app = new app();
-        app.run();
+        //app.run_cli();
+        app.run_gui();
+        app.close_db();
     }
 }

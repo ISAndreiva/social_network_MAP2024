@@ -99,6 +99,15 @@ public class User extends Entity
         this.email = email;
     }
 
+    /**
+     * Get the full name
+     * @return the full name
+     */
+    public String getFullName()
+    {
+        return lastName + " " + firstName;
+    }
+
     @Override
     public String toString()
     {

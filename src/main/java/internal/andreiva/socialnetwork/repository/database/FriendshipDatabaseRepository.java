@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -22,7 +23,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
     {
         try
         {
-            Friendship f = new Friendship(UUID.fromString(rs.getString(2)), UUID.fromString(rs.getString(3)));
+            Friendship f = new Friendship(UUID.fromString(rs.getString(2)), UUID.fromString(rs.getString(3)), rs.getString(4), rs.getTimestamp(5).toLocalDateTime());
             f.setId(UUID.fromString(rs.getString(1)));
             return f;
         } catch (SQLException e)
@@ -34,13 +35,15 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
     @Override
     public Optional<Friendship> save(Friendship entity)
     {
-        String sql = "INSERT INTO " + database + " (UUID, friend_1, friend_2) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO " + database + " (UUID, friend_1, friend_2, status, friendssince) VALUES (?, ?, ?, ?, ?)";
         try
         {
             PreparedStatement stm = db_connection.prepareStatement(sql);
             stm.setObject(1, entity.getId().toString());
             stm.setObject(2, entity.getFriend1().toString());
             stm.setObject(3, entity.getFriend2().toString());
+            stm.setString(4, entity.getStatus());
+            stm.setTimestamp(5, Timestamp.valueOf(entity.getFriendSince()));
             int result = stm.executeUpdate();
             if (result == 0)
             {
@@ -85,13 +88,15 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
     @Override
     public Optional<Friendship> update(Friendship entity)
     {
-        String sql = "UPDATE " + database + " SET friend_1 = ?, friend_2 = ? WHERE UUID = ?";
+        String sql = "UPDATE " + database + " SET friend_1 = ?, friend_2 = ?, status = ?, friendssince = ? WHERE UUID = ?";
         try
         {
             PreparedStatement stm = db_connection.prepareStatement(sql);
             stm.setObject(1, entity.getFriend1().toString());
             stm.setObject(2, entity.getFriend2().toString());
-            stm.setObject(3, entity.getId().toString());
+            stm.setString(3, entity.getStatus());
+            stm.setTimestamp(4, Timestamp.valueOf(entity.getFriendSince()));
+            stm.setObject(5, entity.getId().toString());
             int result = stm.executeUpdate();
             if (result == 0)
             {

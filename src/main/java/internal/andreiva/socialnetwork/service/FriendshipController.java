@@ -4,6 +4,7 @@ import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.domain.validator.FriendshipValidator;
 import internal.andreiva.socialnetwork.repository.database.FriendshipDatabaseRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -44,7 +45,7 @@ public class FriendshipController
         {
             throw new ServiceException("Friendship already exists");
         }
-        Friendship f = new Friendship(friend1, friend2);
+        Friendship f = new Friendship(friend1, friend2, "pending", LocalDateTime.now());
         f.setId(UUID.randomUUID());
         friendshipValidator.validate(f);
         if (friendshipRepo.save(f).isPresent())
@@ -81,8 +82,10 @@ public class FriendshipController
      */
     public void deleteFriendships(UUID userId)
     {
-        var friends = getFriends(userId);
-        friends.forEach(f -> deleteFriendship(userId, f));
+        List<UUID> friendships = new ArrayList<>();
+        friendships.addAll(getFriendships(userId, "accepted"));
+        friendships.addAll(getFriendships(userId, "pending"));
+        friendships.forEach(friendshipRepo::delete);
     }
 
     /**
@@ -102,11 +105,23 @@ public class FriendshipController
     }
 
     /**
+     * Get a friendship
+     * @param friend1 user 1
+     * @param friend2 user 2
+     * @return the friendship
+     */
+    public Friendship getFriendship(UUID friend1, UUID friend2)
+    {
+        return friendshipRepo.findOne(checkFriendshipExists(friend1, friend2)).orElse(null);
+    }
+
+    /**
      * Get the friends of a user
      * @param userId the user
+     * @param status the status of the friendship
      * @return a list of the user's friends
      */
-    public List<UUID> getFriends(UUID userId)
+    public List<UUID> getFriendships(UUID userId, String status)
     {
         if (userId == null)
         {
@@ -114,10 +129,16 @@ public class FriendshipController
         }
         List<UUID> friends = new ArrayList<>();
         friendshipRepo.findAll().forEach(f -> {
-            if (f.getFriend1().equals(userId)) friends.add(f.getFriend2());
-            if (f.getFriend2().equals(userId)) friends.add(f.getFriend1());});
+            if (f.getStatus().equals(status))
+            {
+                if (f.getFriend1().equals(userId))
+                    friends.add(f.getFriend2());
+                if (f.getFriend2().equals(userId))
+                    friends.add(f.getFriend1());
+            }});
         return friends;
     }
+
 
     /**
      * Get all friendships
@@ -126,5 +147,37 @@ public class FriendshipController
     public Iterable<Friendship> getFriendshipsIterable()
     {
         return friendshipRepo.findAll();
+    }
+
+    /**
+     * Set the status of a friendship
+     * @param friend1 user 1
+     * @param friend2 user 2
+     * @param status the new status
+     */
+    public void friendshipSetStatus(UUID friend1, UUID friend2, String status)
+    {
+        if (status.equals("rejected"))
+        {
+            deleteFriendship(friend1, friend2);
+            return;
+        }
+
+        Friendship f = friendshipRepo.findOne(checkFriendshipExists(friend1, friend2)).orElse(null);
+        if (f == null)
+        {
+            throw new ServiceException("Friendship does not exist");
+        }
+        if (!f.getStatus().equals("pending"))
+        {
+            throw new ServiceException("Friendship is not pending");
+        }
+        f.setStatus(status);
+        f.setFriendSince(LocalDateTime.now());
+        friendshipValidator.validate(f);
+        if (friendshipRepo.update(f).isPresent())
+        {
+            throw new ServiceException("An error occurred accepting the friendship");
+        }
     }
 }

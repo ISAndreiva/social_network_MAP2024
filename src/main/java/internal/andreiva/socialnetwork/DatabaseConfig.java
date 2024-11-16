@@ -9,7 +9,7 @@ public class DatabaseConfig
     private static final Properties properties = new Properties();
     static {
         try {
-            properties.load(new FileInputStream("src/main/resources/db.properties"));
+            properties.load(new FileInputStream("src/main/resources/socialnetwork/db.properties"));
         } catch (IOException e) {
             throw new RuntimeException("Error loading database properties", e);
         }

@@ -1,5 +1,6 @@
 package internal.andreiva.socialnetwork.service;
 
+import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.domain.User;
 
 import java.sql.Connection;
@@ -51,11 +52,11 @@ public class Service
      * @param firstName the new first name of the user
      * @param lastName the new last name of the user
      * @param username the username of the existing user
-     * @param password the new password of the user
+     * @param email the new email of the user
      */
-    public void updateUser(String firstName, String lastName, String username, String password)
+    public void updateUser(String firstName, String lastName, String username, String email)
     {
-        userController.updateUser(firstName, lastName, username, password);
+        userController.updateUser(firstName, lastName, username, email);
     }
 
     /**
@@ -92,10 +93,10 @@ public class Service
      * @param username the username of the user
      * @return a list of friends of the user
      */
-    public List<String> getFriends(String username)
+    public List<User> getFriendships(String username, String status)
     {
-        List<String> friends = new ArrayList<>();
-        friendshipController.getFriends(userController.checkUserExists(username)).forEach(f -> friends.add(userController.getUser(f).toString()));
+        List<User> friends = new ArrayList<>();
+        friendshipController.getFriendships(userController.checkUserExists(username), status).forEach(f -> friends.add(userController.getUser(f)));
         return friends;
     }
 
@@ -129,8 +130,11 @@ public class Service
         Map<UUID, List<UUID>> adj = new HashMap<>();
         userController.getUsersIterable().forEach(u -> adj.put(u.getId(), new ArrayList<>()));
         friendshipController.getFriendshipsIterable().forEach(f -> {
-            adj.get(f.getFriend1()).add(f.getFriend2());
-            adj.get(f.getFriend2()).add(f.getFriend1());
+            if (f.getStatus().equals("accepted"))
+            {
+                adj.get(f.getFriend1()).add(f.getFriend2());
+                adj.get(f.getFriend2()).add(f.getFriend1());
+            }
         });
 
         Map<UUID, Boolean> visited = new HashMap<>();
@@ -156,8 +160,11 @@ public class Service
         Map<UUID, List<UUID>> adj = new HashMap<>();
         userController.getUsersIterable().forEach(u -> adj.put(u.getId(), new ArrayList<>()));
         friendshipController.getFriendshipsIterable().forEach(f -> {
-            adj.get(f.getFriend1()).add(f.getFriend2());
-            adj.get(f.getFriend2()).add(f.getFriend1());
+            if (f.getStatus().equals("accepted"))
+            {
+                adj.get(f.getFriend1()).add(f.getFriend2());
+                adj.get(f.getFriend2()).add(f.getFriend1());
+            }
         });
 
         Map<UUID, Boolean> visited = new HashMap<>();
@@ -194,6 +201,48 @@ public class Service
             }
         }
         return community;
+    }
+
+    /**
+     * Check if a user exists
+     * @param username the username of the user
+     * @return true if the user exists, false otherwise
+     */
+    public boolean userExists(String username)
+    {
+        return userController.checkUserExists(username) != null;
+    }
+
+    /**
+     * Get a user by username
+     * @param username the username of the user
+     * @return the user
+     */
+    public User getUser(String username)
+    {
+        return userController.getUser(userController.checkUserExists(username));
+    }
+
+    /**
+     * Respond to a friendship request
+     * @param username1 the username of the first user
+     * @param username2 the username of the second user
+     * @param response the response to the request
+     */
+    public void respondToFriendship(String username1, String username2, String response)
+    {
+        friendshipController.friendshipSetStatus(userController.checkUserExists(username1), userController.checkUserExists(username2), response);
+    }
+
+    /**
+     * Get a friendship
+     * @param username1 the username of the first user
+     * @param username2 the username of the second user
+     * @return the friendship
+     */
+    public Friendship getFriendship(String username1, String username2)
+    {
+        return friendshipController.getFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
     }
 
 }

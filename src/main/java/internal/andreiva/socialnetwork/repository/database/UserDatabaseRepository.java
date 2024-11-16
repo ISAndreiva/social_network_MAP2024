@@ -85,15 +85,14 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
     @Override
     public Optional<User> update(User entity)
     {
-        String sql = "UPDATE " + database + " SET firstName = ?, lastName = ?, username = ?, email = ? WHERE UUID = ?";
+        String sql = "UPDATE " + database + " SET firstName = ?, lastName = ?, email = ? WHERE UUID = ?";
         try
         {
             PreparedStatement stm = db_connection.prepareStatement(sql);
             stm.setString(1, entity.getFirstName());
             stm.setString(2, entity.getLastName());
-            stm.setString(3, entity.getUsername());
-            stm.setString(4, entity.getEmail());
-            stm.setObject(5, entity.getId().toString());
+            stm.setString(3, entity.getEmail());
+            stm.setObject(4, entity.getId().toString());
             int result = stm.executeUpdate();
             if (result == 0)
             {

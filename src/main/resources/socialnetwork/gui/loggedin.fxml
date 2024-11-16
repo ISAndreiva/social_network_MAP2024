@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="internal.andreiva.socialnetwork.gui.GuiUserController">
+   <children>
+      <SplitPane dividerPositions="0.8348017621145375" orientation="VERTICAL" prefHeight="456.0" prefWidth="663.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="395.0" prefWidth="661.0">
+               <children>
+                  <SplitPane dividerPositions="0.5007564296520424" prefHeight="456.0" prefWidth="663.0">
+                    <items>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="359.0" prefWidth="416.0">
+                           <children>
+                              <TableView fx:id="friendsTable" layoutX="5.0" layoutY="52.0" prefHeight="322.0" prefWidth="320.0">
+                                <columns>
+                                  <TableColumn fx:id="friendsUsernameColumn" prefWidth="104.0" text="Username" />
+                                  <TableColumn fx:id="friendsNameColumn" prefWidth="105.0" text="Name" />
+                                    <TableColumn fx:id="friendsSinceColumn" prefWidth="110.0" text="Friends Since" />
+                                </columns>
+                              </TableView>
+                              <MenuButton layoutX="80.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="168.0" text="Friends options">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#handleDeleteFriendship" text="Delete" />
+                                  <MenuItem mnemonicParsing="false" onAction="#handleAddFriendship" text="Add new friend" />
+                                </items>
+                              </MenuButton>
+                           </children>
+                        </AnchorPane>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="388.0" prefWidth="195.0">
+                           <children>
+                              <TableView fx:id="requestsTable" layoutX="4.0" layoutY="53.0" prefHeight="322.0" prefWidth="320.0">
+                                <columns>
+                                  <TableColumn fx:id="requestsUsernameColumn" prefWidth="94.0" text="Username" />
+                                  <TableColumn fx:id="requestsNameColumn" minWidth="0.0" prefWidth="102.0" text="Name" />
+                                    <TableColumn fx:id="requestsSinceColumn" prefWidth="123.0" text="Request from" />
+                                </columns>
+                              </TableView>
+                              <MenuButton layoutX="91.0" layoutY="14.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="146.0" text="Request options">
+                                <items>
+                                  <MenuItem mnemonicParsing="false" onAction="#handleAcceptFriendship" text="Accept" />
+                                  <MenuItem mnemonicParsing="false" onAction="#handleRejectFriendship" text="Reject" />
+                                </items>
+                              </MenuButton>
+                           </children>
+                        </AnchorPane>
+                    </items>
+                  </SplitPane>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Button layoutX="141.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleLogout" text="Logout" />
+                  <Button layoutX="27.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleUpdateUser" text="Update profile" />
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
