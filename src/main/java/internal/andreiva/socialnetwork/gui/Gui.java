@@ -5,6 +5,7 @@ import internal.andreiva.socialnetwork.service.Service;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
@@ -70,6 +71,12 @@ public class Gui extends Application
         Stage stage = new Stage();
         stage.setScene(createScene("socialnetwork/gui/userUpdate.fxml", Optional.of(user)));
         stage.show();
+    }
+
+    public static void errorView(Exception exception)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
+        alert.showAndWait();
     }
 
     public static void launch()

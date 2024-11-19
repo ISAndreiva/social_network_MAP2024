@@ -101,8 +101,14 @@ public class GuiUserController extends GuiController
         User friend = friendsTable.getSelectionModel().getSelectedItem();
         if (friend != null)
         {
-            service.deleteFriendship(user.getUsername(), friend.getUsername());
-            populateTables();
+            try
+            {
+                service.deleteFriendship(user.getUsername(), friend.getUsername());
+                populateTables();
+            } catch (Exception e)
+            {
+                Gui.errorView(e);
+            }
         }
     }
 
@@ -111,8 +117,14 @@ public class GuiUserController extends GuiController
         User friend = requestsTable.getSelectionModel().getSelectedItem();
         if (friend != null)
         {
-            service.respondToFriendship(user.getUsername(), friend.getUsername(), "accepted");
-            populateTables();
+            try
+            {
+                service.respondToFriendship(user.getUsername(), friend.getUsername(), "accepted");
+                populateTables();
+            } catch (Exception e)
+            {
+                Gui.errorView(e);
+            }
         }
     }
 
@@ -121,8 +133,14 @@ public class GuiUserController extends GuiController
         User friend = requestsTable.getSelectionModel().getSelectedItem();
         if (friend != null)
         {
-            service.respondToFriendship(user.getUsername(), friend.getUsername(), "rejected");
-            populateTables();
+            try
+            {
+                service.respondToFriendship(user.getUsername(), friend.getUsername(), "rejected");
+                populateTables();
+            } catch (Exception e)
+            {
+                Gui.errorView(e);
+            }
         }
     }
 

@@ -28,9 +28,16 @@ public class GuiFriendRequestController extends GuiController
         {
             if (service.userExists(usernameTextField.getText()))
             {
-                service.addFriendship(username, usernameTextField.getText());
-                resultLabel.setText("Friend request sent!");
-                resultLabel.setStyle("-fx-text-fill: green");
+                try
+                {
+                    service.addFriendship(username, usernameTextField.getText());
+                    resultLabel.setText("Friend request sent!");
+                    resultLabel.setStyle("-fx-text-fill: green");
+                }
+                catch (Exception e)
+                {
+                    Gui.errorView(e);
+                }
             }
             else
             {

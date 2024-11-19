@@ -37,6 +37,12 @@ public class GuiUpdateUserController extends GuiController
 
     public void handleUpdate()
     {
-        service.updateUser(firstNameTextField.getText(), lastNameTextField.getText(), user.getUsername(), emailTextField.getText());
+        try
+        {
+            service.updateUser(firstNameTextField.getText(), lastNameTextField.getText(), user.getUsername(), emailTextField.getText());
+        } catch (Exception e)
+        {
+            Gui.errorView(e);
+        }
     }
 }
