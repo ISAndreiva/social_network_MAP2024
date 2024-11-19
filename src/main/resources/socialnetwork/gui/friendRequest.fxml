@@ -4,20 +4,17 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0"
-            prefWidth="327.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="internal.andreiva.socialnetwork.gui.GuiFriendRequestController">
-   <TextField fx:id="usernameTextField" layoutX="83.0" layoutY="102.0"/>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="327.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="internal.andreiva.socialnetwork.gui.GuiFriendRequestController">
+   <TextField fx:id="usernameTextField" layoutX="83.0" layoutY="102.0" onAction="#handleAdd" />
    <Label layoutX="83.0" layoutY="68.0" text="Username:">
       <font>
-         <Font size="16.0"/>
+         <Font size="16.0" />
       </font>
    </Label>
    <Label fx:id="resultLabel" layoutX="46.0" layoutY="182.0" prefHeight="34.0" prefWidth="241.0">
       <font>
-         <Font size="16.0"/>
+         <Font size="16.0" />
       </font>
    </Label>
-   <Button layoutX="114.0" layoutY="136.0" mnemonicParsing="false" onAction="#handleAdd" text="Send request"/>
+   <Button layoutX="114.0" layoutY="136.0" mnemonicParsing="false" onAction="#handleAdd" text="Send request" />
 </AnchorPane>

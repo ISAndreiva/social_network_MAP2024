@@ -93,7 +93,7 @@ public class GuiUserController extends GuiController
 
     public void handleLogout()
     {
-        Gui.initLoginView();
+        Gui.loginView();
     }
 
     public void handleDeleteFriendship()

@@ -30,11 +30,11 @@ public class Service
      * @param firstName the first name of the user
      * @param lastName the last name of the user
      * @param username the username of the user
-     * @param password  the password of the user
+     * @param email  the email of the user
      */
-    public void addUser(String firstName, String lastName, String username, String password)
+    public void addUser(String firstName, String lastName, String username, String email)
     {
-        userController.addUser(firstName, lastName, username, password);
+        userController.addUser(firstName, lastName, username, email);
     }
 
     /**

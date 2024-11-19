@@ -26,11 +26,11 @@ public class Gui extends Application
     public void start(Stage stage)
     {
         Gui.stage = stage;
-        initLoginView();
+        loginView();
         Gui.stage.show();
     }
 
-    public static void initLoginView()
+    public static void loginView()
     {
         stage.setScene(createScene("socialnetwork/gui/login.fxml", Optional.empty()));
         stage.show();
@@ -38,7 +38,7 @@ public class Gui extends Application
 
     public static void loggedUserView(String username)
     {
-        stage.setScene(createScene("socialnetwork/gui/loggedin.fxml", Optional.of(service.getUser(username))));
+        stage.setScene(createScene("socialnetwork/gui/user.fxml", Optional.of(service.getUser(username))));
         stage.show();
     }
 
@@ -77,6 +77,12 @@ public class Gui extends Application
     {
         Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
         alert.showAndWait();
+    }
+
+    public static void signUpView()
+    {
+        stage.setScene(createScene("socialnetwork/gui/signUp.fxml", Optional.empty()));
+        stage.show();
     }
 
     public static void launch()

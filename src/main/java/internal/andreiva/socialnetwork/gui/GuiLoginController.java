@@ -28,4 +28,9 @@ public class GuiLoginController extends GuiController
             }
         }
     }
+
+    public void handleSignUp(ActionEvent actionEvent)
+    {
+        Gui.signUpView();
+    }
 }
