@@ -33,12 +33,14 @@ public class Gui extends Application
     public static void loginView()
     {
         stage.setScene(createScene("socialnetwork/gui/login.fxml", Optional.empty()));
+        stage.setTitle("NameTODO Social Network");
         stage.show();
     }
 
     public static void loggedUserView(String username)
     {
         stage.setScene(createScene("socialnetwork/gui/user.fxml", Optional.of(service.getUser(username))));
+        stage.setTitle("NameTODO Social Network - " + username);
         stage.show();
     }
 
@@ -63,6 +65,7 @@ public class Gui extends Application
     {
         Stage stage = new Stage();
         stage.setScene(createScene("socialnetwork/gui/friendRequest.fxml", Optional.of(username)));
+        stage.setTitle("Send a friend Request");
         stage.show();
     }
 
@@ -70,18 +73,21 @@ public class Gui extends Application
     {
         Stage stage = new Stage();
         stage.setScene(createScene("socialnetwork/gui/userUpdate.fxml", Optional.of(user)));
+        stage.setTitle("Update User");
         stage.show();
     }
 
     public static void errorView(Exception exception)
     {
         Alert alert = new Alert(Alert.AlertType.ERROR, exception.getMessage());
+        alert.setTitle("Error");
         alert.showAndWait();
     }
 
     public static void signUpView()
     {
         stage.setScene(createScene("socialnetwork/gui/signUp.fxml", Optional.empty()));
+        stage.setTitle("NameTODO Social Network - Sign Up");
         stage.show();
     }
 

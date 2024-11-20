@@ -6,32 +6,34 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="internal.andreiva.socialnetwork.gui.GuiLoginController">
    <Pane prefHeight="400.0" prefWidth="600.0">
-      <Label layoutX="102.0" layoutY="81.0" text="Welcome to NameTODO Social Network">
-         <font>
-            <Font name="Fira Code Light" size="19.0" />
-         </font>
-      </Label>
-      <AnchorPane layoutX="114.0" layoutY="127.0" prefHeight="243.0" prefWidth="373.0">
-         <Button layoutX="160.0" layoutY="131.0" mnemonicParsing="false" onAction="#handleLogin" text="Login" />
-         <HBox alignment="CENTER" layoutY="36.0" prefHeight="35.0" prefWidth="373.0" spacing="20.0">
-            <Label text="Username:">
-               <font>
-                  <Font size="16.0" />
-               </font>
-            </Label>
-            <TextField fx:id="usernameTextField" onAction="#handleLogin" />
-         </HBox>
-         <Label fx:id="errorLabel" alignment="CENTER" layoutX="4.0" layoutY="85.0" prefHeight="22.0" prefWidth="373.0">
+      <HBox alignment="CENTER" layoutX="160.0" layoutY="157.0" prefHeight="35.0" prefWidth="280.0" spacing="20.0">
+         <Label text="Username:">
             <font>
                <Font size="16.0" />
             </font>
          </Label>
-         <Label alignment="CENTER" layoutY="166.0" prefHeight="22.0" prefWidth="373.0" text="Or:">
-            <font>
-               <Font size="15.0" />
-            </font>
-         </Label>
-         <Button layoutX="153.0" layoutY="194.0" mnemonicParsing="false" onAction="#handleSignUp" text="Sign up!" />
-      </AnchorPane>
+         <TextField fx:id="usernameTextField" onAction="#handleLogin" />
+      </HBox>
+      <Label alignment="CENTER" layoutX="-2.0" layoutY="71.0" prefHeight="26.0" prefWidth="606.0" text="Welcome to NameTODO Social Network">
+         <font>
+            <Font name="Fira Code Light" size="19.0" />
+         </font>
+      </Label>
+      <HBox layoutX="210.0" layoutY="294.0" prefHeight="26.0" prefWidth="173.0">
+         <children>
+            <Button mnemonicParsing="false" onAction="#handleLogin" text="Login" />
+            <Label alignment="CENTER" prefHeight="22.0" prefWidth="51.0" text="or">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#handleSignUp" text="Sign up!" />
+         </children>
+      </HBox>
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="110.0" layoutY="228.0" prefHeight="22.0" prefWidth="373.0">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
    </Pane>
 </AnchorPane>
