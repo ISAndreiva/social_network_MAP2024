@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -110,6 +112,65 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
         finally
         {
             cache_valid = false;
+        }
+    }
+
+    /**
+     * Get the friends of a user
+     * @param userId the user
+     * @param status the status of the friendship
+     * @return a list of the user's friends
+     */
+    public List<UUID> getFriendships(UUID userId, String status)
+    {
+        String sql = "SELECT * FROM " + database + " WHERE (friend_1 = ? OR friend_2 = ?) AND status = ?";
+        try
+        {
+            List<UUID> friends = new ArrayList<>();
+            PreparedStatement stm = db_connection.prepareStatement(sql);
+            stm.setObject(1, userId.toString());
+            stm.setObject(2, userId.toString());
+            stm.setString(3, status);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next())
+            {
+                Friendship f = resultToEntity(rs);
+                if (f.getFriend1().equals(userId))
+                    friends.add(f.getFriend2());
+                if (f.getFriend2().equals(userId))
+                    friends.add(f.getFriend1());
+            }
+            return friends;
+        } catch (SQLException e)
+        {
+            throw new RepositoryException(e);
+        }
+    }
+    /**
+     * Get a friendship if it exists
+     * @param friend1 user 1
+     * @param friend2 user 2
+     * @return the friendship if it exists, null otherwise
+     */
+    public Optional<Friendship> getFriendship(UUID friend1, UUID friend2)
+    {
+        String sql = "SELECT * FROM " + database + " WHERE (friend_1 = ? AND friend_2 = ?) OR (friend_1 = ? AND friend_2 = ?)";
+        try
+        {
+            PreparedStatement stm = db_connection.prepareStatement(sql);
+            stm.setObject(1, friend1.toString());
+            stm.setObject(2, friend2.toString());
+            stm.setObject(3, friend2.toString());
+            stm.setObject(4, friend1.toString());
+            ResultSet rs = stm.executeQuery();
+            if (rs.next())
+            {
+                return Optional.of(resultToEntity(rs));
+            }
+            return Optional.empty();
+        } catch (SQLException e)
+        {
+            throw new RepositoryException(e);
         }
     }
 }

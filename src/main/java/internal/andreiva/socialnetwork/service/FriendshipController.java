@@ -96,12 +96,8 @@ public class FriendshipController
      */
     private UUID checkFriendshipExists(UUID friend1, UUID friend2)
     {
-        Predicate<Friendship> found = f -> (f.getFriend1().equals(friend1) && f.getFriend2().equals(friend2)) ||
-                                           (f.getFriend1().equals(friend2) && f.getFriend2().equals(friend1));
-        var friendship =  StreamSupport.stream(friendshipRepo.findAll().spliterator(), false).filter(found).findFirst().orElse(null);
-        if (friendship != null)
-            return friendship.getId();
-        return null;
+        var friendship = friendshipRepo.getFriendship(friend1, friend2);
+        return friendship.map(Friendship::getId).orElse(null);
     }
 
     /**
@@ -127,16 +123,11 @@ public class FriendshipController
         {
             throw new ServiceException("Invalid user");
         }
-        List<UUID> friends = new ArrayList<>();
-        friendshipRepo.findAll().forEach(f -> {
-            if (f.getStatus().equals(status))
-            {
-                if (f.getFriend1().equals(userId))
-                    friends.add(f.getFriend2());
-                if (f.getFriend2().equals(userId))
-                    friends.add(f.getFriend1());
-            }});
-        return friends;
+        if (!status.equals("accepted") && !status.equals("pending"))
+        {
+            throw new ServiceException("Invalid status");
+        }
+        return friendshipRepo.getFriendships(userId, status);
     }
 
 
