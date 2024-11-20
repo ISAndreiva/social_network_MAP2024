@@ -28,4 +28,9 @@ public class GuiSignUpController extends GuiController
             Gui.errorView(e);
         }
     }
+
+    public void handleBack()
+    {
+        Gui.loginView();
+    }
 }
