@@ -8,8 +8,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Predicate;
-import java.util.stream.StreamSupport;
 
 /**
  * Controller for managing friendships
@@ -128,6 +126,15 @@ public class FriendshipController
             throw new ServiceException("Invalid status");
         }
         return friendshipRepo.getFriendships(userId, status);
+    }
+
+    public List<UUID> getReceivedFriendRequests(UUID userId)
+    {
+        if (userId == null)
+        {
+            throw new ServiceException("Invalid user");
+        }
+        return friendshipRepo.getReceivedFriendRequests(userId);
     }
 
 

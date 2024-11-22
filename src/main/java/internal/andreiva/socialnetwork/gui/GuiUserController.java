@@ -7,6 +7,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -26,11 +28,6 @@ public class GuiUserController extends GuiController
     private static final ObservableList<User> friendsTableData = FXCollections.observableArrayList();
 
     @FXML
-    TableView<User> requestsTable;
-
-    private static final ObservableList<User> requestsTableData = FXCollections.observableArrayList();
-
-    @FXML
     TableColumn<User, String> friendsUsernameColumn;
 
     @FXML
@@ -40,13 +37,7 @@ public class GuiUserController extends GuiController
     TableColumn<User, String> friendsSinceColumn;
 
     @FXML
-    TableColumn<User, String> requestsUsernameColumn;
-
-    @FXML
-    TableColumn<User, String> requestsNameColumn;
-
-    @FXML
-    TableColumn<User, String> requestsSinceColumn;
+    TableColumn<User, Void> friendsDeleteColumn;
 
     private class FriendshipSinceFactory implements Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>> {
         @Override
@@ -57,19 +48,48 @@ public class GuiUserController extends GuiController
         }
     }
 
+    private class DeleteButtonFactory implements Callback<TableColumn<User, Void>, TableCell<User, Void>> {
+        @Override
+        public TableCell<User, Void> call(TableColumn<User, Void> param) {
+            return new TableCell<>() {
+                private final Button deleteButton = new Button("Delete");
+                {
+                    deleteButton.setOnAction(event -> {
+                        User user = getTableView().getItems().get(getIndex());
+                        if (user != null)
+                            try {
+                                service.deleteFriendship(GuiUserController.this.user.getUsername(), user.getUsername());
+                                populateTables();
+                            } catch (Exception e) {
+                                Gui.errorView(e);
+                            }
+                    });
+                }
+
+                @Override
+                protected void updateItem(Void item, boolean empty)
+                {
+                    super.updateItem(item, empty);
+                    if (empty)
+                        setGraphic(null);
+                    else
+                        setGraphic(deleteButton);
+                }
+            };
+
+        }
+    }
+
     @FXML
     public void initialize()
     {
         friendsUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
         friendsNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         friendsSinceColumn.setCellValueFactory(new FriendshipSinceFactory());
+        friendsDeleteColumn.setCellFactory(new DeleteButtonFactory());
+        friendsDeleteColumn.setStyle("-fx-alignment: CENTER;");
 
-
-        requestsUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        requestsNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
-        requestsSinceColumn.setCellValueFactory(new FriendshipSinceFactory());
         friendsTable.setItems(friendsTableData);
-        requestsTable.setItems(requestsTableData);
     }
 
     @Override
@@ -82,7 +102,6 @@ public class GuiUserController extends GuiController
     public void populateTables()
     {
         friendsTableData.setAll(service.getFriendships(user.getUsername(), "accepted"));
-        requestsTableData.setAll(service.getFriendships(user.getUsername(), "pending"));
     }
 
     @Override
@@ -96,54 +115,6 @@ public class GuiUserController extends GuiController
         Gui.loginView();
     }
 
-    public void handleDeleteFriendship()
-    {
-        User friend = friendsTable.getSelectionModel().getSelectedItem();
-        if (friend != null)
-        {
-            try
-            {
-                service.deleteFriendship(user.getUsername(), friend.getUsername());
-                populateTables();
-            } catch (Exception e)
-            {
-                Gui.errorView(e);
-            }
-        }
-    }
-
-    public void handleAcceptFriendship()
-    {
-        User friend = requestsTable.getSelectionModel().getSelectedItem();
-        if (friend != null)
-        {
-            try
-            {
-                service.respondToFriendship(user.getUsername(), friend.getUsername(), "accepted");
-                populateTables();
-            } catch (Exception e)
-            {
-                Gui.errorView(e);
-            }
-        }
-    }
-
-    public void handleRejectFriendship()
-    {
-        User friend = requestsTable.getSelectionModel().getSelectedItem();
-        if (friend != null)
-        {
-            try
-            {
-                service.respondToFriendship(user.getUsername(), friend.getUsername(), "rejected");
-                populateTables();
-            } catch (Exception e)
-            {
-                Gui.errorView(e);
-            }
-        }
-    }
-
     public void handleAddFriendship()
     {
         Gui.friendRequestView(user.getUsername());
@@ -152,6 +123,11 @@ public class GuiUserController extends GuiController
     public void handleUpdateUser()
     {
         Gui.updateUserView(user);
+    }
+
+    public void handleFriendRequests()
+    {
+        Gui.friendRequestsView(user);
     }
 
 }

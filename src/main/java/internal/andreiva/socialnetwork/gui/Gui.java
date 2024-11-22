@@ -27,7 +27,8 @@ public class Gui extends Application
     {
         Gui.stage = stage;
         loginView();
-        Gui.stage.show();
+        stage.setResizable(false);
+        stage.show();
     }
 
     public static void loginView()
@@ -88,6 +89,14 @@ public class Gui extends Application
     {
         stage.setScene(createScene("socialnetwork/gui/signUp.fxml", Optional.empty()));
         stage.setTitle("NameTODO Social Network - Sign Up");
+        stage.show();
+    }
+
+    public static void friendRequestsView(User user)
+    {
+        Stage stage = new Stage();
+        stage.setScene(createScene("socialnetwork/gui/friendRequests.fxml", Optional.of(user)));
+        stage.setTitle("NameTODO Social Network - Friend Requests");
         stage.show();
     }
 

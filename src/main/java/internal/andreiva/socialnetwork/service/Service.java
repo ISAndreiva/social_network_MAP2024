@@ -100,6 +100,13 @@ public class Service
         return friends;
     }
 
+    public List<User> getReceivedFriendRequests(String username)
+    {
+        List<User> friends = new ArrayList<>();
+        friendshipController.getReceivedFriendRequests(userController.checkUserExists(username)).forEach(f -> friends.add(userController.getUser(f)));
+        return friends;
+    }
+
     /**
      * Helper function for DFS
      * @param adj the adjacency list

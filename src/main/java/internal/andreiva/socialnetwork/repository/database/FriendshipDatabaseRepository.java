@@ -173,4 +173,25 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
             throw new RepositoryException(e);
         }
     }
+
+    public List<UUID> getReceivedFriendRequests(UUID userId)
+    {
+        String sql = "SELECT * FROM " + database + " WHERE friend_2 = ? AND status = 'pending'";
+        try
+        {
+            List<UUID> friends = new ArrayList<>();
+            PreparedStatement stm = db_connection.prepareStatement(sql);
+            stm.setObject(1, userId.toString());
+            ResultSet rs = stm.executeQuery();
+            while (rs.next())
+            {
+                Friendship f = resultToEntity(rs);
+                    friends.add(f.getFriend1());
+            }
+            return friends;
+        } catch (SQLException e)
+        {
+            throw new RepositoryException(e);
+        }
+    }
 }
