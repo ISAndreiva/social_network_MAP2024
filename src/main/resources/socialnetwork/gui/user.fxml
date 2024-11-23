@@ -19,7 +19,7 @@
             <Button layoutX="585.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleLogout" text="Logout" />
             <Button layoutX="467.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleUpdateUser" text="Update profile" />
          <Button layoutX="341.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleAddFriendship" text="Add new friend" />
-         <Button layoutX="209.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleFriendRequests" prefHeight="26.0" prefWidth="122.0" text="Friend Requests" />
+         <Button fx:id="friendshipsRequestsButton" layoutX="209.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleFriendRequests" prefHeight="26.0" prefWidth="122.0" text="Friend Requests" textFill="#070404" />
         </AnchorPane>
     </SplitPane>
 </AnchorPane>

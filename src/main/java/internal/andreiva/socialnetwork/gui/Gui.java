@@ -33,19 +33,19 @@ public class Gui extends Application
 
     public static void loginView()
     {
-        stage.setScene(createScene("socialnetwork/gui/login.fxml", Optional.empty()));
+        stage.setScene(createScene("socialnetwork/gui/login.fxml", null, Optional.empty()));
         stage.setTitle("NameTODO Social Network");
         stage.show();
     }
 
     public static void loggedUserView(String username)
     {
-        stage.setScene(createScene("socialnetwork/gui/user.fxml", Optional.of(service.getUser(username))));
+        stage.setScene(createScene("socialnetwork/gui/user.fxml", "socialnetwork/gui/css/user.css", Optional.of(service.getUser(username))));
         stage.setTitle("NameTODO Social Network - " + username);
         stage.show();
     }
 
-    private static Scene createScene(String fxml, Optional<Object> parameter)
+    private static Scene createScene(String fxml, String css, Optional<Object> parameter)
     {
         FXMLLoader fxmlLoader = new FXMLLoader(Gui.class.getClassLoader().getResource(fxml));
         try
@@ -54,7 +54,12 @@ public class Gui extends Application
             GuiController controller = fxmlLoader.getController();
             controller.setSomething(parameter);
             controller.setService(service);
-            return new Scene(root);
+            Scene scene = new Scene(root);
+            if (css != null)
+            {
+                scene.getStylesheets().add(Gui.class.getClassLoader().getResource(css).toExternalForm());
+            }
+            return scene;
         }
         catch (IOException e)
         {
@@ -65,7 +70,7 @@ public class Gui extends Application
     public static void friendRequestView(String username)
     {
         Stage stage = new Stage();
-        stage.setScene(createScene("socialnetwork/gui/friendRequest.fxml", Optional.of(username)));
+        stage.setScene(createScene("socialnetwork/gui/friendRequest.fxml", null, Optional.of(username)));
         stage.setTitle("Send a friend Request");
         stage.show();
     }
@@ -73,7 +78,7 @@ public class Gui extends Application
     public static void updateUserView(User user)
     {
         Stage stage = new Stage();
-        stage.setScene(createScene("socialnetwork/gui/userUpdate.fxml", Optional.of(user)));
+        stage.setScene(createScene("socialnetwork/gui/userUpdate.fxml", null, Optional.of(user)));
         stage.setTitle("Update User");
         stage.show();
     }
@@ -87,7 +92,7 @@ public class Gui extends Application
 
     public static void signUpView()
     {
-        stage.setScene(createScene("socialnetwork/gui/signUp.fxml", Optional.empty()));
+        stage.setScene(createScene("socialnetwork/gui/signUp.fxml", null, Optional.empty()));
         stage.setTitle("NameTODO Social Network - Sign Up");
         stage.show();
     }
@@ -95,7 +100,7 @@ public class Gui extends Application
     public static void friendRequestsView(User user)
     {
         Stage stage = new Stage();
-        stage.setScene(createScene("socialnetwork/gui/friendRequests.fxml", Optional.of(user)));
+        stage.setScene(createScene("socialnetwork/gui/friendRequests.fxml", null, Optional.of(user)));
         stage.setTitle("NameTODO Social Network - Friend Requests");
         stage.show();
     }

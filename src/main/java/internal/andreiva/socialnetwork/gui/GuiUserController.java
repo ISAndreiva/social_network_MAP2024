@@ -42,6 +42,9 @@ public class GuiUserController extends GuiController implements Observer
     @FXML
     TableColumn<User, Void> friendsDeleteColumn;
 
+    @FXML
+    Button friendshipsRequestsButton;
+
     @Override
     public void update()
     {
@@ -116,6 +119,7 @@ public class GuiUserController extends GuiController implements Observer
     public void populateTables()
     {
         friendsTableData.setAll(service.getFriendships(user.getUsername(), "accepted"));
+        friendshipsRequestsButton.setVisible(!service.getReceivedFriendRequests(user.getUsername()).isEmpty());
     }
 
     @Override
