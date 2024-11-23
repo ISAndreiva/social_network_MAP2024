@@ -2,6 +2,7 @@ package internal.andreiva.socialnetwork.service;
 
 import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.domain.User;
+import internal.andreiva.socialnetwork.utils.Observable;
 
 import java.sql.Connection;
 import java.util.*;
@@ -10,7 +11,7 @@ import java.util.*;
 /**
  * Service class that provides methods for managing users and friendships
  */
-public class Service
+public class Service extends Observable
 {
     private final FriendshipController friendshipController;
     private final UserController userController;
@@ -35,6 +36,7 @@ public class Service
     public void addUser(String firstName, String lastName, String username, String email)
     {
         userController.addUser(firstName, lastName, username, email);
+        notifyObservers();
     }
 
     /**
@@ -45,6 +47,7 @@ public class Service
     {
         User user = userController.deleteUser(username);
         friendshipController.deleteFriendships(user.getId());
+        notifyObservers();
     }
 
     /**
@@ -57,6 +60,7 @@ public class Service
     public void updateUser(String firstName, String lastName, String username, String email)
     {
         userController.updateUser(firstName, lastName, username, email);
+        notifyObservers();
     }
 
     /**
@@ -76,6 +80,7 @@ public class Service
     public void addFriendship(String username1, String username2)
     {
         friendshipController.addFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
+        notifyObservers();
     }
 
     /**
@@ -86,6 +91,7 @@ public class Service
     public void deleteFriendship(String username1, String username2)
     {
         friendshipController.deleteFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
+        notifyObservers();
     }
 
     /**
@@ -239,6 +245,7 @@ public class Service
     public void respondToFriendship(String username1, String username2, String response)
     {
         friendshipController.friendshipSetStatus(userController.checkUserExists(username1), userController.checkUserExists(username2), response);
+        notifyObservers();
     }
 
     /**
@@ -251,5 +258,4 @@ public class Service
     {
         return friendshipController.getFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
     }
-
 }

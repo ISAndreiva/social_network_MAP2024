@@ -2,6 +2,8 @@ package internal.andreiva.socialnetwork.gui;
 
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.service.Service;
+import internal.andreiva.socialnetwork.utils.Observer;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -10,12 +12,13 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
-public class GuiFriendRequestsController extends GuiController
+public class GuiFriendRequestsController extends GuiController implements Observer
 {
     private User user;
 
@@ -32,6 +35,12 @@ public class GuiFriendRequestsController extends GuiController
 
     @FXML
     TableColumn<User, String> requestsSinceColumn;
+
+    @Override
+    public void update()
+    {
+        populateTables();
+    }
 
     private class FriendshipSinceFactory implements Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>
     {
@@ -50,12 +59,18 @@ public class GuiFriendRequestsController extends GuiController
         requestsNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
         requestsSinceColumn.setCellValueFactory(new GuiFriendRequestsController.FriendshipSinceFactory());
         requestsTable.setItems(requestsTableData);
+
+        Platform.runLater(() -> {
+            Stage stage = (Stage) requestsTable.getScene().getWindow();
+            stage.setOnCloseRequest(event -> service.removeObserver(this));
+        });
     }
 
     @Override
     public void setService(Service service)
     {
         super.setService(service);
+        service.addObserver(this);
         populateTables();
     }
 
@@ -78,7 +93,6 @@ public class GuiFriendRequestsController extends GuiController
             try
             {
                 service.respondToFriendship(user.getUsername(), friend.getUsername(), "accepted");
-                populateTables();
             } catch (Exception e)
             {
                 Gui.errorView(e);
@@ -94,7 +108,6 @@ public class GuiFriendRequestsController extends GuiController
             try
             {
                 service.respondToFriendship(user.getUsername(), friend.getUsername(), "rejected");
-                populateTables();
             } catch (Exception e)
             {
                 Gui.errorView(e);

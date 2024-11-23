@@ -2,6 +2,8 @@ package internal.andreiva.socialnetwork.gui;
 
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.service.Service;
+import internal.andreiva.socialnetwork.utils.Observer;
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -12,13 +14,14 @@ import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 
-public class GuiUserController extends GuiController
+public class GuiUserController extends GuiController implements Observer
 {
     private User user;
 
@@ -38,6 +41,12 @@ public class GuiUserController extends GuiController
 
     @FXML
     TableColumn<User, Void> friendsDeleteColumn;
+
+    @Override
+    public void update()
+    {
+        populateTables();
+    }
 
     private class FriendshipSinceFactory implements Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>> {
         @Override
@@ -59,7 +68,6 @@ public class GuiUserController extends GuiController
                         if (user != null)
                             try {
                                 service.deleteFriendship(GuiUserController.this.user.getUsername(), user.getUsername());
-                                populateTables();
                             } catch (Exception e) {
                                 Gui.errorView(e);
                             }
@@ -90,12 +98,18 @@ public class GuiUserController extends GuiController
         friendsDeleteColumn.setStyle("-fx-alignment: CENTER;");
 
         friendsTable.setItems(friendsTableData);
+
+        Platform.runLater(() -> {
+            Stage stage = (Stage) friendsTable.getScene().getWindow();
+            stage.setOnCloseRequest(event -> service.removeObserver(this));
+        });
     }
 
     @Override
     public void setService(Service service)
     {
         super.setService(service);
+        service.addObserver(this);
         populateTables();
     }
 
@@ -112,6 +126,7 @@ public class GuiUserController extends GuiController
 
     public void handleLogout()
     {
+        service.removeObserver(this);
         Gui.loginView();
     }
 
