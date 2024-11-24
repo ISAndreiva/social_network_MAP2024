@@ -58,31 +58,6 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
     }
 
     @Override
-    public Optional<User> delete(UUID id)
-    {
-        String sql = "DELETE FROM " + database + " WHERE UUID = ?";
-        try
-        {
-            PreparedStatement stm = db_connection.prepareStatement(sql);
-            stm.setObject(1, id.toString());
-            Optional<User> u = findOne(id);
-            int result = stm.executeUpdate();
-            if (result == 0)
-            {
-                return Optional.empty();
-            }
-            return u;
-        } catch (SQLException e)
-        {
-            throw new RepositoryException(e);
-        }
-        finally
-        {
-            cache_valid = false;
-        }
-    }
-
-    @Override
     public Optional<User> update(User entity)
     {
         String sql = "UPDATE " + database + " SET firstName = ?, lastName = ?, email = ? WHERE UUID = ?";

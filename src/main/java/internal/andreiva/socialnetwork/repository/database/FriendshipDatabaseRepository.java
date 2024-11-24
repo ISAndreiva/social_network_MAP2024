@@ -63,31 +63,6 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
     }
 
     @Override
-    public Optional<Friendship> delete(UUID id)
-    {
-        String sql = "DELETE FROM " + database + " WHERE UUID = ?";
-        try
-        {
-            PreparedStatement stm = db_connection.prepareStatement(sql);
-            stm.setObject(1, id.toString());
-            Optional<Friendship> f = findOne(id);
-            int result = stm.executeUpdate();
-            if (result == 0)
-            {
-                return Optional.empty();
-            }
-            return f;
-        } catch (SQLException e)
-        {
-            throw new RepositoryException(e);
-        }
-        finally
-        {
-            cache_valid = false;
-        }
-    }
-
-    @Override
     public Optional<Friendship> update(Friendship entity)
     {
         String sql = "UPDATE " + database + " SET friend_1 = ?, friend_2 = ?, status = ?, friendssince = ? WHERE UUID = ?";

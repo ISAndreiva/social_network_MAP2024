@@ -1,6 +1,7 @@
 package internal.andreiva.socialnetwork.repository.database;
 
 import internal.andreiva.socialnetwork.domain.Entity;
+import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.repository.Repository;
 import internal.andreiva.socialnetwork.repository.RepositoryException;
 
@@ -72,10 +73,32 @@ public abstract class AbstractDatabaseRepository<E extends Entity> implements Re
     }
 
     @Override
-    public abstract Optional<E> save(E entity);
+    public Optional<E> delete(UUID id)
+    {
+        String sql = "DELETE FROM " + database + " WHERE UUID = ?";
+        try
+        {
+            PreparedStatement stm = db_connection.prepareStatement(sql);
+            stm.setObject(1, id.toString());
+            Optional<E> u = findOne(id);
+            int result = stm.executeUpdate();
+            if (result == 0)
+            {
+                return Optional.empty();
+            }
+            return u;
+        } catch (SQLException e)
+        {
+            throw new RepositoryException(e);
+        }
+        finally
+        {
+            cache_valid = false;
+        }
+    }
 
     @Override
-    public abstract Optional<E> delete(UUID id);
+    public abstract Optional<E> save(E entity);
 
     @Override
     public abstract Optional<E> update(E entity);
