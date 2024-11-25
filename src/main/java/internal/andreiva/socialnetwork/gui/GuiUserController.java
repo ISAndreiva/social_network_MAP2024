@@ -9,13 +9,11 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableCell;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.util.Callback;
+import javafx.util.Pair;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -105,6 +103,17 @@ public class GuiUserController extends GuiController implements Observer
         Platform.runLater(() -> {
             Stage stage = (Stage) friendsTable.getScene().getWindow();
             stage.setOnCloseRequest(event -> service.removeObserver(this));
+        });
+
+        friendsTable.setRowFactory( tv -> {
+            TableRow<User> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    User rowData = row.getItem();
+                    Gui.chatView(new Pair<>(user, rowData));
+                }
+            });
+            return row ;
         });
     }
 

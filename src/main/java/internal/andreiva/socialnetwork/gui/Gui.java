@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -102,6 +103,14 @@ public class Gui extends Application
         Stage stage = new Stage();
         stage.setScene(createScene("socialnetwork/gui/friendRequests.fxml", null, Optional.of(user)));
         stage.setTitle("NameTODO Social Network - Friend Requests");
+        stage.show();
+    }
+
+    public static void chatView(Pair<User, User> users)
+    {
+        Stage stage = new Stage();
+        stage.setScene(createScene("socialnetwork/gui/chat.fxml", "socialnetwork/gui/css/chat.css", Optional.of(users)));
+        stage.setTitle("NameTODO Social Network - Chat");
         stage.show();
     }
 

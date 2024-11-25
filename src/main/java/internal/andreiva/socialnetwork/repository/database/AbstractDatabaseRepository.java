@@ -1,7 +1,6 @@
 package internal.andreiva.socialnetwork.repository.database;
 
 import internal.andreiva.socialnetwork.domain.Entity;
-import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.repository.Repository;
 import internal.andreiva.socialnetwork.repository.RepositoryException;
 
@@ -22,54 +21,48 @@ public abstract class AbstractDatabaseRepository<E extends Entity> implements Re
     {
         this.db_connection = db_connection;
         this.database = database;
+        populateCache();
     }
 
     protected abstract E resultToEntity(ResultSet rs);
 
+    protected void populateCache()
+    {
+        find_cache.clear();
+        try
+        {
+            Statement stm = db_connection.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT * from " + database);
+            while (rs.next())
+            {
+                E entity = resultToEntity(rs);
+                find_cache.add(entity);
+            }
+            cache_valid = true;
+        } catch (SQLException e)
+        {
+            throw new RepositoryException(e);
+        }
+    }
+
     @Override
     public Optional<E> findOne(UUID id)
     {
-        String sql = "SELECT * from " + database + " where UUID = ?";
-        try
+        if (!cache_valid)
         {
-            PreparedStatement stm = db_connection.prepareStatement(sql);
-            stm.setObject(1, id.toString());
-            ResultSet rs = stm.executeQuery();
-            rs.next();
-            return Optional.ofNullable(resultToEntity(rs));
+            populateCache();
         }
-        catch (SQLException e)
-        {
-            return Optional.empty();
-        }
+        return find_cache.stream().filter(e -> e.getId().equals(id)).findFirst();
     }
 
     @Override
     public Iterable<E> findAll()
     {
-        if (cache_valid)
+        if (!cache_valid)
         {
-            return find_cache;
+            populateCache();
         }
-        else
-        {
-            find_cache.clear();
-            try
-            {
-                Statement stm = db_connection.createStatement();
-                ResultSet rs = stm.executeQuery("SELECT * from " + database);
-                while (rs.next())
-                {
-                    E entity = resultToEntity(rs);
-                    find_cache.add(entity);
-                }
-                cache_valid = true;
-                return find_cache;
-            } catch (SQLException e)
-            {
-                throw new RepositoryException(e);
-            }
-        }
+        return find_cache;
     }
 
     @Override

@@ -1,9 +1,11 @@
 package internal.andreiva.socialnetwork.service;
 
 import internal.andreiva.socialnetwork.domain.validator.FriendshipValidator;
+import internal.andreiva.socialnetwork.domain.validator.MessageValidator;
 import internal.andreiva.socialnetwork.domain.validator.UserValidator;
 import internal.andreiva.socialnetwork.repository.RepositoryFactory;
 import internal.andreiva.socialnetwork.repository.RepositoryType;
+import internal.andreiva.socialnetwork.repository.database.ConversationDatabaseRepository;
 import internal.andreiva.socialnetwork.repository.database.FriendshipDatabaseRepository;
 import internal.andreiva.socialnetwork.repository.database.UserDatabaseRepository;
 
@@ -32,6 +34,11 @@ public class ControllerFactory
     public UserController getUserService(Connection db_connection)
     {
         return new UserController((UserDatabaseRepository) RepositoryFactory.getInstance().getDatabaseRepository(RepositoryType.USER, db_connection), UserValidator.getInstance());
+    }
+
+    public ConversationController getConversationService(Connection db_connection)
+    {
+        return new ConversationController((ConversationDatabaseRepository) RepositoryFactory.getInstance().getDatabaseRepository(RepositoryType.CONVERSATION, db_connection), MessageValidator.getInstance());
     }
 
     private ControllerFactory() {}

@@ -1,5 +1,6 @@
 package internal.andreiva.socialnetwork.service;
 
+import internal.andreiva.socialnetwork.domain.Conversation;
 import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.utils.Observable;
@@ -15,6 +16,7 @@ public class Service extends Observable
 {
     private final FriendshipController friendshipController;
     private final UserController userController;
+    private final ConversationController conversationController;
 
     /**
      * Constructor
@@ -24,6 +26,7 @@ public class Service extends Observable
     {
         friendshipController = ControllerFactory.getInstance().getFriendshipService(db_connection);
         userController = ControllerFactory.getInstance().getUserService(db_connection);
+        conversationController = ControllerFactory.getInstance().getConversationService(db_connection);
     }
 
     /**
@@ -257,5 +260,35 @@ public class Service extends Observable
     public Friendship getFriendship(String username1, String username2)
     {
         return friendshipController.getFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
+    }
+
+    public Conversation getOrCreateConversation(String username1, String username2)
+    {
+        if (!userExists(username1) || !userExists(username2))
+        {
+            throw new ServiceException("User does not exist");
+        }
+        if (username1.equals(username2))
+        {
+            throw new ServiceException("Cannot create conversation with self");
+        }
+        UUID user1 = userController.checkUserExists(username1);
+        UUID user2 = userController.checkUserExists(username2);
+        if (conversationController.getConversationBetweenUsers(user1, user2).isEmpty())
+        {
+            conversationController.createConversation(List.of(user1, user2));
+        }
+        return conversationController.getConversationBetweenUsers(user1, user2).get();
+    }
+
+    public void sendMessage(UUID conversationId, String username, String text)
+    {
+        if (!userExists(username))
+        {
+            throw new ServiceException("User does not exist");
+        }
+        UUID sender = userController.checkUserExists(username);
+        conversationController.addMessage(conversationId, sender, text);
+        notifyObservers();
     }
 }

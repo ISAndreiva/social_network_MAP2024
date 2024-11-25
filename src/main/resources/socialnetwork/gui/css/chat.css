@@ -1,0 +1,6 @@
+.chat_label {
+    -fx-font-size: 15;
+    -fx-background-radius: 5;
+    -fx-padding: 5;
+    -fx-wrap-text: true;
+}

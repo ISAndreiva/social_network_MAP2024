@@ -2,6 +2,7 @@ package internal.andreiva.socialnetwork.repository;
 
 import internal.andreiva.socialnetwork.domain.Entity;
 import internal.andreiva.socialnetwork.repository.database.AbstractDatabaseRepository;
+import internal.andreiva.socialnetwork.repository.database.ConversationDatabaseRepository;
 import internal.andreiva.socialnetwork.repository.database.FriendshipDatabaseRepository;
 import internal.andreiva.socialnetwork.repository.database.UserDatabaseRepository;
 import internal.andreiva.socialnetwork.repository.file.FriendshipFileRepo;
@@ -26,6 +27,7 @@ public class RepositoryFactory
         {
             case USER -> new FileMemoRepo<>(new UserFileRepo(fileName));
             case FRIENDSHIP -> new FileMemoRepo<>(new FriendshipFileRepo(fileName));
+            case CONVERSATION -> null;
         };
     }
 
@@ -35,6 +37,7 @@ public class RepositoryFactory
         {
             case USER -> new UserDatabaseRepository(db_connection);
             case FRIENDSHIP -> new FriendshipDatabaseRepository(db_connection);
+            case CONVERSATION -> new ConversationDatabaseRepository(db_connection);
         };
     }
 
