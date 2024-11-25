@@ -31,7 +31,7 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
     @Override
     public Optional<User> save(User entity)
     {
-        String sql = "INSERT INTO " + database + " (UUID, firstName, lastName, username, email) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users (UUID, firstName, lastName, username, email) VALUES (?, ?, ?, ?, ?)";
         try
         {
             PreparedStatement stm = db_connection.prepareStatement(sql);
@@ -60,7 +60,7 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
     @Override
     public Optional<User> update(User entity)
     {
-        String sql = "UPDATE " + database + " SET firstName = ?, lastName = ?, email = ? WHERE UUID = ?";
+        String sql = "UPDATE users SET firstName = ?, lastName = ?, email = ? WHERE UUID = ?";
         try
         {
             PreparedStatement stm = db_connection.prepareStatement(sql);
@@ -86,7 +86,7 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
 
     public Optional<User> findOne(String username)
     {
-        String sql = "SELECT * from " + database + " where username = ?";
+        String sql = "SELECT * from users where username = ?";
         try
         {
             PreparedStatement stm = db_connection.prepareStatement(sql);

@@ -37,7 +37,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
     @Override
     public Optional<Friendship> save(Friendship entity)
     {
-        String sql = "INSERT INTO " + database + " (UUID, friend_1, friend_2, status, friendssince) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO friendships (UUID, friend_1, friend_2, status, friendssince) VALUES (?, ?, ?, ?, ?)";
         try
         {
             PreparedStatement stm = db_connection.prepareStatement(sql);
@@ -65,7 +65,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
     @Override
     public Optional<Friendship> update(Friendship entity)
     {
-        String sql = "UPDATE " + database + " SET friend_1 = ?, friend_2 = ?, status = ?, friendssince = ? WHERE UUID = ?";
+        String sql = "UPDATE friendships SET friend_1 = ?, friend_2 = ?, status = ?, friendssince = ? WHERE UUID = ?";
         try
         {
             PreparedStatement stm = db_connection.prepareStatement(sql);
@@ -98,7 +98,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
      */
     public List<UUID> getFriendships(UUID userId, String status)
     {
-        String sql = "SELECT * FROM " + database + " WHERE (friend_1 = ? OR friend_2 = ?) AND status = ?";
+        String sql = "SELECT * FROM friendships WHERE (friend_1 = ? OR friend_2 = ?) AND status = ?";
         try
         {
             List<UUID> friends = new ArrayList<>();
@@ -129,7 +129,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
      */
     public Optional<Friendship> getFriendship(UUID friend1, UUID friend2)
     {
-        String sql = "SELECT * FROM " + database + " WHERE (friend_1 = ? AND friend_2 = ?) OR (friend_1 = ? AND friend_2 = ?)";
+        String sql = "SELECT * FROM friendships WHERE (friend_1 = ? AND friend_2 = ?) OR (friend_1 = ? AND friend_2 = ?)";
         try
         {
             PreparedStatement stm = db_connection.prepareStatement(sql);
@@ -151,7 +151,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
 
     public List<UUID> getReceivedFriendRequests(UUID userId)
     {
-        String sql = "SELECT * FROM " + database + " WHERE friend_2 = ? AND status = 'pending'";
+        String sql = "SELECT * FROM friendships WHERE friend_2 = ? AND status = 'pending'";
         try
         {
             List<UUID> friends = new ArrayList<>();
