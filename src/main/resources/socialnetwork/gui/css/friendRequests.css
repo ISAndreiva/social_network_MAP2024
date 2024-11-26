@@ -1,5 +1,6 @@
-#friendshipsRequestsButton{
-    -fx-background-color: #e51f1f;
+.root {
+    -fx-background-image: url(../images/background.png);
+    -fx-background-size: cover;
 }
 
 .table-view{
@@ -21,17 +22,7 @@
     -fx-opacity: 0;
 }
 
-.split-pane{
-    -fx-background-image: url(../images/background.png);
-    -fx-background-size: cover;
-}
-
-.split-pane .split-pane-divider {
-    -fx-background-color: transparent;
-}
-
-
-.button {
+.menu-button {
     -fx-background-color: #cd0cdb;
     -fx-text-fill: white;
 }

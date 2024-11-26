@@ -1,0 +1,9 @@
+.root {
+    -fx-background-image: url(../images/background.png);
+    -fx-background-size: cover;
+}
+
+.button {
+    -fx-background-color: #cd0cdb;
+    -fx-text-fill: white;
+}

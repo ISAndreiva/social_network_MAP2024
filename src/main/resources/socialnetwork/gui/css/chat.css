@@ -4,3 +4,17 @@
     -fx-padding: 5;
     -fx-wrap-text: true;
 }
+
+.root {
+    -fx-background-image: url(../images/background.png);
+    -fx-background-size: cover;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+

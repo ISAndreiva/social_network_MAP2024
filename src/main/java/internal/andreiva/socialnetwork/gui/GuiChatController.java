@@ -99,8 +99,6 @@ public class GuiChatController extends GuiController implements Observer
 
         HBox hbox = new HBox();
 
-        hbox.getStyleClass().add("chat_bubble");
-
         if (isSender)
             hbox.setAlignment(Pos.CENTER_RIGHT);
         else

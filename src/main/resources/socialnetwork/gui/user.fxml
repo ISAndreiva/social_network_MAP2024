@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="internal.andreiva.socialnetwork.gui.GuiUserController">
     <SplitPane dividerPositions="0.8348017621145375" orientation="VERTICAL" prefHeight="456.0" prefWidth="663.0">
@@ -20,6 +21,11 @@
             <Button layoutX="467.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleUpdateUser" text="Update profile" />
          <Button layoutX="341.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleAddFriendship" text="Add new friend" />
          <Button fx:id="friendshipsRequestsButton" layoutX="209.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleFriendRequests" prefHeight="26.0" prefWidth="122.0" text="Friend Requests" textFill="#070404" />
+         <Label layoutX="14.0" layoutY="10.0" prefHeight="52.0" prefWidth="122.0" text="Graphic design is my passion" textOverrun="LEADING_WORD_ELLIPSIS" wrapText="true">
+            <font>
+               <Font name="System Bold Italic" size="15.0" />
+            </font>
+         </Label>
         </AnchorPane>
     </SplitPane>
 </AnchorPane>

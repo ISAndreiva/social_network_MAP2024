@@ -34,7 +34,7 @@ public class Gui extends Application
 
     public static void loginView()
     {
-        stage.setScene(createScene("socialnetwork/gui/login.fxml", null, Optional.empty()));
+        stage.setScene(createScene("socialnetwork/gui/login.fxml", "socialnetwork/gui/css/login.css", Optional.empty()));
         stage.setTitle("NameTODO Social Network");
         stage.show();
     }
@@ -71,7 +71,7 @@ public class Gui extends Application
     public static void friendRequestView(String username)
     {
         Stage stage = new Stage();
-        stage.setScene(createScene("socialnetwork/gui/friendRequest.fxml", null, Optional.of(username)));
+        stage.setScene(createScene("socialnetwork/gui/friendRequest.fxml", "socialnetwork/gui/css/login.css", Optional.of(username)));
         stage.setTitle("Send a friend Request");
         stage.show();
     }
@@ -79,7 +79,7 @@ public class Gui extends Application
     public static void updateUserView(User user)
     {
         Stage stage = new Stage();
-        stage.setScene(createScene("socialnetwork/gui/userUpdate.fxml", null, Optional.of(user)));
+        stage.setScene(createScene("socialnetwork/gui/userUpdate.fxml", "socialnetwork/gui/css/login.css", Optional.of(user)));
         stage.setTitle("Update User");
         stage.show();
     }
@@ -93,7 +93,7 @@ public class Gui extends Application
 
     public static void signUpView()
     {
-        stage.setScene(createScene("socialnetwork/gui/signUp.fxml", null, Optional.empty()));
+        stage.setScene(createScene("socialnetwork/gui/signUp.fxml", "socialnetwork/gui/css/login.css", Optional.empty()));
         stage.setTitle("NameTODO Social Network - Sign Up");
         stage.show();
     }
@@ -101,7 +101,7 @@ public class Gui extends Application
     public static void friendRequestsView(User user)
     {
         Stage stage = new Stage();
-        stage.setScene(createScene("socialnetwork/gui/friendRequests.fxml", null, Optional.of(user)));
+        stage.setScene(createScene("socialnetwork/gui/friendRequests.fxml", "socialnetwork/gui/css/friendRequests.css", Optional.of(user)));
         stage.setTitle("NameTODO Social Network - Friend Requests");
         stage.show();
     }
