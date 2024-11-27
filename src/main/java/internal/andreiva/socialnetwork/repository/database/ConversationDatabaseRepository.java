@@ -21,7 +21,8 @@ public class ConversationDatabaseRepository extends AbstractDatabaseRepository<C
     {
         try
         {
-            Message m = new Message(rs.getString(2), rs.getTimestamp(3).toLocalDateTime(), UUID.fromString(rs.getString(4)), null);
+            UUID replyTo = rs.getString(6) == null ? null : UUID.fromString(rs.getString(6));
+            Message m = new Message(rs.getString(2), rs.getTimestamp(3).toLocalDateTime(), UUID.fromString(rs.getString(4)), null, replyTo);
             m.setId(UUID.fromString(rs.getString(1)));
             return m;
         } catch (SQLException e)
@@ -129,7 +130,7 @@ public class ConversationDatabaseRepository extends AbstractDatabaseRepository<C
     {
         String sqlConv = "INSERT INTO conversations (UUID) VALUES (?)";
         String sqlConvUser = "INSERT INTO conversationUsers (conversation, \"user\") VALUES (?, ?)";
-        String sqlMessages = "INSERT INTO messages (UUID, text, date , sender, conversation) VALUES (?, ?, ?, ?, ?)";
+        String sqlMessages = "INSERT INTO messages (UUID, text, date , sender, conversation, replyto) VALUES (?, ?, ?, ?, ?, ?)";
         try
         {
             PreparedStatement stmConv = db_connection.prepareStatement(sqlConv);
@@ -154,6 +155,7 @@ public class ConversationDatabaseRepository extends AbstractDatabaseRepository<C
                 stmMessages.setTimestamp(3, java.sql.Timestamp.valueOf(m.getDate()));
                 stmMessages.setObject(4, m.getSender());
                 stmMessages.setObject(5, entity.getId().toString());
+                stmMessages.setObject(6, m.getReplyTo());
                 stmMessages.executeUpdate();
             }
             return Optional.empty();
@@ -171,7 +173,7 @@ public class ConversationDatabaseRepository extends AbstractDatabaseRepository<C
     public Optional<Conversation> update(Conversation entity)
     {
         String sqlConvUser = "INSERT INTO conversationUsers (conversation, \"user\") VALUES (?, ?)";
-        String sqlMessages = "INSERT INTO messages (UUID, text, date , sender, conversation) VALUES (?, ?, ?, ?, ?)";
+        String sqlMessages = "INSERT INTO messages (UUID, text, date , sender, conversation, replyto) VALUES (?, ?, ?, ?, ?, ?)";
         try
         {
             PreparedStatement stmConvUser = db_connection.prepareStatement(sqlConvUser);
@@ -204,6 +206,7 @@ public class ConversationDatabaseRepository extends AbstractDatabaseRepository<C
                 stmMessages.setTimestamp(3, java.sql.Timestamp.valueOf(m.getDate()));
                 stmMessages.setObject(4, m.getSender());
                 stmMessages.setObject(5, entity.getId().toString());
+                stmMessages.setObject(6, m.getReplyTo());
                 result += stmMessages.executeUpdate();
             }
             if (result == 0)
@@ -218,6 +221,25 @@ public class ConversationDatabaseRepository extends AbstractDatabaseRepository<C
         finally
         {
             cache_valid = false;
+        }
+    }
+
+    public Optional<Message> findOneMessage(UUID id)
+    {
+        String sql = "SELECT * from messages where UUID = ?";
+        try
+        {
+            PreparedStatement stm = db_connection.prepareStatement(sql);
+            stm.setObject(1, id.toString());
+            ResultSet rs = stm.executeQuery();
+            if (rs.next())
+            {
+                return Optional.of(resultToMessage(rs));
+            }
+            return Optional.empty();
+        } catch (SQLException e)
+        {
+            throw new RepositoryException(e);
         }
     }
 }

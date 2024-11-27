@@ -2,6 +2,7 @@ package internal.andreiva.socialnetwork.service;
 
 import internal.andreiva.socialnetwork.domain.Conversation;
 import internal.andreiva.socialnetwork.domain.Friendship;
+import internal.andreiva.socialnetwork.domain.Message;
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.utils.Observable;
 
@@ -281,14 +282,23 @@ public class Service extends Observable
         return conversationController.getConversationBetweenUsers(user1, user2).get();
     }
 
-    public void sendMessage(UUID conversationId, String username, String text)
+    public void sendMessage(UUID conversationId, String username, String text, UUID replyTo)
     {
         if (!userExists(username))
         {
             throw new ServiceException("User does not exist");
         }
         UUID sender = userController.checkUserExists(username);
-        conversationController.addMessage(conversationId, sender, text);
+        conversationController.addMessage(conversationId, sender, text, replyTo);
         notifyObservers();
+    }
+
+    public Message getMessage(UUID messageId)
+    {
+        if (messageId == null)
+        {
+            return null;
+        }
+        return conversationController.getMessage(messageId);
     }
 }

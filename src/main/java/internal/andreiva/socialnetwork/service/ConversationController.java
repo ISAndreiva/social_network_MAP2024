@@ -32,7 +32,7 @@ public class ConversationController
         }
     }
 
-    public void addMessage(UUID conversationId, UUID sender, String text)
+    public void addMessage(UUID conversationId, UUID sender, String text, UUID replyTo)
     {
         var result = conversationRepo.findOne(conversationId);
         if (result.isEmpty())
@@ -40,7 +40,7 @@ public class ConversationController
             throw new ServiceException("Conversation does not exist");
         }
         var conversation = result.get();
-        Message message = new Message(text, LocalDateTime.now(), sender, conversation);
+        Message message = new Message(text, LocalDateTime.now(), sender, conversation, replyTo);
         message.setId(UUID.randomUUID());
         messageValidator.validate(message);
         conversation.addMessage(message);
@@ -73,5 +73,15 @@ public class ConversationController
     {
         return StreamSupport.stream(conversationRepo.findAll().spliterator(), false)
                 .filter(conversation -> conversation.getMembers().contains(user1) && conversation.getMembers().contains(user2)).findFirst();
+    }
+
+    public Message getMessage(UUID messageId)
+    {
+        var result = conversationRepo.findOneMessage(messageId);
+        if (result.isEmpty())
+        {
+            throw new ServiceException("Message does not exist");
+        }
+        return result.get();
     }
 }

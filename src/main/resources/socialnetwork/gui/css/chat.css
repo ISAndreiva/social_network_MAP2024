@@ -1,8 +1,11 @@
 .chat_label {
     -fx-font-size: 15;
+    -fx-wrap-text: true;
+}
+
+.chat_bubble{
     -fx-background-radius: 5;
     -fx-padding: 5;
-    -fx-wrap-text: true;
 }
 
 .root {
@@ -18,3 +21,17 @@
     -fx-background-color: transparent;
 }
 
+#send_button
+{
+    -fx-background-color: #36a819;
+    -fx-background-image: url(../images/arrow.png);
+    -fx-background-size: stretch;
+}
+
+
+.reply_button
+{
+    -fx-background-color: transparent;
+    -fx-background-image: url(../images/reply-arrow.png);
+    -fx-background-size: cover;
+}
