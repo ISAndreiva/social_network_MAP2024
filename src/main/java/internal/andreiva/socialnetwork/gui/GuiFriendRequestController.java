@@ -32,7 +32,7 @@ public class GuiFriendRequestController extends GuiController
                 {
                     service.addFriendship(username, usernameTextField.getText());
                     resultLabel.setText("Friend request sent!");
-                    resultLabel.setStyle("-fx-text-fill: green");
+                    resultLabel.setStyle("-fx-text-fill: #11f111");
                 }
                 catch (Exception e)
                 {

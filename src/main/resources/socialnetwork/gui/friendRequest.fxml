@@ -11,7 +11,7 @@
          <Font size="16.0" />
       </font>
    </Label>
-   <Label fx:id="resultLabel" layoutX="46.0" layoutY="182.0" prefHeight="34.0" prefWidth="241.0">
+   <Label fx:id="resultLabel" layoutX="10.0" layoutY="182.0" prefHeight="34.0" prefWidth="241.0">
       <font>
          <Font size="16.0" />
       </font>
