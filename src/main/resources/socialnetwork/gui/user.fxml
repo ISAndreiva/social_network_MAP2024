@@ -7,14 +7,7 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="456.0" prefWidth="663.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="internal.andreiva.socialnetwork.gui.GuiUserController">
     <SplitPane dividerPositions="0.8348017621145375" orientation="VERTICAL" prefHeight="456.0" prefWidth="663.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="395.0" prefWidth="661.0">
-              <TableView fx:id="friendsTable" prefHeight="376.0" prefWidth="663.0">
-                  <columns>
-                      <TableColumn fx:id="friendsUsernameColumn" prefWidth="137.0" text="Username" />
-                      <TableColumn fx:id="friendsNameColumn" prefWidth="156.0" text="Name" />
-                      <TableColumn fx:id="friendsSinceColumn" prefWidth="157.0" text="Friends Since" />
-               <TableColumn fx:id="friendsDeleteColumn" prefWidth="211.0" />
-                  </columns>
-              </TableView>
+         <Pagination fx:id="friendsPagination" prefHeight="376.0" prefWidth="661.0" />
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <Button layoutX="585.0" layoutY="23.0" mnemonicParsing="false" onAction="#handleLogout" text="Logout" />

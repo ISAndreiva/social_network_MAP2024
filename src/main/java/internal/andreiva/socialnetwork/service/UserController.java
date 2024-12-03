@@ -5,6 +5,8 @@ import internal.andreiva.socialnetwork.domain.Entity;
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.domain.validator.UserValidator;
 import internal.andreiva.socialnetwork.repository.database.UserDatabaseRepository;
+import internal.andreiva.socialnetwork.utils.Page;
+import internal.andreiva.socialnetwork.utils.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -112,6 +114,11 @@ public class UserController
     public Iterable<User> getUsersIterable()
     {
         return userRepository.findAll();
+    }
+
+    public Page<User> getUsersOnPage(Pageable pageable)
+    {
+        return userRepository.findAllOnPage(pageable);
     }
 
     /**

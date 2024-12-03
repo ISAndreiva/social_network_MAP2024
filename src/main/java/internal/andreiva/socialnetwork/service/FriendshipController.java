@@ -3,6 +3,8 @@ package internal.andreiva.socialnetwork.service;
 import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.domain.validator.FriendshipValidator;
 import internal.andreiva.socialnetwork.repository.database.FriendshipDatabaseRepository;
+import internal.andreiva.socialnetwork.utils.Page;
+import internal.andreiva.socialnetwork.utils.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -146,6 +148,35 @@ public class FriendshipController
     {
         return friendshipRepo.findAll();
     }
+
+    public Page<Friendship> getFriendshipsOnPage(Pageable pageable)
+    {
+        return friendshipRepo.findAllOnPage(pageable);
+    }
+
+    public Page<UUID> getFriendshipsOnPage(UUID userId, String status, Pageable pageable)
+    {
+        if (userId == null)
+        {
+            throw new ServiceException("Invalid user");
+        }
+        if (!status.equals("accepted") && !status.equals("pending"))
+        {
+            throw new ServiceException("Invalid status");
+        }
+        return friendshipRepo.getFriendships(userId, status, pageable);
+    }
+
+    public Page<UUID> getReceivedFriendRequestsOnPage(UUID userId, Pageable pageable)
+    {
+        if (userId == null)
+        {
+            throw new ServiceException("Invalid user");
+        }
+        return friendshipRepo.getReceivedFriendRequests(userId, pageable);
+    }
+
+
 
     /**
      * Set the status of a friendship
