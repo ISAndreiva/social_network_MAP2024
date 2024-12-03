@@ -1,8 +1,11 @@
 package internal.andreiva.socialnetwork.repository.database;
 
 import internal.andreiva.socialnetwork.domain.Entity;
-import internal.andreiva.socialnetwork.repository.Repository;
+import internal.andreiva.socialnetwork.domain.User;
+import internal.andreiva.socialnetwork.repository.PagingRepository;
 import internal.andreiva.socialnetwork.repository.RepositoryException;
+import internal.andreiva.socialnetwork.utils.Page;
+import internal.andreiva.socialnetwork.utils.Pageable;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public abstract class AbstractDatabaseRepository<E extends Entity> implements Repository<E>
+public abstract class AbstractDatabaseRepository<E extends Entity> implements PagingRepository<E>
 {
     protected final Connection db_connection;
     protected final String database;
@@ -95,4 +98,42 @@ public abstract class AbstractDatabaseRepository<E extends Entity> implements Re
 
     @Override
     public abstract Optional<E> update(E entity);
+
+    protected int getCount()
+    {
+        try
+        {
+            Statement stm = db_connection.createStatement();
+            ResultSet rs = stm.executeQuery("SELECT COUNT(*) FROM " + database);
+            rs.next();
+            return rs.getInt(1);
+        } catch (SQLException e)
+        {
+            throw new RepositoryException(e);
+        }
+    }
+
+    @Override
+    public Page<E> findAllOnPage(Pageable pageable)
+    {
+        List<E> entitiesOnPage = new ArrayList<>();
+        String sql = "SELECT * FROM " + database + " LIMIT ? OFFSET ?";
+        try
+        {
+            PreparedStatement stm = db_connection.prepareStatement(sql);
+            stm.setInt(1, pageable.getPageSize());
+            stm.setInt(2, pageable.getPageSize() * pageable.getPageNumber());
+            ResultSet rs = stm.executeQuery();
+            while (rs.next())
+            {
+                E e = resultToEntity(rs);
+                entitiesOnPage.add(e);
+            }
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+        return new Page<>(entitiesOnPage, getCount());
+    }
 }

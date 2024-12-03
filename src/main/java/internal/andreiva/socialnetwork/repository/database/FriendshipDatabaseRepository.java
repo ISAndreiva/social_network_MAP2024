@@ -2,6 +2,8 @@ package internal.andreiva.socialnetwork.repository.database;
 
 import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.repository.RepositoryException;
+import internal.andreiva.socialnetwork.utils.Page;
+import internal.andreiva.socialnetwork.utils.Pageable;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -157,6 +159,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
             List<UUID> friends = new ArrayList<>();
             PreparedStatement stm = db_connection.prepareStatement(sql);
             stm.setObject(1, userId.toString());
+
             ResultSet rs = stm.executeQuery();
             while (rs.next())
             {
@@ -164,6 +167,69 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
                     friends.add(f.getFriend1());
             }
             return friends;
+        } catch (SQLException e)
+        {
+            throw new RepositoryException(e);
+        }
+    }
+
+    public Page<UUID> getFriendships(UUID userId, String status, Pageable pageable)
+    {
+        String sql = "SELECT * FROM friendships WHERE (friend_1 = ? OR friend_2 = ?) AND status = ? LIMIT ? OFFSET ?";
+        String sqlCount = "SELECT COUNT(*) FROM friendships WHERE (friend_1 = ? OR friend_2 = ?) AND status = ?";
+        try
+        {
+            List<UUID> friends = new ArrayList<>();
+            PreparedStatement stm = db_connection.prepareStatement(sql);
+            stm.setObject(1, userId.toString());
+            stm.setObject(2, userId.toString());
+            stm.setString(3, status);
+            stm.setInt(4, pageable.getPageSize());
+            stm.setInt(5, pageable.getPageSize() * pageable.getPageNumber());
+            ResultSet rs = stm.executeQuery();
+            while (rs.next())
+            {
+                Friendship f = resultToEntity(rs);
+                if (f.getFriend1().equals(userId))
+                    friends.add(f.getFriend2());
+                if (f.getFriend2().equals(userId))
+                    friends.add(f.getFriend1());
+            }
+            PreparedStatement stmCount = db_connection.prepareStatement(sqlCount);
+            stmCount.setObject(1, userId.toString());
+            stmCount.setObject(2, userId.toString());
+            stmCount.setString(3, status);
+            ResultSet rsCount = stmCount.executeQuery();
+            rsCount.next();
+            return new Page<>(friends, rsCount.getInt(1));
+        } catch (SQLException e)
+        {
+            throw new RepositoryException(e);
+        }
+    }
+
+    public Page<UUID> getReceivedFriendRequests(UUID userId, Pageable pageable)
+    {
+        String sql = "SELECT * FROM friendships WHERE friend_2 = ? AND status = 'pending' LIMIT ? OFFSET ?";
+        String sqlCount = "SELECT COUNT(*) FROM friendships WHERE friend_2 = ? AND status = 'pending'";
+        try
+        {
+            List<UUID> friends = new ArrayList<>();
+            PreparedStatement stm = db_connection.prepareStatement(sql);
+            stm.setObject(1, userId.toString());
+            stm.setInt(2, pageable.getPageSize());
+            stm.setInt(3, pageable.getPageSize() * pageable.getPageNumber());
+            ResultSet rs = stm.executeQuery();
+            while (rs.next())
+            {
+                Friendship f = resultToEntity(rs);
+                friends.add(f.getFriend1());
+            }
+            PreparedStatement stmCount = db_connection.prepareStatement(sqlCount);
+            stmCount.setObject(1, userId.toString());
+            ResultSet rsCount = stmCount.executeQuery();
+            rsCount.next();
+            return new Page<>(friends, rsCount.getInt(1));
         } catch (SQLException e)
         {
             throw new RepositoryException(e);
