@@ -4,8 +4,7 @@ import internal.andreiva.socialnetwork.domain.Conversation;
 import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.domain.Message;
 import internal.andreiva.socialnetwork.domain.User;
-import internal.andreiva.socialnetwork.utils.Event;
-import internal.andreiva.socialnetwork.utils.EventType;
+import internal.andreiva.socialnetwork.utils.*;
 import internal.andreiva.socialnetwork.utils.Observable;
 
 import java.sql.Connection;
@@ -114,10 +113,26 @@ public class Service extends Observable
         return friends;
     }
 
+    public Page<User> getFriendships(String username, String status, Pageable pageable)
+    {
+        List<User> friends = new ArrayList<>();
+        var page = friendshipController.getFriendshipsOnPage(userController.checkUserExists(username), status, pageable);
+        page.getElementsOnPage().forEach(f -> friends.add(userController.getUser(f)));
+        return new Page<>(friends, page.getTotalNumberOfElements());
+    }
+
     public List<User> getReceivedFriendRequests(String username)
     {
         List<User> friends = new ArrayList<>();
         friendshipController.getReceivedFriendRequests(userController.checkUserExists(username)).forEach(f -> friends.add(userController.getUser(f)));
+        return friends;
+    }
+
+    public List<User> getReceivedFriendRequests(String username, Pageable pageable)
+    {
+        List<User> friends = new ArrayList<>();
+        var page = friendshipController.getReceivedFriendRequestsOnPage(userController.checkUserExists(username), pageable);
+        page.getElementsOnPage().forEach(f -> friends.add(userController.getUser(f)));
         return friends;
     }
 

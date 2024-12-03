@@ -5,12 +5,13 @@ import internal.andreiva.socialnetwork.service.Service;
 import internal.andreiva.socialnetwork.utils.Event;
 import internal.andreiva.socialnetwork.utils.EventType;
 import internal.andreiva.socialnetwork.utils.Observer;
+import internal.andreiva.socialnetwork.utils.Pageable;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
@@ -18,29 +19,19 @@ import javafx.util.Callback;
 import javafx.util.Pair;
 
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 
 public class GuiUserController extends GuiController implements Observer
 {
     private User user;
+    private final int pageSize = 2;
+
 
     @FXML
-    TableView<User> friendsTable;
-
-    private static final ObservableList<User> friendsTableData = FXCollections.observableArrayList();
-
-    @FXML
-    TableColumn<User, String> friendsUsernameColumn;
-
-    @FXML
-    TableColumn<User, String> friendsNameColumn;
-
-    @FXML
-    TableColumn<User, String> friendsSinceColumn;
-
-    @FXML
-    TableColumn<User, Void> friendsDeleteColumn;
+    Pagination friendsPagination;
 
     @FXML
     Button friendshipsRequestsButton;
@@ -92,23 +83,38 @@ public class GuiUserController extends GuiController implements Observer
         }
     }
 
+
+
     @FXML
     public void initialize()
     {
-        friendsUsernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
-        friendsNameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
-        friendsSinceColumn.setCellValueFactory(new FriendshipSinceFactory());
-        friendsDeleteColumn.setCellFactory(new DeleteButtonFactory());
-        friendsDeleteColumn.setStyle("-fx-alignment: CENTER;");
-
-        friendsTable.setItems(friendsTableData);
-
         Platform.runLater(() -> {
-            Stage stage = (Stage) friendsTable.getScene().getWindow();
+            Stage stage = (Stage) friendshipsRequestsButton.getScene().getWindow();
             stage.setOnCloseRequest(event -> service.removeObserver(this));
         });
+    }
 
-        friendsTable.setRowFactory( tv -> {
+
+    private Node createPage(int pageIndex)
+    {
+        TableView<User> table = new TableView<>();
+        TableColumn<User, String> usernameColumn = new TableColumn<>("Username");
+        TableColumn<User, String> nameColumn = new TableColumn<>("Name");
+        TableColumn<User, String> sinceColumn = new TableColumn<>("Friends since");
+        TableColumn<User, Void> deleteColumn = new TableColumn<>("Delete");
+
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("fullName"));
+        sinceColumn.setCellValueFactory(new FriendshipSinceFactory());
+        deleteColumn.setCellFactory(new DeleteButtonFactory());
+        deleteColumn.setStyle("-fx-alignment: CENTER;");
+
+        var page = service.getFriendships(user.getUsername(), "accepted", new Pageable(pageIndex, pageSize));
+        var friends = StreamSupport.stream(page.getElementsOnPage().spliterator(), false).toList();
+        table.getColumns().setAll(List.of(usernameColumn, nameColumn, sinceColumn, deleteColumn));
+        table.setItems(FXCollections.observableArrayList(friends));
+
+        table.setRowFactory( tv -> {
             TableRow<User> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
@@ -118,6 +124,8 @@ public class GuiUserController extends GuiController implements Observer
             });
             return row ;
         });
+
+        return table;
     }
 
     @Override
@@ -130,7 +138,21 @@ public class GuiUserController extends GuiController implements Observer
 
     public void populateTables()
     {
-        friendsTableData.setAll(service.getFriendships(user.getUsername(), "accepted"));
+        int totalNumberOfElements = service.getFriendships(user.getUsername(), "accepted", new Pageable(0, pageSize)).getTotalNumberOfElements();
+
+
+        int totalNumberOfPages = totalNumberOfElements / pageSize;
+        if(totalNumberOfElements % pageSize != 0)
+            totalNumberOfPages++;
+
+        if (totalNumberOfPages == 0)
+            totalNumberOfPages = 1;
+        var currentPage = friendsPagination.getCurrentPageIndex();
+        friendsPagination.setPageCount(totalNumberOfPages);
+        friendsPagination.setPageFactory(this::createPage);
+        friendsPagination.setCurrentPageIndex(currentPage);
+
+
         friendshipsRequestsButton.setVisible(!service.getReceivedFriendRequests(user.getUsername()).isEmpty());
     }
 
