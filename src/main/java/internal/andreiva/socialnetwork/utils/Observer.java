@@ -2,5 +2,5 @@ package internal.andreiva.socialnetwork.utils;
 
 public interface Observer
 {
-    void update();
+    void update(Event event);
 }

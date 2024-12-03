@@ -4,6 +4,8 @@ import internal.andreiva.socialnetwork.domain.Conversation;
 import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.domain.Message;
 import internal.andreiva.socialnetwork.domain.User;
+import internal.andreiva.socialnetwork.utils.Event;
+import internal.andreiva.socialnetwork.utils.EventType;
 import internal.andreiva.socialnetwork.utils.Observable;
 
 import java.sql.Connection;
@@ -40,7 +42,7 @@ public class Service extends Observable
     public void addUser(String firstName, String lastName, String username, String email)
     {
         userController.addUser(firstName, lastName, username, email);
-        notifyObservers();
+        notifyObservers(new Event(EventType.USER));
     }
 
     /**
@@ -51,7 +53,7 @@ public class Service extends Observable
     {
         User user = userController.deleteUser(username);
         friendshipController.deleteFriendships(user.getId());
-        notifyObservers();
+        notifyObservers(new Event(EventType.USER));
     }
 
     /**
@@ -64,7 +66,7 @@ public class Service extends Observable
     public void updateUser(String firstName, String lastName, String username, String email)
     {
         userController.updateUser(firstName, lastName, username, email);
-        notifyObservers();
+        notifyObservers(new Event(EventType.USER));
     }
 
     /**
@@ -84,7 +86,7 @@ public class Service extends Observable
     public void addFriendship(String username1, String username2)
     {
         friendshipController.addFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
-        notifyObservers();
+        notifyObservers(new Event(EventType.RELATIONSHIP));
     }
 
     /**
@@ -95,7 +97,9 @@ public class Service extends Observable
     public void deleteFriendship(String username1, String username2)
     {
         friendshipController.deleteFriendship(userController.checkUserExists(username1), userController.checkUserExists(username2));
-        notifyObservers();
+        var conv = conversationController.getConversationBetweenUsers(userController.checkUserExists(username1), userController.checkUserExists(username2));
+        conv.ifPresent(conversation -> conversationController.deleteConversation(conversation.getId()));
+        notifyObservers(new Event(EventType.RELATIONSHIP));
     }
 
     /**
@@ -249,7 +253,7 @@ public class Service extends Observable
     public void respondToFriendship(String username1, String username2, String response)
     {
         friendshipController.friendshipSetStatus(userController.checkUserExists(username1), userController.checkUserExists(username2), response);
-        notifyObservers();
+        notifyObservers(new Event(EventType.RELATIONSHIP));
     }
 
     /**
@@ -290,7 +294,7 @@ public class Service extends Observable
         }
         UUID sender = userController.checkUserExists(username);
         conversationController.addMessage(conversationId, sender, text, replyTo);
-        notifyObservers();
+        notifyObservers(new Event(EventType.MESSAGE));
     }
 
     public Message getMessage(UUID messageId)

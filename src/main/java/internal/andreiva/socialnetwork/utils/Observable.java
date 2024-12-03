@@ -15,8 +15,8 @@ public abstract class Observable
     {
         observers.remove(observer);
     }
-    protected void notifyObservers()
+    protected void notifyObservers(Event event)
     {
-        observers.forEach(Observer::update);
+        observers.forEach(observer -> observer.update(event));
     }
 }

@@ -2,6 +2,8 @@ package internal.andreiva.socialnetwork.gui;
 
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.service.Service;
+import internal.andreiva.socialnetwork.utils.Event;
+import internal.andreiva.socialnetwork.utils.EventType;
 import internal.andreiva.socialnetwork.utils.Observer;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -37,9 +39,10 @@ public class GuiFriendRequestsController extends GuiController implements Observ
     TableColumn<User, String> requestsSinceColumn;
 
     @Override
-    public void update()
+    public void update(Event event)
     {
-        populateTables();
+        if (event.getType().equals(EventType.RELATIONSHIP))
+            populateTables();
     }
 
     private class FriendshipSinceFactory implements Callback<TableColumn.CellDataFeatures<User, String>, ObservableValue<String>>

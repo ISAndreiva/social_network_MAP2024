@@ -4,6 +4,8 @@ import internal.andreiva.socialnetwork.domain.Conversation;
 import internal.andreiva.socialnetwork.domain.Message;
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.service.Service;
+import internal.andreiva.socialnetwork.utils.Event;
+import internal.andreiva.socialnetwork.utils.EventType;
 import internal.andreiva.socialnetwork.utils.Observer;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -51,9 +53,10 @@ public class GuiChatController extends GuiController implements Observer
     }
 
     @Override
-    public void update()
+    public void update(Event event)
     {
-        showMessages();
+        if (event.getType().equals(EventType.MESSAGE))
+            showMessages();
     }
 
     @Override
@@ -117,7 +120,7 @@ public class GuiChatController extends GuiController implements Observer
                 replyTo = null;
             else
                 replyTo = replyToID;
-            update();
+            showMessages();
         });
 
         replyButton.setVisible(false);
