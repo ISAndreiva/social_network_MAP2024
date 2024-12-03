@@ -2,24 +2,37 @@
 
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="234.0" prefWidth="380.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="internal.andreiva.socialnetwork.gui.GuiSignUpController">
    <AnchorPane layoutX="14.0" layoutY="63.0" prefHeight="36.0" prefWidth="360.0">
       <children>
-         <Label layoutX="14.0" layoutY="4.0" prefHeight="28.0" prefWidth="85.0" text="First name:" />
+         <Label layoutX="14.0" layoutY="4.0" prefHeight="28.0" prefWidth="85.0" text="First name:" textFill="WHITE">
+            <font>
+               <Font size="15.0" />
+            </font></Label>
          <TextField fx:id="firstNameTextField" layoutX="180.0" layoutY="5.0" />
       </children>
    </AnchorPane>
    <AnchorPane layoutX="14.0" layoutY="27.0" prefHeight="36.0" prefWidth="360.0">
-      <Label layoutX="14.0" layoutY="4.0" prefHeight="28.0" prefWidth="85.0" text="Username:" />
+      <Label layoutX="14.0" layoutY="4.0" prefHeight="28.0" prefWidth="85.0" text="Username:" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
       <TextField fx:id="usernameTextField" layoutX="180.0" layoutY="5.0" />
    </AnchorPane>
    <AnchorPane layoutX="14.0" layoutY="99.0" prefHeight="36.0" prefWidth="360.0">
-      <Label layoutX="14.0" layoutY="4.0" prefHeight="28.0" prefWidth="85.0" text="Last name:" />
+      <Label layoutX="14.0" layoutY="4.0" prefHeight="28.0" prefWidth="85.0" text="Last name:" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
       <TextField fx:id="lastNameTextField" layoutX="180.0" layoutY="5.0" />
    </AnchorPane>
    <AnchorPane layoutX="14.0" layoutY="135.0" prefHeight="36.0" prefWidth="360.0">
-      <Label layoutX="14.0" layoutY="4.0" prefHeight="28.0" prefWidth="85.0" text="Email:" />
+      <Label layoutX="14.0" layoutY="4.0" prefHeight="28.0" prefWidth="85.0" text="Email:" textFill="WHITE">
+         <font>
+            <Font size="15.0" />
+         </font></Label>
       <TextField fx:id="emailTextField" layoutX="180.0" layoutY="5.0" />
    </AnchorPane>
    <Button layoutX="157.0" layoutY="187.0" mnemonicParsing="false" onAction="#handleSignUp" text="Sign up!" />

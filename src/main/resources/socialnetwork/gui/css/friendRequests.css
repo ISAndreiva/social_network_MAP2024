@@ -1,6 +1,7 @@
 .root {
     -fx-background-image: url(../images/background.png);
     -fx-background-size: cover;
+    -fx-font-weight: bold;
 }
 
 .table-view{
@@ -15,6 +16,7 @@
 
 .table-column {
     -fx-border-color: transparent;
+    -fx-text-fill: white;
 }
 
 .table-view .scroll-bar:horizontal {

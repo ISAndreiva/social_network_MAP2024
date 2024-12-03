@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
@@ -55,6 +56,11 @@ public class Gui extends Application
             GuiController controller = fxmlLoader.getController();
             controller.setSomething(parameter);
             controller.setService(service);
+            double scaleValue = 1.25;
+            Scale scale = new Scale(scaleValue, scaleValue);
+            root.getTransforms().add(scale);
+            root.setPrefHeight(root.getPrefHeight()*scaleValue);
+            root.setPrefWidth(root.getPrefWidth()*scaleValue);
             Scene scene = new Scene(root);
             if (css != null)
             {

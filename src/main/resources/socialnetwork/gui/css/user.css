@@ -14,6 +14,7 @@
 
 .table-column {
     -fx-border-color: transparent;
+    -fx-text-fill: white;
 }
 
 .table-view .scroll-bar:horizontal {
@@ -34,4 +35,8 @@
 .button {
     -fx-background-color: #cd0cdb;
     -fx-text-fill: white;
+}
+
+.root{
+    -fx-font-weight: bold;
 }
