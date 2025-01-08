@@ -39,13 +39,13 @@ public class UserController
      * @param username username
      * @param email email
      */
-    public void addUser(String firstName, String lastName, String username, String email)
+    public void addUser(String firstName, String lastName, String username, String email, String passwordHash)
     {
         if (checkUserExists(username) != null)
         {
             throw new ServiceException("User already exists");
         }
-        User u = new User(firstName, lastName, username, email);
+        User u = new User(firstName, lastName, username, email, passwordHash);
         u.setId(UUID.randomUUID());
         userValidator.validate(u);
         if (userRepository.save(u).isPresent())
@@ -81,14 +81,14 @@ public class UserController
      * @param username the existing username
      * @param email the new email
      */
-    public void updateUser(String firstName, String lastName, String username, String email)
+    public void updateUser(String firstName, String lastName, String username, String email, String passwordHash)
     {
         UUID id = checkUserExists(username);
         if (id == null)
         {
             throw new ServiceException("User does not exist");
         }
-        User u = new User(firstName, lastName, username, email);
+        User u = new User(firstName, lastName, username, email, passwordHash);
         u.setId(id);
         userValidator.validate(u);
         if (userRepository.update(u).isPresent())

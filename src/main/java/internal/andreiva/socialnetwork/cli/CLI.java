@@ -86,7 +86,7 @@ public class CLI
         String email = scanner.nextLine();
         try
         {
-            service.addUser(firstName, lastName, username, email);
+            service.addUser(firstName, lastName, username, email, "");
         }
         catch (Exception e)
         {
@@ -120,7 +120,7 @@ public class CLI
         String email = scanner.nextLine();
         try
         {
-            service.updateUser(firstName, lastName, username, email);
+            service.updateUser(firstName, lastName, username, email, "");
         }
         catch (Exception e)
         {

@@ -30,7 +30,7 @@
             <Button mnemonicParsing="false" onAction="#handleSignUp" text="Sign up!" />
          </children>
       </HBox>
-      <Label fx:id="errorLabel" alignment="CENTER" layoutX="110.0" layoutY="228.0" prefHeight="22.0" prefWidth="373.0">
+      <Label fx:id="errorLabel" alignment="CENTER" layoutX="114.0" layoutY="252.0" prefHeight="22.0" prefWidth="373.0">
          <font>
             <Font size="16.0" />
          </font>
@@ -40,5 +40,15 @@
             <Font name="System Bold Italic" size="30.0" />
          </font>
       </Label>
+      <HBox alignment="CENTER" layoutX="160.0" layoutY="200.0" prefHeight="35.0" prefWidth="280.0" spacing="20.0">
+         <children>
+            <Label prefHeight="22.0" prefWidth="90.0" text="Password" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <PasswordField fx:id="passwordTextField" onAction="#handleLogin" />
+         </children>
+      </HBox>
    </Pane>
 </AnchorPane>

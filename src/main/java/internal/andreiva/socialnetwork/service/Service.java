@@ -38,9 +38,9 @@ public class Service extends Observable
      * @param username the username of the user
      * @param email  the email of the user
      */
-    public void addUser(String firstName, String lastName, String username, String email)
+    public void addUser(String firstName, String lastName, String username, String email, String passwordHash)
     {
-        userController.addUser(firstName, lastName, username, email);
+        userController.addUser(firstName, lastName, username, email, passwordHash);
         notifyObservers(new Event(EventType.USER));
     }
 
@@ -62,9 +62,9 @@ public class Service extends Observable
      * @param username the username of the existing user
      * @param email the new email of the user
      */
-    public void updateUser(String firstName, String lastName, String username, String email)
+    public void updateUser(String firstName, String lastName, String username, String email, String passwordHash)
     {
-        userController.updateUser(firstName, lastName, username, email);
+        userController.updateUser(firstName, lastName, username, email, passwordHash);
         notifyObservers(new Event(EventType.USER));
     }
 
@@ -319,5 +319,15 @@ public class Service extends Observable
             return null;
         }
         return conversationController.getMessage(messageId);
+    }
+
+    public boolean checkPassword(String username, String passwordHash)
+    {
+        var hash = userController.getUser(userController.checkUserExists(username)).getPasswordHash();
+        if (hash == null)
+        {
+            return true;
+        }
+        return hash.equals(passwordHash);
     }
 }

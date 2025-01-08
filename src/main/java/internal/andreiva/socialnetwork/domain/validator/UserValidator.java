@@ -32,6 +32,10 @@ public class UserValidator implements Validator<User>
         {
             throw new ValidationException("Email is not valid.");
         }
+        if (entity.getPasswordHash().isEmpty())
+        {
+            throw new ValidationException("Password must not be empty.");
+        }
 
     }
     private UserValidator() {}

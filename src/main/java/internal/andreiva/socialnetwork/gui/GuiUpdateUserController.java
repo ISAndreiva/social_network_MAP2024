@@ -2,7 +2,9 @@ package internal.andreiva.socialnetwork.gui;
 
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.service.Service;
+import internal.andreiva.socialnetwork.utils.PasswordHasher;
 import javafx.fxml.FXML;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 import java.util.Optional;
@@ -17,6 +19,9 @@ public class GuiUpdateUserController extends GuiController
 
     @FXML
     TextField emailTextField;
+
+    @FXML
+    PasswordField passwordTextField;
 
     private User user;
 
@@ -39,7 +44,7 @@ public class GuiUpdateUserController extends GuiController
     {
         try
         {
-            service.updateUser(firstNameTextField.getText(), lastNameTextField.getText(), user.getUsername(), emailTextField.getText());
+            service.updateUser(firstNameTextField.getText(), lastNameTextField.getText(), user.getUsername(), emailTextField.getText(), PasswordHasher.hashPassword(passwordTextField.getText(), user.getUsername()));
         } catch (Exception e)
         {
             Gui.errorView(e);

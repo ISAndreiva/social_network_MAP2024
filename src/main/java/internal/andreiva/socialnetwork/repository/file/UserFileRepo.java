@@ -18,7 +18,7 @@ public class UserFileRepo extends AbstractFileRepository<User>
     public User createEntity(String line)
     {
         String[] split = line.split(",");
-        User u = new User(split[1], split[2], split[3], split[4]);
+        User u = new User(split[1], split[2], split[3], split[4], split[5]);
         u.setId(UUID.fromString(split[0]));
         return u;
     }
@@ -26,6 +26,6 @@ public class UserFileRepo extends AbstractFileRepository<User>
     @Override
     public String saveEntity(User entity)
     {
-        return entity.getId().toString() + "," + entity.getFirstName() + "," + entity.getLastName() + "," + entity.getUsername() + "," + entity.getEmail();
+        return entity.getId().toString() + "," + entity.getFirstName() + "," + entity.getLastName() + "," + entity.getUsername() + "," + entity.getEmail() + "," + entity.getPasswordHash();
     }
 }

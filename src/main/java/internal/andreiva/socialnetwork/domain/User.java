@@ -11,6 +11,7 @@ public class User extends Entity
     private String lastName;
     private String username;
     private String email;
+    private final String passwordHash;
 
     /**
      * Constructor
@@ -19,12 +20,13 @@ public class User extends Entity
      * @param username - the username
      * @param email - the email address
      */
-    public User(String firstName, String lastName, String username, String email)
+    public User(String firstName, String lastName, String username, String email, String passwordHash)
     {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
+        this.passwordHash = passwordHash;
     }
 
     /**
@@ -106,6 +108,11 @@ public class User extends Entity
     public String getFullName()
     {
         return lastName + " " + firstName;
+    }
+
+    public String getPasswordHash()
+    {
+        return passwordHash;
     }
 
     @Override
