@@ -4,8 +4,11 @@ import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.service.Service;
 import internal.andreiva.socialnetwork.utils.PasswordHasher;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.stage.FileChooser;
 
 import java.util.Optional;
 
@@ -22,6 +25,9 @@ public class GuiUpdateUserController extends GuiController
 
     @FXML
     PasswordField passwordTextField;
+
+    @FXML
+    Button profilePictureUpdateButton;
 
     private User user;
 
@@ -45,6 +51,20 @@ public class GuiUpdateUserController extends GuiController
         try
         {
             service.updateUser(firstNameTextField.getText(), lastNameTextField.getText(), user.getUsername(), emailTextField.getText(), PasswordHasher.hashPassword(passwordTextField.getText(), user.getUsername()));
+        } catch (Exception e)
+        {
+            Gui.errorView(e);
+        }
+    }
+
+    public void handleUpdateProfilePicture()
+    {
+        FileChooser fil_chooser = new FileChooser();
+        var file = fil_chooser.showOpenDialog(profilePictureUpdateButton.getScene().getWindow());
+        try
+        {
+            Image img = new Image(file.toURI().toString(), 140, 140, false, false);
+            service.saveImage(user, img);
         } catch (Exception e)
         {
             Gui.errorView(e);

@@ -4,5 +4,6 @@ public enum EventType
 {
     USER,
     RELATIONSHIP,
-    MESSAGE
+    MESSAGE,
+    PROFILE_PICTURE
 }

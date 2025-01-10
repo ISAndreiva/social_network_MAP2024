@@ -8,6 +8,8 @@ import internal.andreiva.socialnetwork.utils.Observer;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.util.Pair;
 
 import java.util.Objects;
@@ -36,6 +38,9 @@ public class GuiProfileController extends GuiController implements Observer
     @FXML
     Label friendCountLabel;
 
+    @FXML
+    ImageView profileImageView;
+
     @Override
     public void setSomething(Optional<Object> parameter)
     {
@@ -62,6 +67,7 @@ public class GuiProfileController extends GuiController implements Observer
         super.setService(service);
         service.addObserver(this);
         update(new Event(EventType.RELATIONSHIP));
+        updateImage();
     }
 
     @Override
@@ -82,6 +88,18 @@ public class GuiProfileController extends GuiController implements Observer
                 messageButton.setDisable(true);
             }
         }
+        if (event.getType().equals(EventType.PROFILE_PICTURE))
+        {
+            updateImage();
+        }
+    }
+
+    private void updateImage()
+    {
+        if (service.getImage(user.getValue()) != null)
+            profileImageView.setImage(service.getImage(user.getValue()));
+        else
+            profileImageView.setImage(new Image("socialnetwork/gui/images/default.jpg"));
     }
 
     public void handleUpdateProfile()

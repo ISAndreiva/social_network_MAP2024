@@ -6,6 +6,7 @@ import internal.andreiva.socialnetwork.domain.Message;
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.utils.*;
 import internal.andreiva.socialnetwork.utils.Observable;
+import javafx.scene.image.Image;
 
 import java.sql.Connection;
 import java.util.*;
@@ -329,5 +330,16 @@ public class Service extends Observable
             return true;
         }
         return hash.equals(passwordHash);
+    }
+
+    public void saveImage(User user, Image image)
+    {
+        userController.saveImage(user.getId(), image);
+        notifyObservers(new Event(EventType.PROFILE_PICTURE));
+    }
+
+    public Image getImage(User user)
+    {
+        return userController.getImage(user.getId());
     }
 }

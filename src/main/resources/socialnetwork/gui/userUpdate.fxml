@@ -26,7 +26,7 @@
          </font></Label>
       <TextField fx:id="emailTextField" layoutX="180.0" layoutY="5.0" />
    </AnchorPane>
-   <Button layoutX="157.0" layoutY="176.0" mnemonicParsing="false" onAction="#handleUpdate" text="Update!" />
+   <Button layoutX="14.0" layoutY="176.0" mnemonicParsing="false" onAction="#handleUpdate" prefHeight="26.0" prefWidth="153.0" text="Update!" />
    <AnchorPane layoutX="10.0" layoutY="136.0" prefHeight="36.0" prefWidth="360.0">
       <children>
          <Label layoutX="14.0" layoutY="4.0" prefHeight="28.0" prefWidth="85.0" text="Password:" textFill="WHITE">
@@ -37,4 +37,5 @@
          <PasswordField fx:id="passwordTextField" layoutX="180.0" layoutY="5.0" />
       </children>
    </AnchorPane>
+   <Button fx:id="profilePictureUpdateButton" layoutX="213.0" layoutY="176.0" mnemonicParsing="false" onAction="#handleUpdateProfilePicture" text="Update profile picture" />
 </AnchorPane>

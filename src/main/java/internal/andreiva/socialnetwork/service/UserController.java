@@ -7,6 +7,7 @@ import internal.andreiva.socialnetwork.domain.validator.UserValidator;
 import internal.andreiva.socialnetwork.repository.database.UserDatabaseRepository;
 import internal.andreiva.socialnetwork.utils.Page;
 import internal.andreiva.socialnetwork.utils.Pageable;
+import javafx.scene.image.Image;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -140,6 +141,16 @@ public class UserController
     {
         var user = userRepository.findOne(username);
         return user.map(Entity::getId).orElse(null);
+    }
+
+    public void saveImage(UUID userId, Image image)
+    {
+        userRepository.saveImage(userId, image);
+    }
+
+    public Image getImage(UUID userId)
+    {
+        return userRepository.getImage(userId);
     }
 
 }
