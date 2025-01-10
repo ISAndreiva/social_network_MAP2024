@@ -119,6 +119,8 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
             int width = (int) image.getWidth();
             int height = (int) image.getHeight();
             byte[] pixelBytes = new byte[width * height * 4];
+            if (image.getPixelReader() == null)
+                return;
             image.getPixelReader().getPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), pixelBytes, 0, width * 4);
             var stream = new ByteArrayInputStream(pixelBytes);
             stm.setBinaryStream(1, stream);
