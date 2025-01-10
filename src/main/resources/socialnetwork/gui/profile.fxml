@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="252.0" prefWidth="524.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="internal.andreiva.socialnetwork.gui.GuiProfileController">
+   <children>
+      <ImageView fitHeight="131.0" fitWidth="175.0" layoutX="14.0" layoutY="15.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@images/default.jpg" />
+         </image>
+      </ImageView>
+      <Label fx:id="usernameLabel" layoutX="156.0" layoutY="14.0" prefHeight="24.0" prefWidth="175.0" text="Username" textFill="WHITE">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <Label fx:id="nameLabel" layoutX="156.0" layoutY="54.0" text="Nume Prenume" textFill="WHITE">
+         <font>
+            <Font size="16.0" />
+         </font>
+      </Label>
+      <Button fx:id="friendRequestButton" layoutX="9.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleFriendRequest" prefHeight="26.0" prefWidth="149.0" text="Send friend request" />
+      <Label fx:id="friendCountLabel" layoutX="156.0" layoutY="81.0" text="42 Friends" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font></Label>
+      <Button fx:id="messageButton" layoutX="9.0" layoutY="180.0" mnemonicParsing="false" onAction="#handleMessage" prefHeight="26.0" prefWidth="149.0" text="Message" />
+      <Button fx:id="updateProfileButton" layoutX="25.0" layoutY="212.0" mnemonicParsing="false" onAction="#handleUpdateProfile" text="Update profile" />
+   </children>
+</AnchorPane>

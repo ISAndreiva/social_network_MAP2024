@@ -119,7 +119,7 @@ public class GuiUserController extends GuiController implements Observer
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     User rowData = row.getItem();
-                    Gui.chatView(new Pair<>(user, rowData));
+                    Gui.profileView(new Pair<>(user, rowData));
                 }
             });
             return row ;
@@ -170,13 +170,10 @@ public class GuiUserController extends GuiController implements Observer
 
     public void handleAddFriendship()
     {
-        Gui.friendRequestView(user.getUsername());
+        Gui.profileSearchView(user.getUsername());
     }
 
-    public void handleUpdateUser()
-    {
-        Gui.updateUserView(user);
-    }
+    public void handleViewProfile()  {Gui.profileView(new Pair<>(user, user));}
 
     public void handleFriendRequests()
     {

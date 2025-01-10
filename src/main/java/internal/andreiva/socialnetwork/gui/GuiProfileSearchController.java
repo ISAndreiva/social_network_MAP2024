@@ -3,10 +3,11 @@ package internal.andreiva.socialnetwork.gui;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.util.Pair;
 
 import java.util.Optional;
 
-public class GuiFriendRequestController extends GuiController
+public class GuiProfileSearchController extends GuiController
 {
     private String username;
 
@@ -30,9 +31,7 @@ public class GuiFriendRequestController extends GuiController
             {
                 try
                 {
-                    service.addFriendship(username, usernameTextField.getText());
-                    resultLabel.setText("Friend request sent!");
-                    resultLabel.setStyle("-fx-text-fill: #11f111");
+                    Gui.profileView(new Pair<>(service.getUser(username), service.getUser(usernameTextField.getText())));
                 }
                 catch (Exception e)
                 {

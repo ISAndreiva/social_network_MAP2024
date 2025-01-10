@@ -74,11 +74,11 @@ public class Gui extends Application
         }
     }
 
-    public static void friendRequestView(String username)
+    public static void profileSearchView(String username)
     {
         Stage stage = new Stage();
-        stage.setScene(createScene("socialnetwork/gui/friendRequest.fxml", "socialnetwork/gui/css/login.css", Optional.of(username)));
-        stage.setTitle("Send a friend Request");
+        stage.setScene(createScene("socialnetwork/gui/profileSearch.fxml", "socialnetwork/gui/css/login.css", Optional.of(username)));
+        stage.setTitle("Look for a user profile");
         stage.show();
     }
 
@@ -117,6 +117,14 @@ public class Gui extends Application
         Stage stage = new Stage();
         stage.setScene(createScene("socialnetwork/gui/chat.fxml", "socialnetwork/gui/css/chat.css", Optional.of(users)));
         stage.setTitle("NameTODO Social Network - Chat");
+        stage.show();
+    }
+
+    public static void profileView(Pair<User, User> user)
+    {
+        Stage stage = new Stage();
+        stage.setScene(createScene("socialnetwork/gui/profile.fxml", "socialnetwork/gui/css/profile.css", Optional.of(user)));
+        stage.setTitle("NameTODO Social Network - " + user.getValue().getUsername() + "'s Profile");
         stage.show();
     }
 

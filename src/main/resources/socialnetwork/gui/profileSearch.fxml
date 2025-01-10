@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="327.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="internal.andreiva.socialnetwork.gui.GuiFriendRequestController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0" prefWidth="327.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="internal.andreiva.socialnetwork.gui.GuiProfileSearchController">
    <TextField fx:id="usernameTextField" layoutX="83.0" layoutY="102.0" onAction="#handleAdd" />
    <Label layoutX="83.0" layoutY="68.0" text="Username:" textFill="WHITE">
       <font>
@@ -16,5 +16,5 @@
          <Font size="16.0" />
       </font>
    </Label>
-   <Button layoutX="114.0" layoutY="136.0" mnemonicParsing="false" onAction="#handleAdd" text="Send request" />
+   <Button layoutX="112.0" layoutY="136.0" mnemonicParsing="false" onAction="#handleAdd" text="Search profile" />
 </AnchorPane>
