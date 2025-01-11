@@ -66,7 +66,7 @@ public class GuiProfileController extends GuiController implements Observer
     {
         super.setService(service);
         service.addObserver(this);
-        update(new Event(EventType.RELATIONSHIP));
+        updateFriendsAndButtons();
         updateImage();
     }
 
@@ -75,22 +75,27 @@ public class GuiProfileController extends GuiController implements Observer
     {
         if (event.getType().equals(EventType.RELATIONSHIP))
         {
-            friendCountLabel.setText(service.getFriendships(user.getValue().getUsername(), "accepted").size() + " friends");
-            var friendship = service.getFriendship(user.getKey().getUsername(), user.getValue().getUsername());
-            if (friendship != null)
-            {
-                friendRequestButton.setDisable(true);
-                messageButton.setDisable(!Objects.equals(friendship.getStatus(), "accepted"));
-            }
-            else
-            {
-                friendRequestButton.setDisable(false);
-                messageButton.setDisable(true);
-            }
+            updateFriendsAndButtons();
         }
         if (event.getType().equals(EventType.PROFILE_PICTURE))
         {
             updateImage();
+        }
+    }
+
+    private void updateFriendsAndButtons()
+    {
+        friendCountLabel.setText(service.getFriendships(user.getValue().getUsername(), "accepted").size() + " friends");
+        var friendship = service.getFriendship(user.getKey().getUsername(), user.getValue().getUsername());
+        if (friendship != null)
+        {
+            friendRequestButton.setDisable(true);
+            messageButton.setDisable(!Objects.equals(friendship.getStatus(), "accepted"));
+        }
+        else
+        {
+            friendRequestButton.setDisable(false);
+            messageButton.setDisable(true);
         }
     }
 
