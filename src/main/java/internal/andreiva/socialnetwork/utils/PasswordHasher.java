@@ -7,10 +7,8 @@ public class PasswordHasher
 {
     public static String hashPassword(String password, String username)
     {
-        byte[] salt = username.getBytes();
-        byte[] newSalt = new byte[16];
-        System.arraycopy(salt, 0, newSalt, 0, Math.min(salt.length, 16));
-        salt = newSalt;
+        byte[] salt = new byte[16];
+        System.arraycopy(username.getBytes(), 0, salt, 0, Math.min(username.getBytes().length, 16));
 
         String hashedPassword = "";
         try
