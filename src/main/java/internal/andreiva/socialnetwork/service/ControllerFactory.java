@@ -36,6 +36,11 @@ public class ControllerFactory
         return new UserController((UserDatabaseRepository) RepositoryFactory.getInstance().getDatabaseRepository(RepositoryType.USER, db_connection), UserValidator.getInstance());
     }
 
+    /**
+     * Creates and returns a ConversationController
+     * @param db_connection a connection to the database
+     * @return a ConversationController
+     */
     public ConversationController getConversationService(Connection db_connection)
     {
         return new ConversationController((ConversationDatabaseRepository) RepositoryFactory.getInstance().getDatabaseRepository(RepositoryType.CONVERSATION, db_connection), MessageValidator.getInstance());
