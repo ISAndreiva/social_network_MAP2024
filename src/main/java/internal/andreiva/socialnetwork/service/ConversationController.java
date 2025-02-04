@@ -3,7 +3,7 @@ package internal.andreiva.socialnetwork.service;
 import internal.andreiva.socialnetwork.domain.Conversation;
 import internal.andreiva.socialnetwork.domain.Message;
 import internal.andreiva.socialnetwork.domain.validator.MessageValidator;
-import internal.andreiva.socialnetwork.repository.database.ConversationDatabaseRepository;
+import internal.andreiva.socialnetwork.repository.particularinterfaces.ConversationRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,10 +13,10 @@ import java.util.stream.StreamSupport;
 
 public class ConversationController
 {
-    private final ConversationDatabaseRepository conversationRepo;
+    private final ConversationRepository conversationRepo;
     private final MessageValidator messageValidator;
 
-    public ConversationController(ConversationDatabaseRepository conversationRepo, MessageValidator messageValidator)
+    public ConversationController(ConversationRepository conversationRepo, MessageValidator messageValidator)
     {
         this.conversationRepo = conversationRepo;
         this.messageValidator = messageValidator;

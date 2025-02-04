@@ -4,7 +4,7 @@ package internal.andreiva.socialnetwork.service;
 import internal.andreiva.socialnetwork.domain.Entity;
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.domain.validator.UserValidator;
-import internal.andreiva.socialnetwork.repository.database.UserDatabaseRepository;
+import internal.andreiva.socialnetwork.repository.particularinterfaces.UserRepository;
 import internal.andreiva.socialnetwork.utils.Page;
 import internal.andreiva.socialnetwork.utils.Pageable;
 
@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 public class UserController
 {
-    private final UserDatabaseRepository userRepository;
+    private final UserRepository userRepository;
     private final UserValidator userValidator;
 
     /**
@@ -28,7 +28,7 @@ public class UserController
      * @param userRepository repository for users
      * @param userValidator validator for users
      */
-    public UserController(UserDatabaseRepository userRepository, UserValidator userValidator)
+    public UserController(UserRepository userRepository, UserValidator userValidator)
     {
         this.userRepository = userRepository;
         this.userValidator = userValidator;

@@ -2,7 +2,7 @@ package internal.andreiva.socialnetwork.service;
 
 import internal.andreiva.socialnetwork.domain.Friendship;
 import internal.andreiva.socialnetwork.domain.validator.FriendshipValidator;
-import internal.andreiva.socialnetwork.repository.database.FriendshipDatabaseRepository;
+import internal.andreiva.socialnetwork.repository.particularinterfaces.FriendshipRepository;
 import internal.andreiva.socialnetwork.utils.Page;
 import internal.andreiva.socialnetwork.utils.Pageable;
 
@@ -16,7 +16,7 @@ import java.util.UUID;
  */
 public class FriendshipController
 {
-    private final FriendshipDatabaseRepository friendshipRepo;
+    private final FriendshipRepository friendshipRepo;
     private final FriendshipValidator friendshipValidator;
 
     /**
@@ -24,7 +24,7 @@ public class FriendshipController
      * @param friendshipRepo repository for friendships
      * @param friendshipValidator validator for friendships
      */
-    public FriendshipController(FriendshipDatabaseRepository friendshipRepo, FriendshipValidator friendshipValidator)
+    public FriendshipController(FriendshipRepository friendshipRepo, FriendshipValidator friendshipValidator)
     {
         this.friendshipRepo = friendshipRepo;
         this.friendshipValidator = friendshipValidator;

@@ -1,6 +1,7 @@
 package internal.andreiva.socialnetwork.repository.database;
 
 import internal.andreiva.socialnetwork.domain.Friendship;
+import internal.andreiva.socialnetwork.repository.particularinterfaces.FriendshipRepository;
 import internal.andreiva.socialnetwork.repository.RepositoryException;
 import internal.andreiva.socialnetwork.utils.Page;
 import internal.andreiva.socialnetwork.utils.Pageable;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Friendship>
+public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Friendship> implements FriendshipRepository
 {
     public FriendshipDatabaseRepository(Connection db_connection)
     {
@@ -98,6 +99,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
      * @param status the status of the friendship
      * @return a list of the user's friends
      */
+    @Override
     public List<UUID> getFriendships(UUID userId, String status)
     {
         String sql = "SELECT * FROM friendships WHERE (friend_1 = ? OR friend_2 = ?) AND status = ?";
@@ -129,6 +131,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
      * @param friend2 user 2
      * @return the friendship if it exists, null otherwise
      */
+    @Override
     public Optional<Friendship> getFriendship(UUID friend1, UUID friend2)
     {
         String sql = "SELECT * FROM friendships WHERE (friend_1 = ? AND friend_2 = ?) OR (friend_1 = ? AND friend_2 = ?)";
@@ -151,6 +154,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
         }
     }
 
+    @Override
     public List<UUID> getReceivedFriendRequests(UUID userId)
     {
         String sql = "SELECT * FROM friendships WHERE friend_2 = ? AND status = 'pending'";
@@ -173,6 +177,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
         }
     }
 
+    @Override
     public Page<UUID> getFriendships(UUID userId, String status, Pageable pageable)
     {
         String sql = "SELECT * FROM friendships WHERE (friend_1 = ? OR friend_2 = ?) AND status = ? LIMIT ? OFFSET ?";
@@ -208,6 +213,7 @@ public class FriendshipDatabaseRepository extends AbstractDatabaseRepository<Fri
         }
     }
 
+    @Override
     public Page<UUID> getReceivedFriendRequests(UUID userId, Pageable pageable)
     {
         String sql = "SELECT * FROM friendships WHERE friend_2 = ? AND status = 'pending' LIMIT ? OFFSET ?";

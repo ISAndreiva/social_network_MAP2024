@@ -3,6 +3,7 @@ package internal.andreiva.socialnetwork.repository.database;
 import internal.andreiva.socialnetwork.domain.Conversation;
 import internal.andreiva.socialnetwork.domain.Message;
 import internal.andreiva.socialnetwork.repository.RepositoryException;
+import internal.andreiva.socialnetwork.repository.particularinterfaces.ConversationRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,14 +11,15 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public class ConversationDatabaseRepository extends AbstractDatabaseRepository<Conversation>
+public class ConversationDatabaseRepository extends AbstractDatabaseRepository<Conversation> implements ConversationRepository
 {
     public ConversationDatabaseRepository(Connection db_connection)
     {
         super(db_connection, "conversations");
     }
 
-    private Message resultToMessage(ResultSet rs)
+    @Override
+    public Message resultToMessage(ResultSet rs)
     {
         try
         {
@@ -31,7 +33,8 @@ public class ConversationDatabaseRepository extends AbstractDatabaseRepository<C
         }
     }
 
-    private List<UUID> getConversationUsers(UUID id)
+    @Override
+    public List<UUID> getConversationUsers(UUID id)
     {
         List<UUID> users = new ArrayList<>();
         String sql = "SELECT \"user\" from conversationUsers where conversation = ?";
@@ -51,7 +54,8 @@ public class ConversationDatabaseRepository extends AbstractDatabaseRepository<C
         }
     }
 
-    private List<Message> getConversationMessages(UUID id)
+    @Override
+    public List<Message> getConversationMessages(UUID id)
     {
         List<Message> messages = new ArrayList<>();
         String sql = "SELECT * from messages where conversation = ?";
@@ -224,6 +228,7 @@ public class ConversationDatabaseRepository extends AbstractDatabaseRepository<C
         }
     }
 
+    @Override
     public Optional<Message> findOneMessage(UUID id)
     {
         String sql = "SELECT * from messages where UUID = ?";

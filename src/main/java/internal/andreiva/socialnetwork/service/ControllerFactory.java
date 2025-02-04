@@ -4,10 +4,6 @@ import internal.andreiva.socialnetwork.domain.validator.FriendshipValidator;
 import internal.andreiva.socialnetwork.domain.validator.MessageValidator;
 import internal.andreiva.socialnetwork.domain.validator.UserValidator;
 import internal.andreiva.socialnetwork.repository.RepositoryFactory;
-import internal.andreiva.socialnetwork.repository.RepositoryType;
-import internal.andreiva.socialnetwork.repository.database.ConversationDatabaseRepository;
-import internal.andreiva.socialnetwork.repository.database.FriendshipDatabaseRepository;
-import internal.andreiva.socialnetwork.repository.database.UserDatabaseRepository;
 
 import java.sql.Connection;
 
@@ -23,7 +19,7 @@ public class ControllerFactory
      */
     public FriendshipController getFriendshipService(Connection db_connection)
     {
-        return new FriendshipController((FriendshipDatabaseRepository) RepositoryFactory.getInstance().getDatabaseRepository(RepositoryType.FRIENDSHIP, db_connection), FriendshipValidator.getInstance());
+        return new FriendshipController(RepositoryFactory.getInstance().getFriendshipRepository(db_connection), FriendshipValidator.getInstance());
     }
 
     /**
@@ -33,7 +29,7 @@ public class ControllerFactory
      */
     public UserController getUserService(Connection db_connection)
     {
-        return new UserController((UserDatabaseRepository) RepositoryFactory.getInstance().getDatabaseRepository(RepositoryType.USER, db_connection), UserValidator.getInstance());
+        return new UserController(RepositoryFactory.getInstance().getUserRepository(db_connection), UserValidator.getInstance());
     }
 
     /**
@@ -43,7 +39,7 @@ public class ControllerFactory
      */
     public ConversationController getConversationService(Connection db_connection)
     {
-        return new ConversationController((ConversationDatabaseRepository) RepositoryFactory.getInstance().getDatabaseRepository(RepositoryType.CONVERSATION, db_connection), MessageValidator.getInstance());
+        return new ConversationController(RepositoryFactory.getInstance().getConversationRepository(db_connection), MessageValidator.getInstance());
     }
 
     private ControllerFactory() {}

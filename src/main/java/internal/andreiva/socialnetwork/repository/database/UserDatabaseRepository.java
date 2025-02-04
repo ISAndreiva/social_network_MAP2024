@@ -2,6 +2,7 @@ package internal.andreiva.socialnetwork.repository.database;
 
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.repository.RepositoryException;
+import internal.andreiva.socialnetwork.repository.particularinterfaces.UserRepository;
 
 
 import java.io.ByteArrayInputStream;
@@ -10,7 +11,7 @@ import java.sql.*;
 import java.util.Optional;
 import java.util.UUID;
 
-public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
+public class UserDatabaseRepository extends AbstractDatabaseRepository<User> implements UserRepository
 {
     public UserDatabaseRepository(Connection db_connection)
     {
@@ -89,6 +90,7 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
         }
     }
 
+    @Override
     public Optional<User> findOne(String username)
     {
         String sql = "SELECT * from users where username = ?";
@@ -107,6 +109,7 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
         }
     }
 
+    @Override
     public void saveImage(UUID userId, ByteArrayInputStream imageStream)
     {
         String sql = "UPDATE users SET profilepicture = ?  WHERE UUID = ?";
@@ -122,6 +125,7 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
         }
     }
 
+    @Override
     public InputStream getImage(UUID userID)
     {
         String sql = "SELECT profilepicture from users where UUID = ?";
