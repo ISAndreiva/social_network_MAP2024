@@ -17,9 +17,8 @@ import javafx.util.Pair;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
-import java.util.Optional;
 
-public class GuiProfileController extends GuiController implements Observer
+public class GuiProfileController extends GuiController<Pair<User, User>> implements Observer
 {
     //pair of origin user and destination user
     private Pair<User, User> user;
@@ -46,9 +45,9 @@ public class GuiProfileController extends GuiController implements Observer
     ImageView profileImageView;
 
     @Override
-    public void setSomething(Optional<Object> parameter)
+    public void setSomething(Pair<User, User> parameter)
     {
-        user = (Pair<User, User>) parameter.get();
+        user = parameter;
         if (user.getKey().equals(user.getValue()))
         {
             messageButton.setVisible(false);

@@ -19,10 +19,9 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 
-import java.util.Optional;
 import java.util.UUID;
 
-public class GuiChatController extends GuiController implements Observer
+public class GuiChatController extends GuiController<Pair<User, User>> implements Observer
 {
 
     Pair<User, User> users;
@@ -68,9 +67,9 @@ public class GuiChatController extends GuiController implements Observer
     }
 
     @Override
-    public void setSomething(Optional<Object> parameter)
+    public void setSomething(Pair<User, User> parameter)
     {
-        users = (Pair<User, User>) parameter.get();
+        users = parameter;
     }
 
     public void showMessages()

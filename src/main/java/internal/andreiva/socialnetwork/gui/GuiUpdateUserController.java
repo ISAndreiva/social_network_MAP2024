@@ -13,9 +13,8 @@ import javafx.scene.image.PixelFormat;
 import javafx.stage.FileChooser;
 
 import java.io.ByteArrayInputStream;
-import java.util.Optional;
 
-public class GuiUpdateUserController extends GuiController
+public class GuiUpdateUserController extends GuiController<User>
 {
     @FXML
     TextField firstNameTextField;
@@ -35,9 +34,9 @@ public class GuiUpdateUserController extends GuiController
     private User user;
 
     @Override
-    public void setSomething(Optional<Object> parameter)
+    public void setSomething(User parameter)
     {
-        user = (User) parameter.get();
+        user = parameter;
     }
 
     @Override

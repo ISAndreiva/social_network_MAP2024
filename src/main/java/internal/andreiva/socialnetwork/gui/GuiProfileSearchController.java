@@ -5,9 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.util.Pair;
 
-import java.util.Optional;
 
-public class GuiProfileSearchController extends GuiController
+public class GuiProfileSearchController extends GuiController<String>
 {
     private String username;
 
@@ -18,9 +17,9 @@ public class GuiProfileSearchController extends GuiController
     Label resultLabel;
 
     @Override
-    public void setSomething(Optional<Object> parameter)
+    public void setSomething(String parameter)
     {
-        username = (String) parameter.get();
+        username = parameter;
     }
 
     public void handleAdd()

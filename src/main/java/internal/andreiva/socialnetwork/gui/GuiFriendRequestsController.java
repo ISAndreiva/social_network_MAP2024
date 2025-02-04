@@ -18,9 +18,8 @@ import javafx.stage.Stage;
 import javafx.util.Callback;
 
 import java.time.format.DateTimeFormatter;
-import java.util.Optional;
 
-public class GuiFriendRequestsController extends GuiController implements Observer
+public class GuiFriendRequestsController extends GuiController<User> implements Observer
 {
     private User user;
 
@@ -83,9 +82,9 @@ public class GuiFriendRequestsController extends GuiController implements Observ
     }
 
     @Override
-    public void setSomething(Optional<Object> parameter)
+    public void setSomething(User parameter)
     {
-        user = (User) parameter.get();
+        user = parameter;
     }
 
     public void handleAcceptFriendship()

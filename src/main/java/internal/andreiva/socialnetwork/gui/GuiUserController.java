@@ -20,11 +20,10 @@ import javafx.util.Pair;
 
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.StreamSupport;
 
 
-public class GuiUserController extends GuiController implements Observer
+public class GuiUserController extends GuiController<User> implements Observer
 {
     private User user;
     private final int pageSize = 2;
@@ -157,9 +156,9 @@ public class GuiUserController extends GuiController implements Observer
     }
 
     @Override
-    public void setSomething(Optional<Object> parameter)
+    public void setSomething(User parameter)
     {
-        user = (User) parameter.get();
+        user =  parameter;
     }
 
     public void handleLogout()
