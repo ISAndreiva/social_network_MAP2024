@@ -7,8 +7,9 @@ import internal.andreiva.socialnetwork.domain.validator.UserValidator;
 import internal.andreiva.socialnetwork.repository.database.UserDatabaseRepository;
 import internal.andreiva.socialnetwork.utils.Page;
 import internal.andreiva.socialnetwork.utils.Pageable;
-import javafx.scene.image.Image;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -143,12 +144,12 @@ public class UserController
         return user.map(Entity::getId).orElse(null);
     }
 
-    public void saveImage(UUID userId, Image image)
+    public void saveImage(UUID userId, ByteArrayInputStream imageStream)
     {
-        userRepository.saveImage(userId, image);
+        userRepository.saveImage(userId, imageStream);
     }
 
-    public Image getImage(UUID userId)
+    public InputStream getImage(UUID userId)
     {
         return userRepository.getImage(userId);
     }

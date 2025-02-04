@@ -10,8 +10,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.PixelFormat;
+import javafx.scene.image.WritableImage;
 import javafx.util.Pair;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -101,10 +105,28 @@ public class GuiProfileController extends GuiController implements Observer
 
     private void updateImage()
     {
-        if (service.getImage(user.getValue()) != null)
-            profileImageView.setImage(service.getImage(user.getValue()));
+        var imageBytes = service.getImage(user.getValue());
+        if (imageBytes != null)
+            profileImageView.setImage(inputStreamToImage(imageBytes));
         else
             profileImageView.setImage(new Image("socialnetwork/gui/images/default.jpg"));
+    }
+
+    private Image inputStreamToImage(InputStream inputStream)
+    {
+        var width = 140;
+        var height = 140;
+        var image = new WritableImage(width, height);
+        try
+        {
+            image.getPixelWriter().setPixels(0, 0, width, height,
+                    PixelFormat.getByteBgraInstance(),
+                    inputStream.readAllBytes(), 0, width * 4);
+        } catch (IOException e)
+        {
+            return new Image("socialnetwork/gui/images/default.jpg");
+        }
+        return image;
     }
 
     public void handleUpdateProfile()

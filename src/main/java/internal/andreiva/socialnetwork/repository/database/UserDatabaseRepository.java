@@ -2,12 +2,10 @@ package internal.andreiva.socialnetwork.repository.database;
 
 import internal.andreiva.socialnetwork.domain.User;
 import internal.andreiva.socialnetwork.repository.RepositoryException;
-import javafx.scene.image.Image;
-import javafx.scene.image.PixelFormat;
-import javafx.scene.image.WritableImage;
+
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.Optional;
 import java.util.UUID;
@@ -109,21 +107,13 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
         }
     }
 
-    public void saveImage(UUID userId, Image image) 
+    public void saveImage(UUID userId, ByteArrayInputStream imageStream)
     {
         String sql = "UPDATE users SET profilepicture = ?  WHERE UUID = ?";
         try
         {
             PreparedStatement stm = db_connection.prepareStatement(sql);
-
-            int width = (int) image.getWidth();
-            int height = (int) image.getHeight();
-            byte[] pixelBytes = new byte[width * height * 4];
-            if (image.getPixelReader() == null)
-                throw new RepositoryException("Twas's no image, nilfguardian scum!");
-            image.getPixelReader().getPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), pixelBytes, 0, width * 4);
-            var stream = new ByteArrayInputStream(pixelBytes);
-            stm.setBinaryStream(1, stream);
+            stm.setBinaryStream(1, imageStream);
             stm.setObject(2, userId.toString());
             stm.executeUpdate();
         } catch (SQLException e)
@@ -132,7 +122,7 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
         }
     }
 
-    public Image getImage(UUID userID)
+    public InputStream getImage(UUID userID)
     {
         String sql = "SELECT profilepicture from users where UUID = ?";
         try
@@ -142,20 +132,11 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
             ResultSet rs = stm.executeQuery();
             if (rs.next())
             {
-                var pixelBytes = rs.getBinaryStream(1);
-                if (pixelBytes == null)
-                    return null;
-                var width = 140;
-                var height = 140;
-                var image = new WritableImage(width, height);
-                image.getPixelWriter().setPixels(0, 0, width, height,
-                        PixelFormat.getByteBgraInstance(),
-                        pixelBytes.readAllBytes(), 0, width * 4);
-                return image;
+                return rs.getBinaryStream(1);
             }
             return null;
         }
-        catch (SQLException | IOException e)
+        catch (SQLException e)
         {
             throw new RepositoryException(e);
         }
