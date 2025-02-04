@@ -3,7 +3,6 @@ package internal.andreiva.socialnetwork;
 import internal.andreiva.socialnetwork.gui.Gui;
 import internal.andreiva.socialnetwork.repository.RepositoryException;
 import internal.andreiva.socialnetwork.service.Service;
-import internal.andreiva.socialnetwork.cli.CLI;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,13 +22,6 @@ public class app
             throw new RepositoryException(e);
         }
 
-    }
-
-    public void run_cli()
-    {
-        Service service = new Service(db_connection);
-        CLI cli = new CLI(service);
-        cli.run();
     }
 
     public void run_gui()
