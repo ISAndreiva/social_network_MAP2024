@@ -109,7 +109,7 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
         }
     }
 
-    public void saveImage(UUID userId, Image image)
+    public void saveImage(UUID userId, Image image) 
     {
         String sql = "UPDATE users SET profilepicture = ?  WHERE UUID = ?";
         try
@@ -120,7 +120,7 @@ public class UserDatabaseRepository extends AbstractDatabaseRepository<User>
             int height = (int) image.getHeight();
             byte[] pixelBytes = new byte[width * height * 4];
             if (image.getPixelReader() == null)
-                return;
+                throw new RepositoryException("Twas's no image, nilfguardian scum!");
             image.getPixelReader().getPixels(0, 0, width, height, PixelFormat.getByteBgraInstance(), pixelBytes, 0, width * 4);
             var stream = new ByteArrayInputStream(pixelBytes);
             stm.setBinaryStream(1, stream);
